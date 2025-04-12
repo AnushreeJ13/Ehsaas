@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ehsaas Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <style>
+    
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #000;
+      color: rgb(224, 224, 224);
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .dashboard {
+       
+      text-align: center;
+      padding: 50px;
+      border-radius: 20px;
+      background: linear-gradient(145deg, var(--purple), var(--cyan));
+      box-shadow: 0 0 50px rgba(138, 176, 223, 0.899);
+      animation: fadeIn 2s ease;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: rgba(199, 200, 201, 0.885);
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, var(--purple), var(--cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      color: rgba(232, 222, 222, 0.8);
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1em;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(45deg, var(--purple), var(--cyan));
+      color: rgb(156, 144, 234);
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      box-shadow: 0 5px 20px rgba(165, 152, 205, 0.4);
+      transform: scale(1.05);
+    }
+
+    .floating-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--cyan) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 6s infinite linear;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(0.8); opacity: 0.8; }
+      50% { transform: translate(100px, -100px) scale(1.2); opacity: 0.3; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-particles" id="particles"></div>
+
+  <div class="dashboard animate__animated animate__fadeIn">
+    <h1>Welcome to Ehsaas</h1>
+    <p>Your emotional journey starts here 💫</p>
+    <button onclick="logout()">Connect</button>
+  </div>
+
+  <script>
+    // Particle generator
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.cssText = `
+          width: ${Math.random() * 10 + 5}px;
+          height: ${Math.random() * 10 + 5}px;
+          left: ${Math.random() * 100}%;
+          top: ${Math.random() * 100}%;
+          animation-delay: ${Math.random() * 6}s;
+        `;
+        container.appendChild(particle);
+      }
+    }
+    createParticles();
+
+    // Firebase Init
+    const firebaseConfig = {
+  apiKey: "AIzaSyAzbzw54O_JRDNOfHyteIMvq999R3Aj624",
+  authDomain: "ehsaas-f4c7e.firebaseapp.com",
+  projectId: "ehsaas-f4c7e",
+  storageBucket: "ehsaas-f4c7e.firebasestorage.app",
+  messagingSenderId: "618055369757",
+  appId: "1:618055369757:web:3592bd6978c85df0f432f4",
+  measurementId: "G-JTTDNV43GD"
+};
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = './lumen.html';
+      });
+    }
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = './lumen.html';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stress Relief Tools</title>
+  <style>
+    /* Base Styles */
+    .stress-relief-section {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 20px;
+      color: #333;
+    }
+    
+    /* Section Header */
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #1e23ca;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .section-header h2 {
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 0;
+    }
+    
+    /* Tab Navigation (Big, bold buttons) */
+    .tab-navigation {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .tab-button {
+      padding: 16px 32px;
+      border: none;
+      background: #eee;
+      font-size: 20px;
+      font-weight: bold;
+      color: #555;
+      cursor: pointer;
+      border-radius: 40px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    
+    .tab-button:hover {
+      background: #ddd;
+      color: #333;
+    }
+    
+    .tab-button.active {
+      background: #5E56E8;
+      color: #fff;
+    }
+    
+    /* Tab Content */
+    .tab-content {
+      position: relative;
+      min-height: 400px;
+    }
+    
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .tab-panel.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Panel Box – the white box that holds text on left and image on right */
+    .panel-box {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    /* Text Content */
+    .text-content {
+      flex: 1;
+    }
+    
+    .text-content h3 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+    
+    .text-content p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      color: #555;
+    }
+    
+    .podcast-name {
+      display: block;
+      font-size: 20px;
+      font-weight: 600;
+      color: #5E56E8;
+      margin-bottom: 15px;
+    }
+    
+    .narrator {
+      display: block;
+      font-size: 16px;
+      font-weight: 500;
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    /* Audio Player */
+    .audio-player {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 15px;
+    }
+    
+    .audio-player audio {
+      width: 100%;
+      outline: none;
+    }
+    
+    /* Image Content */
+    .image-content {
+      flex: 1;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .image-container {
+      position: relative;
+      padding-bottom: 56.25%;  /* 16:9 aspect ratio */
+      background: #f5f5f5;
+    }
+    
+    .image-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Image Caption */
+    .image-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: #fff;
+    }
+    
+    .image-caption .title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .image-caption .subtitle {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .panel-box {
+        flex-direction: column;
+        padding: 20px;
+      }
+      
+      .tab-navigation {
+        gap: 10px;
+      }
+      
+      .tab-button {
+        padding: 12px 24px;
+        font-size: 18px;
+      }
+      
+      .text-content h3 {
+        font-size: 24px;
+      }
+      
+      .text-content p {
+        font-size: 16px;
+      }
+    }
+        /* Lumen-inspired color scheme */
+        :root {
+            --lumen-primary: #5E56E8;
+            --lumen-secondary: #7B73FF;
+            --lumen-accent: #FF6B6B;
+            --lumen-light: #F8F7FF;
+            --lumen-dark: #2E2A5C;
+            --lumen-text: #4A4A4A;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(94, 86, 232, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar:hover {
+            box-shadow: 0 5px 25px rgba(94, 86, 232, 0.15);
+        }
+        
+        .logo {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--lumen-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--lumen-accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            font-size: 40px;
+        }
+        
+        .nav-links a {
+            position: relative;
+            text-decoration: none;
+            color: var(--lumen-text);
+            font-weight: 500;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+        }
+        
+        /* Unique hover effect */
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--lumen-primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--lumen-primary);
+        }
+        
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+        
+        /* Button styles */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+        
+        .login-btn {
+            background: transparent;
+            border: 1px solid var(--lumen-primary);
+            color: var(--lumen-primary);
+        }
+        
+        .login-btn:hover {
+            background: rgba(94, 86, 232, 0.05);
+        }
+        
+        .signup-btn {
+            background: var(--lumen-primary);
+            border: 1px solid var(--lumen-primary);
+            color: white;
+        }
+        
+        .signup-btn:hover {
+            background: var(--lumen-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(94, 86, 232, 0.2);
+        }
+        
+        /* Mobile menu (hidden by default) */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--lumen-primary);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .navbar {
+                padding: 15px 5%;
+            }
+        }
+  </style>
+</head>
+<nav class="navbar">
+        <a href="/" class="logo">Ehsaas<span>.</span></a>
+        
+        <button class="mobile-menu-btn">☰</button>
+        
+        <div class="nav-links">
+            <a href="#">Features</a>
+            <a href="#">Emotion Tracker</a>
+            <a href="#">Resources</a>
+            <a href="#">About</a>
+        </div>
+        
+        <div class="auth-buttons">
+            <button class="nav-btn login-btn" onclick="window.location.href='login.html'">Log in</button>
+            <button class="nav-btn signup-btn" onclick="window.location.href='signup.html'">Get Started</button>
+        </div>
+    </nav>
+<body>
+<style>
+        :root {
+            --primary: #5E56E8;
+            --primary-light: #7B73FF;
+            --primary-dark: #3A265C;
+            --primary-extra-light: #F8F7FF;
+            --text-dark: #2E2A5C;
+            --text-medium: #4A4A4A;
+            --text-light: #6E6D7A;
+            --white: #FFFFFF;
+            --bg-light: #F9F9F9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Left Content Section */
+        .content-section {
+            flex: 1;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: var(--primary-extra-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: rgba(94, 86, 232, 0.1);
+        }
+        
+        .content-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: rgba(94, 86, 232, 0.05);
+        }
+        
+        .content-inner {
+            max-width: 500px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--primary-dark);
+        }
+        
+        .content-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-medium);
+            margin-bottom: 40px;
+        }
+        
+        .benefits-list {
+            margin-bottom: 40px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .benefit-icon {
+            margin-right: 12px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 16px 32px;
+            background-color: var(--primary);
+            color: var(--white);
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(94, 86, 232, 0.3);
+        }
+        
+        .cta-button:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(94, 86, 232, 0.4);
+        }
+        
+        /* Right Breathing Tool Section */
+        .tool-section {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            font-size: 50px;
+        }
+        
+        .breath-tool-container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .tool-title {
+            font-size: 40px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+        }
+        
+        .breath-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background-color: var(--primary-extra-light);
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(94, 86, 232, 0.1);
+            transition: transform 0.5s ease;
+        }
+        
+        .breath-text {
+            font-size: 28px;
+            font-weight: 600;
+            z-index: 2;
+            color: var(--primary-dark);
+            transition: all 0.3s ease;
+        }
+        
+        .circle-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            transform: scale(0);
+            transform-origin: center;
+            border-radius: 50%;
+            transition: transform 4s linear;
+            opacity: 0.15;
+        }
+        
+        .controls {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        
+        .duration-selector {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .duration-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: var(--primary-extra-light);
+            color: var(--primary-dark);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .duration-btn.active {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .main-btn {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 30px;
+            background-color: var(--primary);
+            color: var(--white);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(94, 86, 232, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        .main-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(94, 86, 232, 0.4);
+        }
+        
+        .main-btn:active {
+            transform: translateY(0);
+        }
+        
+        .instructions {
+            max-width: 400px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            color: var(--text-light);
+            font-size: 16px;
+        }
+        
+        .counter {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--primary-dark);
+            margin-top: 20px;
+        }
+        
+        .breath-in .circle-fill {
+            transform: scale(1);
+        }
+        
+        .breath-in .breath-text {
+            color: var(--primary);
+            font-size: 32px;
+        }
+        
+        .breath-hold .breath-text {
+            color: var(--primary-light);
+        }
+        
+        /* Floating decorative elements */
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(94, 86, 232, 0.05);
+            z-index: 1;
+        }
+        
+        .circle-1 {
+            width: 120px;
+            height: 120px;
+            top: 20%;
+            left: 10%;
+        }
+        
+        .circle-2 {
+            width: 80px;
+            height: 80px;
+            bottom: 15%;
+            left: 15%;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .content-section, .tool-section {
+                padding: 60px 40px;
+            }
+            
+            .content-inner {
+                max-width: 100%;
+            }
+            
+            h1 {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .content-section, .tool-section {
+                padding: 40px 30px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .content-text {
+                font-size: 16px;
+            }
+            
+            .breath-circle {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .tool-title {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .duration-selector {
+                flex-wrap: wrap;
+            }
+            
+            .duration-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Content Section -->
+        <section class="content-section">
+            <div class="floating-circle circle-1"></div>
+            <div class="floating-circle circle-2"></div>
+            
+            <div class="content-inner">
+                <span class="tag">WELLNESS TOOLS</span>
+                <h1>Anxiety and stress relief whenever you need it</h1>
+                <p class="content-text">
+                    Learn how to calm anxiety and find the tools for in-the-moment stress relief. 
+                    Our clinical experts and meditation teachers are here with a wide range of 
+                    stress relief programs, meditations for anxiety, and guided content to help 
+                    you soothe anxiety and feel better.
+                </p>
+                
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Evidence-based techniques developed by mental health professionals</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Immediate relief for acute stress and anxiety</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Personalized programs for your specific needs</span>
+                    </div>
+                </div>
+                
+                <a href="#" class="cta-button">Explore All Tools</a>
+            </div>
+        </section>
+        
+        <!-- Right Breathing Tool Section -->
+        <section class="tool-section">
+            <div class="breath-tool-container">
+              <br/><br/>
+                <h2 class="tool-title">Breathing Exercise Tool</h2>
+                <p class="instructions">
+                    Follow the animation to practice deep breathing. Inhale as the circle expands, 
+                    hold when full, exhale as it contracts. Repeat for several cycles.
+                </p>
+                
+                <div class="breath-circle">
+                    <div class="circle-fill"></div>
+                    <div class="breath-text">Ready</div>
+                </div>
+                
+                <div class="counter">Cycle: <span id="cycle-count">0</span></div>
+                
+                <div class="controls">
+                    <div class="duration-selector">
+                        <button class="duration-btn active" data-duration="4">4-4-4</button>
+                        <button class="duration-btn" data-duration="5">5-5-5</button>
+                        <button class="duration-btn" data-duration="6">6-6-6</button>
+                    </div>
+                    
+                    <button class="main-btn" id="start-btn">Start Breathing</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const breathCircle = document.querySelector('.breath-circle');
+        const breathText = document.querySelector('.breath-text');
+        const circleFill = document.querySelector('.circle-fill');
+        const startBtn = document.getElementById('start-btn');
+        const durationBtns = document.querySelectorAll('.duration-btn');
+        const cycleCount = document.getElementById('cycle-count');
+        
+        let isRunning = false;
+        let animationInterval;
+        let currentDuration = 4; // Default 4-4-4 pattern
+        let cycles = 0;
+        
+        // Duration selection
+        durationBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                durationBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentDuration = parseInt(btn.dataset.duration);
+                
+                if (isRunning) {
+                    resetAnimation();
+                    startAnimation();
+                }
+            });
+        });
+        
+        // Start/Stop button
+        startBtn.addEventListener('click', () => {
+            if (isRunning) {
+                resetAnimation();
+                startBtn.textContent = 'Start Breathing';
+            } else {
+                startAnimation();
+                startBtn.textContent = 'Stop';
+            }
+            
+            isRunning = !isRunning;
+        });
+        
+        function startAnimation() {
+            let phase = 'inhale';
+            let timeLeft = currentDuration;
+            
+            breathCircle.classList.add('breath-in');
+            breathText.textContent = 'Breathe In';
+            
+            // Reset fill animation
+            circleFill.style.transition = 'transform ' + currentDuration + 's linear';
+            circleFill.style.transform = 'scale(1)';
+            
+            animationInterval = setInterval(() => {
+                timeLeft--;
+                
+                if (timeLeft <= 0) {
+                    switch (phase) {
+                        case 'inhale':
+                            phase = 'hold';
+                            timeLeft = currentDuration;
+                            breathCircle.classList.remove('breath-in');
+                            breathCircle.classList.add('breath-hold');
+                            breathText.textContent = 'Hold';
+                            circleFill.style.transform = 'scale(1)';
+                            break;
+                            
+                        case 'hold':
+                            phase = 'exhale';
+                            timeLeft = currentDuration;
+                            breathCircle.classList.remove('breath-hold');
+                            breathText.textContent = 'Breathe Out';
+                            circleFill.style.transition = 'transform ' + currentDuration + 's linear';
+                            circleFill.style.transform = 'scale(0)';
+                            break;
+                            
+                        case 'exhale':
+                            phase = 'inhale';
+                            timeLeft = currentDuration;
+                            breathText.textContent = 'Breathe In';
+                            breathCircle.classList.add('breath-in');
+                            circleFill.style.transition = 'transform ' + currentDuration + 's linear';
+                            circleFill.style.transform = 'scale(1)';
+                            
+                            // Increment cycle counter
+                            cycles++;
+                            cycleCount.textContent = cycles;
+                            break;
+                    }
+                }
+            }, 1000);
+        }
+        
+        function resetAnimation() {
+            clearInterval(animationInterval);
+            breathCircle.classList.remove('breath-in', 'breath-hold');
+            breathText.textContent = 'Ready';
+            circleFill.style.transition = 'transform 0.5s ease';
+            circleFill.style.transform = 'scale(0)';
+            cycles = 0;
+            cycleCount.textContent = '0';
+        }
+    </script>
+  <section class="stress-relief-section">
+    <div class="section-header">
+      <h2 id="mental-health-tablist">STRESS RELIEF AND ANXIETY TOOLS FOR LIFE</h2>
+    </div>
+    
+    <!-- Big Tab Buttons -->
+    <div class="tab-navigation" role="tablist" aria-labelledby="mental-health-tablist">
+      <button class="tab-button active" role="tab" id="tab-practicalTools" aria-controls="tabpanel-practicalTools" aria-selected="true">Practical Tools</button>
+      <button class="tab-button" role="tab" id="tab-quickRelief" aria-controls="tabpanel-quickRelief" aria-selected="false">Quick Relief</button>
+      <button class="tab-button" role="tab" id="tab-groundingExercises" aria-controls="tabpanel-groundingExercises" aria-selected="false">Grounding Exercises</button>
+      <button class="tab-button" role="tab" id="tab-breathwork" aria-controls="tabpanel-breathwork" aria-selected="false">Breath Work</button>
+      <button class="tab-button" role="tab" id="tab-courses" aria-controls="tabpanel-courses" aria-selected="false">Courses</button>
+    </div>
+    
+    <!-- Tab Panels -->
+    <div class="tab-content">
+      
+      <!-- Practical Tools Panel -->
+      <div role="tabpanel" aria-labelledby="tab-practicalTools" id="tabpanel-practicalTools" class="tab-panel active">
+        <div class="panel-box">
+          <div class="text-content">
+            <h3>Get in-the-moment relief</h3>
+            <p>
+              Our clinical experts and mindfulness teachers are here to support you, with a wide range of programs for work stress, acute anxiety, negative thoughts, and more.
+            </p>
+            <div class="audio-player">
+              <audio controls preload="none" controlslist="nodownload" src="https://assets.calm.com/16cc1921a647c99a766bdba9bd8177e8.m4a"></audio>
+            </div>
+            <span class="podcast-name">Podcast: Overcome Stress and Anxiety</span>
+            <span class="narrator">Narrated by Dr. Julie Smith</span>
+          </div>
+          <div class="image-content">
+            <div class="image-container">
+              <img alt="App image for Practical Tools" src="/Ehsaas_main/stress_pics/p2.jpg">
+            </div>
+            <div class="image-caption">
+              <span class="title">Overcome Stress and Anxiety</span>
+              <span class="subtitle">11 tools to reclaim your calm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Relief Panel -->
+      <div role="tabpanel" aria-labelledby="tab-quickRelief" id="tabpanel-quickRelief" class="tab-panel">
+        <div class="panel-box">
+          <div class="text-content">
+            <h3>Feel better in just a few minutes</h3>
+            <p>
+              Sometimes you just need a quick dose of Calm. Choose from a range of tools to manage everyday stressors, including breathing exercises and mindfulness practices.
+            </p>
+            <div class="audio-player">
+              <audio controls preload="none" controlslist="nodownload" src="https://assets.calm.com/3923d44749d00e878779fe6ec5be76e3.m4a"></audio>
+            </div>
+            <span class="podcast-name">Podcast: Relax Your Mind</span>
+            <span class="narrator">Narrated by Jeff Warren</span>
+          </div>
+          <div class="image-content">
+            <div class="image-container">
+              <img alt="App image for Quick Relief" src="/Ehsaas_main/stress_pics/p3.jpg">
+            </div>
+            <div class="image-caption">
+              <span class="title">Relax Your Mind</span>
+              <span class="subtitle">Drop into this moment to ease your mind</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Grounding Exercises Panel -->
+      <div role="tabpanel" aria-labelledby="tab-groundingExercises" id="tabpanel-groundingExercises" class="tab-panel">
+        <div class="panel-box">
+          <div class="text-content">
+            <h3>Bring yourself back to the present moment</h3>
+            <p>
+              When overwhelm sets in, reach for one of Calm's grounding exercises. These short guided sessions use sensation, movement, and breath work to help you relax and reset.
+            </p>
+            <div class="audio-player">
+              <audio controls preload="none" controlslist="nodownload" src="https://assets.calm.com/c15726a5572712dcfc251677cf198002.m4a"></audio>
+            </div>
+            <span class="podcast-name">Podcast: Ground Yourself in the Body</span>
+            <span class="narrator">Narrated by Jay Shetty</span>
+          </div>
+          <div class="image-content">
+            <div class="image-container">
+              <img alt="App image for Grounding Exercises" src="/Ehsaas_main/stress_pics/p1.jpg">
+            </div>
+            <div class="image-caption">
+              <span class="title">Ground Yourself in the Body</span>
+              <span class="subtitle">A short practice to anchor yourself amidst overwhelm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Breath Work Panel -->
+      <div role="tabpanel" aria-labelledby="tab-breathwork" id="tabpanel-breathwork" class="tab-panel">
+        <div class="panel-box">
+          <div class="text-content">
+            <h3>Connect with the calming power of the breath</h3>
+            <p>
+              Your breath can support you, and our meditation teachers will show you how. Learn evidence-based breathwork techniques to soften anxiety, release tension, and sharpen focus.
+            </p>
+            <div class="audio-player">
+              <audio controls preload="none" controlslist="nodownload" src="https://assets.calm.com/a9d81d71a7f6677c9737ceb869052f6d.m4a"></audio>
+            </div>
+            <span class="podcast-name">Podcast: SOS Breath Work</span>
+            <span class="narrator">Narrated by Chibs Okereke</span>
+          </div>
+          <div class="image-content">
+            <div class="image-container">
+              <img alt="App image for Breath Work" src="/Ehsaas_main/stress_pics/p4.jpg">
+            </div>
+            <div class="image-caption">
+              <span class="title">SOS Breath Work</span>
+              <span class="subtitle">A breathing practice to help relieve stress</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Courses Panel -->
+      <div role="tabpanel" aria-labelledby="tab-courses" id="tabpanel-courses" class="tab-panel">
+        <div class="panel-box">
+          <div class="text-content">
+            <h3>Step-by-step guidance to ease your stress</h3>
+            <p>
+              In just 10 minutes a day, you'll learn how to manage your stress and anxiety symptoms. Choose from many popular courses, like 7 Days of Calming Anxiety and 7 Days of Managing Stress.
+            </p>
+            <div class="audio-player">
+              <audio controls preload="none" controlslist="nodownload" src="/_n/audio/subpages/MSER_0009_01_LettingGoOfAnxietyDay1ThePresent_EN_2CH_MK_20230802_HomepageCutdown.mp3"></audio>
+            </div>
+            <span class="podcast-name">Podcast: 7 Days of Calming Anxiety</span>
+            <span class="narrator">Narrated by Tamara Levitt</span>
+          </div>
+          <div class="image-content">
+            <div class="image-container">
+              <img alt="App image for Courses" src="/Ehsaas_main/stress_pics/p5.jpg">
+            </div>
+            <div class="image-caption">
+              <span class="title">7 Days of Calming Anxiety</span>
+              <span class="subtitle">A breathing meditation to help relieve feelings of anxiety and tension</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  
+  <script>
+    // Tab functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.tab-button');
+      const panels = document.querySelectorAll('.tab-panel');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          tabs.forEach(t => t.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+          
+          this.classList.add('active');
+          const panelId = this.getAttribute('aria-controls');
+          document.getElementById(panelId).classList.add('active');
+        });
+      });
+    });
+  </script>
+   <style>
+        :root {
+            --primary: #5E56E8;
+            --primary-light: #7B73FF;
+            --primary-dark: #3A265C;
+            --primary-extra-light: #F8F7FF;
+            --text-dark: #2E2A5C;
+            --text-medium: #4A4A4A;
+            --text-light: #6E6D7A;
+            --white: #FFFFFF;
+            --border: #E7E7E9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--white);
+            padding: 40px;
+            line-height: 1.6;
+        }
+        
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .faq-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+        
+        .faq-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            cursor: pointer;
+            background-color: var(--white);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: var(--primary-extra-light);
+        }
+        
+        .faq-question h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-right: 20px;
+        }
+        
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background-color: var(--white);
+        }
+        
+        .faq-answer-inner {
+            padding-bottom: 24px;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 16px;
+            color: var(--text-medium);
+        }
+        
+        .faq-answer ol, .faq-answer ul {
+            margin-bottom: 16px;
+            padding-left: 20px;
+        }
+        
+        .faq-answer li {
+            margin-bottom: 8px;
+        }
+        
+        .faq-answer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .faq-answer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        /* Active state */
+        .faq-item.active .faq-question {
+            background-color: var(--primary-extra-light);
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-item.active .faq-icon path {
+            fill: var(--primary);
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .faq-title {
+                font-size: 28px;
+            }
+            
+            .faq-question {
+                padding: 18px;
+            }
+            
+            .faq-question h3 {
+                font-size: 16px;
+            }
+            
+            .faq-answer {
+                padding: 0 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="faq-section">
+        <div class="faq-header">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+        </div>
+        
+        <div class="faq-container">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How do I know if I have anxiety?</h3>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.059 6.073 12.76.371a.614.614 0 1 1 .868.868l-6.57 6.57-6.57-6.57a.612.612 0 0 1 0-.868c.24-.24.628-.24.867 0L7.06 6.073Z" fill="#C6C6C6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>It's important to acknowledge that occasional anxiety is a normal part of life, and anxiety can manifest itself in various ways. Some symptoms of anxiety include: excessive worry, fatigue (even without engaging in strenuous activities), sleep disturbances, irritability, restlessness, or having difficulty staying calm.</p>
+                        <p>It's also important to note that self-diagnosis for anxiety is not a substitute for professional guidance. If you believe you have a more severe form of anxiety, we recommend you consult with a healthcare professional.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 2 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How do I get rid of stress?</h3>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.059 6.073 12.76.371a.614.614 0 1 1 .868.868l-6.57 6.57-6.57-6.57a.612.612 0 0 1 0-.868c.24-.24.628-.24.867 0L7.06 6.073Z" fill="#C6C6C6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>If you need stress relief, here are a few things to try:</p>
+                        <ol>
+                            <li><strong>Move your body.</strong> Engaging in physical activity helps reduce stress levels and can improve your mood.</li>
+                            <li><strong>Meditate.</strong> While meditation can seem intimidating at first, it's highly effective for your emotional wellbeing and can help you focus your attention and quiet the mind.</li>
+                            <li><strong>Breathe.</strong> Deep breathing exercises can help ground your attention in the present moment, restoring a sense of stability during stressful situations.</li>
+                            <li><strong>Listen to music.</strong> Music can help quiet the mind and ease tension, helping soothe the day's stressors.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 3 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How does stress affect the body?</h3>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.059 6.073 12.76.371a.614.614 0 1 1 .868.868l-6.57 6.57-6.57-6.57a.612.612 0 0 1 0-.868c.24-.24.628-.24.867 0L7.06 6.073Z" fill="#C6C6C6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>Stress is an inevitable part of our lives, and understanding its effects on the body is the first step toward managing it. In times of stress, your digestive, immune, cardiovascular, muscular and respiratory systems can all be impacted.</p>
+                        <p>From breathing patterns to muscle tension, stomachaches to an increased heart rate, stress can affect you head to toe. Stress and its effect on your body can be mitigated through movement, breathwork and meditation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 4 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What is an anxiety attack?</h3>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.059 6.073 12.76.371a.614.614 0 1 1 .868.868l-6.57 6.57-6.57-6.57a.612.612 0 0 1 0-.868c.24-.24.628-.24.867 0L7.06 6.073Z" fill="#C6C6C6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>Anxiety attacks, also known as panic attacks, can be overwhelming experiences. They are brief episodes of intense fear and discomfort. An attack can start quickly and unexpectedly.</p>
+                        <p>Symptoms can range from physical to mental to emotional. They include intense feelings of fear, a sense of losing control, a sense of impending doom, a pounding or racing heart, shortness of breath, chest pain, dizziness, trembling or shaking, sweating, hot flashes or chills, nausea, or stomach discomfort.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 5 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How do I stop an anxiety attack?</h3>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.059 6.073 12.76.371a.614.614 0 1 1 .868.868l-6.57 6.57-6.57-6.57a.612.612 0 0 1 0-.868c.24-.24.628-.24.867 0L7.06 6.073Z" fill="#C6C6C6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>Anxiety attacks can be intense, distressing, and disruptive. But there are preemptive measures that can be taken. Grounding techniques can help soften the start of a strong wave of emotions.</p>
+                        <p>When in doubt, call out different smells, sounds, and feelings to help steady the breath and bring you back to the present moment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+</body>
+</html>

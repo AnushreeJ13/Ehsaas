@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen Canvas - Stress Relief Drawing</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #5a6d91;
+      margin-bottom: 10px;
+      font-weight: 300;
+      font-size: 28px;
+    }
+    
+    .tagline {
+      text-align: center;
+      color: #8896b2;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      cursor: crosshair;
+      border-radius: 15px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 10px 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .color-palette {
+      display: flex;
+      gap: 8px;
+      margin-top: 5px;
+    }
+    
+    .color {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s, border 0.2s;
+    }
+    
+    .color:hover {
+      transform: scale(1.2);
+    }
+    
+    .color.active {
+      border: 2px solid #333;
+      transform: scale(1.2);
+    }
+    
+    label {
+      font-size: 14px;
+      color: #5a6d91;
+      margin-bottom: 5px;
+    }
+    
+    input[type="range"] {
+      width: 120px;
+      accent-color: #5a6d91;
+    }
+    
+    .size-preview {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #333;
+      margin-top: 5px;
+    }
+
+    .tools {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    
+    .tool {
+      background-color: #5a6d91;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    
+    .tool:hover {
+      background-color: #4a5d81;
+      transform: translateY(-2px);
+    }
+    
+    .tool.active {
+      background-color: #3f4f6f;
+      transform: translateY(-2px);
+    }
+    
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .action {
+      background-color: #e9ecf4;
+      color: #5a6d91;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .action:hover {
+      background-color: #d9dfe9;
+      transform: translateY(-2px);
+    }
+    
+    .action i {
+      font-size: 16px;
+    }
+    
+    .ambient-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .toggle-label {
+      margin-right: 8px;
+      font-size: 14px;
+      color: #5a6d91;
+    }
+    
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 20px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #5a6d91;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+    
+    .breathing-guide {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 10px 15px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    
+    .breathing-guide.active {
+      opacity: 1;
+    }
+    
+    .breathing-circle {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background-color: #5a6d91;
+      animation: breathe 8s infinite;
+    }
+    
+    .breathing-text {
+      color: #5a6d91;
+      font-size: 14px;
+    }
+    
+    @keyframes breathe {
+      0%, 100% {
+        transform: scale(0.7);
+        opacity: 0.7;
+      }
+      40% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+      60% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+    }
+    
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+        padding: 15px;
+      }
+      
+      .canvas-container {
+        height: 400px;
+      }
+      
+      .controls {
+        gap: 10px;
+      }
+      
+      .control-group {
+        padding: 8px 12px;
+      }
+      
+      .tool, .action {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Zen Canvas</h1>
+    <p class="tagline">Express yourself freely and find your calm</p>
+    
+    <div class="canvas-container">
+      <canvas id="drawingCanvas"></canvas>
+    </div>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label>Colors</label>
+        <div class="color-palette">
+          <div class="color active" style="background-color: #000000;" data-color="#000000"></div>
+          <div class="color" style="background-color: #3498db;" data-color="#3498db"></div>
+          <div class="color" style="background-color: #2ecc71;" data-color="#2ecc71"></div>
+          <div class="color" style="background-color: #e74c3c;" data-color="#e74c3c"></div>
+          <div class="color" style="background-color: #f1c40f;" data-color="#f1c40f"></div>
+          <div class="color" style="background-color: #9b59b6;" data-color="#9b59b6"></div>
+          <div class="color" style="background-color: #e67e22;" data-color="#e67e22"></div>
+          <div class="color" style="background-color: #ffffff;" data-color="#ffffff"></div>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label>Brush Size: <span id="sizeValue">5</span>px</label>
+        <input type="range" id="sizeSlider" min="1" max="50" value="5">
+        <div class="size-preview" id="sizePreview"></div>
+      </div>
+      
+      <div class="control-group">
+        <label>Tools</label>
+        <div class="tools">
+          <button class="tool active" id="brush"><i class="fas fa-paint-brush"></i> Brush</button>
+          <button class="tool" id="eraser"><i class="fas fa-eraser"></i> Eraser</button>
+          <button class="tool" id="spray"><i class="fas fa-spray-can"></i> Spray</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <button class="action" id="clearBtn"><i class="fas fa-trash"></i> Clear</button>
+      <button class="action" id="undoBtn"><i class="fas fa-undo"></i> Undo</button>
+      <button class="action" id="saveBtn"><i class="fas fa-download"></i> Save</button>
+      <button class="action" id="fullscreenBtn"><i class="fas fa-expand"></i> Fullscreen</button>
+    </div>
+    
+    <div class="ambient-controls">
+      <label class="toggle">
+        <span class="toggle-label"><i class="fas fa-moon"></i> Night Mode</span>
+        <label class="switch">
+          <input type="checkbox" id="nightModeToggle">
+          <span class="slider"></span>
+        </label>
+      </label>
+      
+      <label class="toggle">
+        <span class="toggle-label"><i class="fas fa-lungs"></i> Breathing Guide</span>
+        <label class="switch">
+          <input type="checkbox" id="breathingToggle">
+          <span class="slider"></span>
+        </label>
+      </label>
+    </div>
+  </div>
+  
+  <div class="breathing-guide" id="breathingGuide">
+    <div class="breathing-circle"></div>
+    <div class="breathing-text">Breathe in... and out...</div>
+  </div>
+  
+  <div class="particles" id="particles"></div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Canvas setup
+      const canvas = document.getElementById('drawingCanvas');
+      const ctx = canvas.getContext('2d');
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+      let currentColor = '#000000';
+      let currentSize = 5;
+      let currentTool = 'brush';
+      let drawingHistory = [];
+      let historyIndex = -1;
+      
+      // Responsive canvas
+      function resizeCanvas() {
+        const container = canvas.parentElement;
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
+        redrawCanvas();
+      }
+      
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      
+      // Save initial canvas state
+      saveCanvasState();
+      
+      // Drawing handlers
+      canvas.addEventListener('mousedown', startDrawing);
+      canvas.addEventListener('touchstart', handleTouchStart);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('touchmove', handleTouchMove);
+      canvas.addEventListener('mouseup', stopDrawing);
+      canvas.addEventListener('touchend', stopDrawing);
+      canvas.addEventListener('mouseout', stopDrawing);
+      
+      function handleTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousedown', {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+      }
+      
+      function handleTouchMove(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousemove', {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+      }
+      
+      function startDrawing(e) {
+        isDrawing = true;
+        [lastX, lastY] = getCoordinates(e);
+        
+        // Begin a new path for dot drawing
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, currentSize / 2, 0, Math.PI * 2);
+        ctx.fillStyle = currentTool === 'eraser' ? '#ffffff' : currentColor;
+        ctx.fill();
+      }
+      
+      function draw(e) {
+        if (!isDrawing) return;
+        
+        const [currentX, currentY] = getCoordinates(e);
+        
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = currentSize;
+        ctx.strokeStyle = currentTool === 'eraser' ? '#ffffff' : currentColor;
+        
+        if (currentTool === 'spray') {
+          drawSpray(currentX, currentY);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(currentX, currentY);
+          ctx.stroke();
+        }
+        
+        lastX = currentX;
+        lastY = currentY;
+      }
+      
+      function drawSpray(x, y) {
+        const density = currentSize * 2;
+        const radius = currentSize * 2;
+        
+        for (let i = 0; i < density; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.random() * radius;
+          const sprayX = x + distance * Math.cos(angle);
+          const sprayY = y + distance * Math.sin(angle);
+          
+          ctx.beginPath();
+          ctx.arc(sprayX, sprayY, 0.5, 0, Math.PI * 2);
+          ctx.fillStyle = currentColor;
+          ctx.fill();
+        }
+      }
+      
+      function stopDrawing() {
+        if (isDrawing) {
+          isDrawing = false;
+          saveCanvasState();
+        }
+      }
+      
+      function getCoordinates(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        
+        return [
+          (e.clientX - rect.left) * scaleX,
+          (e.clientY - rect.top) * scaleY
+        ];
+      }
+      
+      // Color selection
+      document.querySelectorAll('.color').forEach(colorElement => {
+        colorElement.addEventListener('click', function() {
+          document.querySelector('.color.active').classList.remove('active');
+          this.classList.add('active');
+          currentColor = this.getAttribute('data-color');
+          document.getElementById('sizePreview').style.backgroundColor = currentColor;
+          
+          // Switch to brush if eraser is active
+          if (currentTool === 'eraser') {
+            document.getElementById('brush').click();
+          }
+        });
+      });
+      
+      // Size slider
+      const sizeSlider = document.getElementById('sizeSlider');
+      const sizeValue = document.getElementById('sizeValue');
+      const sizePreview = document.getElementById('sizePreview');
+      
+      sizeSlider.addEventListener('input', function() {
+        currentSize = this.value;
+        sizeValue.textContent = this.value;
+        sizePreview.style.width = `${this.value}px`;
+        sizePreview.style.height = `${this.value}px`;
+      });
+      
+      // Tools
+      document.querySelectorAll('.tool').forEach(tool => {
+        tool.addEventListener('click', function() {
+          document.querySelector('.tool.active').classList.remove('active');
+          this.classList.add('active');
+          currentTool = this.id;
+          
+          if (currentTool === 'eraser') {
+            document.getElementById('sizePreview').style.backgroundColor = '#ffffff';
+          } else {
+            document.getElementById('sizePreview').style.backgroundColor = currentColor;
+          }
+        });
+      });
+      
+      // Action buttons
+      document.getElementById('clearBtn').addEventListener('click', clearCanvas);
+      document.getElementById('undoBtn').addEventListener('click', undoAction);
+      document.getElementById('saveBtn').addEventListener('click', saveImage);
+      document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+      
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        saveCanvasState();
+      }
+      
+      function saveCanvasState() {
+        // Trim the history if we've undone actions and then drawn something new
+        if (historyIndex < drawingHistory.length - 1) {
+          drawingHistory = drawingHistory.slice(0, historyIndex + 1);
+        }
+        
+        // Save current state
+        drawingHistory.push(canvas.toDataURL());
+        historyIndex = drawingHistory.length - 1;
+        
+        // Enable/disable undo button
+        document.getElementById('undoBtn').disabled = historyIndex <= 0;
+      }
+      
+      function undoAction() {
+        if (historyIndex > 0) {
+          historyIndex--;
+          redrawCanvas();
+        }
+      }
+      
+      function redrawCanvas() {
+        if (historyIndex >= 0) {
+          const img = new Image();
+          img.onload = function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          };
+          img.src = drawingHistory[historyIndex];
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      
+      function saveImage() {
+        const tempLink = document.createElement('a');
+        tempLink.download = 'zen-canvas-artwork.png';
+        tempLink.href = canvas.toDataURL('image/png');
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+      }
+      
+      function toggleFullscreen() {
+        const container = document.querySelector('.container');
+        
+        if (!document.fullscreenElement) {
+          if (container.requestFullscreen) {
+            container.requestFullscreen();
+          } else if (container.mozRequestFullScreen) {
+            container.mozRequestFullScreen();
+          } else if (container.webkitRequestFullscreen) {
+            container.webkitRequestFullscreen();
+          } else if (container.msRequestFullscreen) {
+            container.msRequestFullscreen();
+          }
+          document.getElementById('fullscreenBtn').innerHTML = '<i class="fas fa-compress"></i> Exit Fullscreen';
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+          document.getElementById('fullscreenBtn').innerHTML = '<i class="fas fa-expand"></i> Fullscreen';
+        }
+      }
+      
+      // Night mode
+      document.getElementById('nightModeToggle').addEventListener('change', function() {
+        document.body.style.background = this.checked ? 
+          'linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%)' : 
+          'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)';
+        
+        document.querySelector('.container').style.backgroundColor = this.checked ? 
+          'rgba(30, 39, 46, 0.9)' : 
+          'rgba(255, 255, 255, 0.9)';
+        
+        document.querySelector('h1').style.color = this.checked ? 
+          '#ecf0f1' : 
+          '#5a6d91';
+        
+        document.querySelector('.tagline').style.color = this.checked ? 
+          '#bdc3c7' : 
+          '#8896b2';
+        
+        document.querySelectorAll('label').forEach(label => {
+          label.style.color = this.checked ? '#ecf0f1' : '#5a6d91';
+        });
+        
+        document.querySelectorAll('.toggle-label').forEach(label => {
+          label.style.color = this.checked ? '#ecf0f1' : '#5a6d91';
+        });
+        
+        // Add particle effect in night mode
+        if (this.checked) {
+          createParticles();
+        } else {
+          document.getElementById('particles').innerHTML = '';
+        }
+      });
+      
+      // Breathing guide
+      document.getElementById('breathingToggle').addEventListener('change', function() {
+        document.getElementById('breathingGuide').classList.toggle('active', this.checked);
+      });
+      
+      // Particle effect for night mode
+      function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        particlesContainer.innerHTML = '';
+        
+        for (let i = 0; i < 50; i++) {
+          const particle = document.createElement('div');
+          particle.style.position = 'absolute';
+          particle.style.width = `${Math.random() * 4 + 1}px`;
+          particle.style.height = particle.style.width;
+          particle.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+          particle.style.borderRadius = '50%';
+          particle.style.top = `${Math.random() * 100}%`;
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.animation = `float ${Math.random() * 10 + 10}s linear infinite`;
+          particle.style.opacity = Math.random() * 0.5;
+          
+          // Add keyframes for floating animation
+          const keyframes = `
+            @keyframes float {
+              0% {
+                transform: translateY(0) translateX(0);
+                opacity: ${Math.random() * 0.5};
+              }
+              50% {
+                transform: translateY(-${Math.random() * 100 + 50}px) translateX(${Math.random() * 40 - 20}px);
+                opacity: ${Math.random() * 0.8 + 0.2};
+              }
+              100% {
+                transform: translateY(-${Math.random() * 200 + 100}px) translateX(${Math.random() * 80 - 40}px);
+                opacity: 0;
+              }
+            }
+          `;
+          
+          const style = document.createElement('style');
+          style.innerHTML = keyframes;
+          document.head.appendChild(style);
+          
+          particlesContainer.appendChild(particle);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

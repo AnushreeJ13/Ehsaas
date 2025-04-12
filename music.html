@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sound Sanctuary - Relaxing Music Mixer</title>
+  <style>
+    /* Modern Gradient Background */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #2A1454 0%, #1A0A2E 100%);
+      color: #fff;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Container for Content */
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    /* Modern Title Design */
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #8E54E9 0%, #1DB954 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.05em;
+    }
+
+    /* Mood Selector Styling */
+    .mood-selector {
+      position: relative;
+      margin: 2rem 0;
+      width: 100%;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mood-selector label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-size: 0.9rem;
+      color: #AEA8D3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    select {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid rgba(174, 168, 211, 0.3);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 1rem;
+      appearance: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    select:hover {
+      border-color: rgba(174, 168, 211, 0.6);
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #8E54E9;
+      box-shadow: 0 0 0 3px rgba(142, 84, 233, 0.2);
+    }
+
+    /* Custom Dropdown Arrow */
+    .mood-selector::after {
+      content: "⌄";
+      position: absolute;
+      right: 1rem;
+      top: 55%;
+      transform: translateY(-50%);
+      color: #AEA8D3;
+      font-size: 1.2rem;
+      pointer-events: none;
+    }
+
+    /* Player Container */
+    .player-container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 1.5rem;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      margin-top: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .player-container:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Spotify Embed Styling */
+    .embed-player {
+      border-radius: 16px;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 380px;
+    }
+
+    /* Mood Indicators */
+    .mood-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .mood-pill {
+      padding: 0.5rem 1rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #AEA8D3;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .mood-pill.active {
+      background: linear-gradient(45deg, #8E54E9 0%, #1DB954 100%);
+      color: white;
+    }
+
+    /* Loading Animation */
+    .loader {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #8E54E9;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 2rem auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .player-container {
+        padding: 1rem;
+      }
+      
+      iframe {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sound Sanctuary</h1>
+    
+    <div class="mood-indicator">
+      <div class="mood-pill active" data-mood="relax">Relaxation</div>
+      <div class="mood-pill" data-mood="focus">Deep Focus</div>
+      <div class="mood-pill" data-mood="sleep">Sleep Magic</div>
+      <div class="mood-pill" data-mood="happy">Positive Vibes</div>
+    </div>
+
+    <div class="player-container">
+      <div class="embed-player" id="player">
+        <iframe style="border-radius:12px" 
+          src="https://open.spotify.com/embed/playlist/37i9dQZF1DWUzFXarNiofw?utm_source=generator" 
+          allowfullscreen 
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+    
+    <div class="loader"></div>
+  </div>
+
+  <script>
+    const pills = document.querySelectorAll('.mood-pill');
+    const playerContainer = document.querySelector('.player-container');
+    const loader = document.querySelector('.loader');
+
+    // Mood selection handler
+    function handleMoodSelection(selectedMood) {
+      pills.forEach(pill => pill.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Show loading animation
+      loader.style.display = 'block';
+      playerContainer.style.opacity = '0.5';
+
+      setTimeout(() => {
+        changePlaylist(selectedMood);
+        loader.style.display = 'none';
+        playerContainer.style.opacity = '1';
+      }, 800);
+    }
+
+    // Add click handlers to mood pills
+    pills.forEach(pill => {
+      pill.addEventListener('click', (e) => {
+        const mood = e.target.dataset.mood;
+        handleMoodSelection(mood);
+      });
+    });
+
+    // Playlist change function
+    function changePlaylist(mood) {
+      let playlistURL = "";
+      
+      switch (mood) {
+        case "relax":
+          playlistURL = "https://open.spotify.com/embed/playlist/37i9dQZF1DWUzFXarNiofw";
+          break;
+        case "focus":
+          playlistURL = "https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO";
+          break;
+        case "sleep":
+          playlistURL = "https://open.spotify.com/embed/playlist/37i9dQZF1DWZd79rJ6a7lp";
+          break;
+        case "happy":
+          playlistURL = "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0";
+          break;
+      }
+
+      document.getElementById('player').innerHTML = `
+        <iframe style="border-radius:12px"
+          src="${playlistURL}?utm_source=generator"
+          allowfullscreen
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+        </iframe>`;
+    }
+  </script>
+</body>
+</html>

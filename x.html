@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ehsaas | Chill Zone</title>
+    <style>
+        :root {
+            --primary: #F2D5F8;
+            --secondary: #D4F2F9;
+            --accent: #A6E1FA;
+            --text: #4D4D4D;
+            --highlight: #FFC8DD;
+            --background: #FEFEFF;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            transition: background-color 0.5s ease;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #A6E1FA, #FFC8DD);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(166, 225, 250, 0.7), rgba(255, 200, 221, 0.7));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        
+        .card:hover::before {
+            opacity: 0.3;
+        }
+        
+        .card-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-description {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* Card specific colors */
+        .pixel-thoughts {
+            background: linear-gradient(135deg, #F2D5F8 0%, #F9F2F5 100%);
+        }
+        
+        .make-ok {
+            background: linear-gradient(135deg, #D4F2F9 0%, #EAF9FD 100%);
+        }
+        
+        .music-mixer {
+            background: linear-gradient(135deg, #FFC8DD 0%, #FFE5EC 100%);
+        }
+        
+        .rainy-mood {
+            background: linear-gradient(135deg, #A6E1FA 0%, #D4F2F9 100%);
+        }
+        
+        .fidget-spinner {
+            background: linear-gradient(135deg, #DCD6F7 0%, #EDEAF8 100%);
+        }
+        
+        .draw-canvas {
+            background: linear-gradient(135deg, #F0FFC2 0%, #F8FFDD 100%);
+        }
+        
+        /* Floating bubbles animation */
+        .bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+        
+        /* Loading animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+        
+        .loader-circle:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: var(--accent);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                height: 250px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <!-- Animated Background -->
+    <div class="bubbles" id="bubbles"></div>
+
+    <div class="container">
+        <header>
+            <h1>Chill Zone</h1>
+            <p class="subtitle">Take a moment to relax, breathe, and reset your mind with these calming activities.</p>
+        </header>
+
+        <div class="grid">
+            <!-- Pixel Thoughts -->
+            <a href="https://pixelthoughtss.vercel.app/" class="card pixel-thoughts">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Pixel Thoughts</h3>
+                    <p class="card-description">Put your thoughts into perspective in a starry night sky</p>
+                </div>
+            </a>
+
+            <!-- Make Everything OK -->
+            <a href="/makeOK.html" class="card make-ok">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 6L9 17L4 12" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Make Everything OK</h3>
+                    <p class="card-description">A simple button to make everything better</p>
+                </div>
+            </a>
+
+            <!-- Music Mixer -->
+            <a href="music-mixer.html" class="card music-mixer">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18V5L21 3V16" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="6" cy="18" r="3" stroke="#4D4D4D" stroke-width="2"/>
+                            <circle cx="18" cy="16" r="3" stroke="#4D4D4D" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Music Mixer</h3>
+                    <p class="card-description">Create soothing melodies to calm your mind</p>
+                </div>
+            </a>
+
+            <!-- Rainy Mood -->
+            <a href="rainy-mood.html" class="card rainy-mood">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 13V21M12 15V23M8 13V21M20 16.58C21.9565 15.7348 23.1429 13.7764 22.9717 11.6895C22.8006 9.60255 21.302 7.85053 19.25 7.37V7.25C19.25 3.93 16.57 1.25 13.25 1.25C10.29 1.25 7.81 3.35 7.26 6.15C5.34 6.29 3.66 7.43 2.8 9.12C1.94 10.79 2 12.75 2.95 14.33" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Rainy Mood</h3>
+                    <p class="card-description">Listen to calming rain sounds to enhance focus</p>
+                </div>
+            </a>
+
+            <!-- Fidget Spinner -->
+            <a href="fidget-spinner.html" class="card fidget-spinner">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="3" stroke="#4D4D4D" stroke-width="2"/>
+                            <path d="M12 5V3" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M12 21V19" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M16.95 7.05L18.37 5.63" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M5.63 18.37L7.05 16.95" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M19 12H21" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M3 12H5" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M16.95 16.95L18.37 18.37" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M5.63 5.63L7.05 7.05" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Fidget Spinner</h3>
+                    <p class="card-description">Play with a virtual fidget spinner to release stress</p>
+                </div>
+            </a>
+
+            <!-- Draw Canvas -->
+            <a href="draw-canvas.html" class="card draw-canvas">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 19L19 12L22 15L15 22L12 19Z" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M18 13L16.5 5.5L2 2L5.5 16.5L13 18L18 13Z" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 2L9.586 9.586" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 13C12.1046 13 13 12.1046 13 11C13 9.89543 12.1046 9 11 9C9.89543 9 9 9.89543 9 11C9 12.1046 9.89543 13 11 13Z" stroke="#4D4D4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Draw Canvas</h3>
+                    <p class="card-description">Express yourself through free-form drawing</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Ehsaas. Take a deep breath and find your calm.</p>
+    </footer>
+
+    <script>
+        // Create floating bubbles
+        const bubblesContainer = document.getElementById('bubbles');
+        const bubbleColors = ['#F2D5F8', '#D4F2F9', '#A6E1FA', '#FFC8DD', '#DCD6F7', '#F0FFC2'];
+        
+        for (let i = 0; i < 20; i++) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            
+            // Random properties
+            const size = Math.random() * 100 + 50;
+            const color = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+            
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.backgroundColor = color;
+            bubble.style.animationDelay = `${Math.random() * 15}s`;
+            bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            
+            bubblesContainer.appendChild(bubble);
+        }
+        
+        // Loading animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 1000);
+        });
+        
+        // Card hover effects
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const others = Array.from(cards).filter(c => c !== card);
+                others.forEach(other => {
+                    other.style.opacity = '0.7';
+                    other.style.transform = 'scale(0.98)';
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                cards.forEach(c => {
+                    c.style.opacity = '1';
+                    c.style.transform = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

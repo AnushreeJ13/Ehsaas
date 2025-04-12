@@ -1,0 +1,2686 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<style>
+        /* Lumen-inspired color scheme */
+        :root {
+            --lumen-primary: #5E56E8;
+            --lumen-secondary: #7B73FF;
+            --lumen-accent: #FF6B6B;
+            --lumen-light: #F8F7FF;
+            --lumen-dark: #2E2A5C;
+            --lumen-text: #4A4A4A;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(94, 86, 232, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar:hover {
+            box-shadow: 0 5px 25px rgba(94, 86, 232, 0.15);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--lumen-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--lumen-accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            position: relative;
+            text-decoration: none;
+            color: var(--lumen-text);
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+        }
+        
+        /* Unique hover effect */
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--lumen-primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--lumen-primary);
+        }
+        
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+        
+        /* Button styles */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn {
+            background: transparent;
+            border: 1px solid var(--lumen-primary);
+            color: var(--lumen-primary);
+        }
+        
+        .login-btn:hover {
+            background: rgba(94, 86, 232, 0.05);
+        }
+        
+        .signup-btn {
+            background: var(--lumen-primary);
+            border: 1px solid var(--lumen-primary);
+            color: white;
+        }
+        
+        .signup-btn:hover {
+            background: var(--lumen-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(94, 86, 232, 0.2);
+        }
+        
+        /* Mobile menu (hidden by default) */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--lumen-primary);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .navbar {
+                padding: 15px 5%;
+            }
+        }
+  .animated-border {
+  border: 4px solid;
+  border-image: linear-gradient(45deg, #00ffcc, #ff00cc, #6600ff, #00ffcc);
+  border-image-slice: 1;
+  animation: borderAnimation 5s linear infinite;
+  border-radius: 16px;
+}
+
+/* Animate gradient movement */
+@keyframes borderAnimation {
+  0% {
+    border-image-source: linear-gradient(0deg, #00ffcc, #0a0309, #6600ff, #00ffcc);
+  }
+  100% {
+    border-image-source: linear-gradient(360deg, #00ffcc, #0f050d, #6600ff, #00ffcc);
+  }
+}
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInLeft {
+  animation: fadeInLeft 1s ease-out both;
+}
+
+
+
+    </style>
+<head>
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="b4m1x2luDi2dffsGgEYoc9HYjXKCdCuOvLBLgZd9">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ehsaas | Understand Your Emotions | Ehsaas</title>
+    <meta name="description" content="Ehsaas is a unique mental wellness platform that helps you track, understand, and improve your emotional well-being. Connect with yourself through mindful practices and support.">
+    <meta property="og:title" content="Ehsaas | Understand Your Emotions | Ehsaas">
+    <meta property="og:description" content="Ehsaas is a unique mental wellness platform that helps you track, understand, and improve your emotional well-being. Connect with yourself through mindful practices and support.">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Ehsaas",
+      "description": "Ehsaas is a unique mental wellness platform that helps you track, understand, and improve your emotional well-being. Connect with yourself through mindful practices and support.",
+      "image": "C:\Users\Anushree Jain\Desktop\Ehsaas\Ehsaas_main\ehsaas_p.jpg"
+    }
+    </script>
+    
+            <script type="text/javascript">
+    var _iub = _iub || [];
+    _iub.csConfiguration = {"cookiePolicyInOtherWindow":true,"countryDetection":true,"enableUspr":true,"gdprAppliesGlobally":false,"lang":"en","perPurposeConsent":true,"siteId":1706846,"cookiePolicyId":53119375,"cookiePolicyUrl":"https://www.lumen.me/privacy-policy","privacyPolicyUrl":"https://www.lumen.me/privacy-policy","privacyPolicyNoticeAtCollectionUrl":"https://www.lumen.me/privacy-policy","banner":{"acceptButtonCaptionColor":"white","acceptButtonColor":"#9017e5","acceptButtonDisplay":true,"backgroundColor":"#1c0d35","closeButtonRejects":true,"customizeButtonCaptionColor":"white","customizeButtonColor":"#160b2d","customizeButtonDisplay":true,"position":"bottom","rejectButtonCaptionColor":"white","rejectButtonColor":"#0b5a99","rejectButtonDisplay":true,"textColor":"white","acceptButtonCaption":"GOT IT","cookiePolicyLinkCaption":"Privacy Policy"}};
+    _iub.csConfiguration.callback = {
+        onConsentGiven: function() {
+            Lumen.clarityConsent();
+        },
+    };
+</script>
+<script type="text/javascript" src="//cs.iubenda.com/sync/1706846.js"></script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/gpp/stub.js"></script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
+    <script>
+    /** @formatter:off */
+    (function() {
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+            var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl+'&gtm_auth=a6AgvzJ0SAOcyjADNwrdlQ&gtm_preview=env-1&gtm_cookies_win=x';f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-PF3JNK2');dataLayer = dataLayer || [];
+        window.gtag = function (){window.dataLayer.push(arguments)};
+        window.parentGtag = function (){window.parent.dataLayer.push(arguments)};
+        dataLayer.push({'event': 'bs-ready'});
+    })();
+</script>
+    <link rel="icon" type="image/png" href="https://src.metaflow.co/html-images/favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="https://src.metaflow.co/html-images/favicon/favicon.svg" />
+<link rel="shortcut icon" type="image/x-icon" href="https://src.metaflow.co/html-images/favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://src.metaflow.co/html-images/favicon/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="fetch" href="https://cdn.growthbook.io/api/features/sdk-L3DFBj0hugH3Skhd" crossorigin>
+
+    
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet">
+
+    <style>[x-cloak]{display: none!important}</style>
+        <link rel="preload" as="style" href="https://cdn.us.prod-website.lumen.me/build/assets/home-BKZwq4-t.css" /><link rel="modulepreload" href="https://cdn.us.prod-website.lumen.me/build/assets/app-YzPJUNAR.js" /><link rel="modulepreload" href="https://cdn.us.prod-website.lumen.me/build/assets/xUtilsFunctions-CYlduIIo.js" /><link rel="modulepreload" href="https://cdn.us.prod-website.lumen.me/build/assets/module.esm-BEH2agsT.js" /><link rel="stylesheet" href="https://cdn.us.prod-website.lumen.me/build/assets/home-BKZwq4-t.css" /><script type="module" src="https://cdn.us.prod-website.lumen.me/build/assets/app-YzPJUNAR.js"></script>        <meta name="currency" content="$">
+        <script>
+        window.handleHeroHeight = window.handleHeroHeight || function() {
+            const currentElement  = this.$el;
+
+            // // this is quick hack to avoid jumping the hero on mobile, when the address bar is hidden/shown
+            const updateHeight = function updateHeight() {
+                currentElement.style.transition = '';
+                setTimeout(() => {
+                    currentElement.style.transition = `height 999999s`;
+                }, 100);
+            }
+
+            if (window.screen.orientation) {
+                screen.orientation.addEventListener("change", (event) => {
+                    updateHeight();
+                });
+            }
+
+            const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+
+            if (isDesktop) {
+                window.addEventListener('resize', updateHeight);
+            }
+
+            updateHeight();
+        }
+    </script>
+    <script>
+        window.xSliderTestimonials = window.xSliderTestimonials || function() {
+            const slider = {
+                currentIndex: -1,
+            };
+
+            const instance = window.xSliderHomeCards({
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                on: {
+                    slideChange: function () {
+                        const swiperWrapper = this.wrapperEl;
+                        const videos = swiperWrapper.querySelectorAll('.swiper-slide video');
+                        let wasPlaying = false;
+                        videos.forEach(video => {
+                            if (!video.paused) {
+                                video.pause();
+                                wasPlaying = true;
+                            }
+                        });
+
+                        if (wasPlaying) {
+                            const activeSlide = this.slides[this.activeIndex];
+                            const videoInActiveSlide = activeSlide.querySelector('video');
+
+                            if (videoInActiveSlide) {
+                                requestAnimationFrame(() => {
+                                    videoInActiveSlide.play();
+                                    videoInActiveSlide.muted = false;
+                                });
+                            }
+                        }
+                    },
+                },
+            });
+
+            return Object.assign(slider, instance);
+        };
+    </script>
+    <script>
+        window.xSliderHowItWorks = window.xSliderHowItWorks || function() {
+            const instance = window.xSlider2({
+                speed: 1000,
+                slidesPerView: 1.05,
+                slidesPerGroup: 1,
+                spaceBetween: 16,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    768: {
+                        slidesPerView: 1,
+                        spaceBetween: 24,
+                    },
+                    1920: {
+                        slidesPerView: 1,
+                        spaceBetween: 24,
+                    }
+                },
+            });
+            return instance;
+        };
+
+    </script>
+<script>
+    document.addEventListener('alpine:init', () => {
+            let redirectTime = parseInt('10');
+
+            Alpine.data('emailCollectionSection', () => ({
+                selectedAnswer: '',
+                email: '',
+                isSubmit: false,
+                errEmail: false,
+                errAnswer: false,
+                countDownNum: redirectTime || 10, // Use variable
+                activeTab: 'goals',
+
+                selectGoal(goal) {
+                    this.selectedAnswer = goal;
+                    this.activeTab = 'email';
+
+                    Lumen.ga4('email_collection_click', {
+                        'click-type': 'select',
+                        element_id: `email-collection-answer-${goal}`,
+                        section: 'email-collection-section',
+                        answer: goal
+                    });
+                },
+
+                goBack() {
+                    this.selectedAnswer = '';
+                    this.activeTab = 'goals';
+                },
+
+                submit(e) {
+                    e.preventDefault();
+
+                    const isValid = this.validate();
+
+                    if (!isValid) return;
+
+                    this.activeTab = 'thankyou';
+                    this.isSubmit = true;
+
+                    const bodyData = {
+                        "email": this.email,
+                        "health_goal": this.selectedAnswer,
+                        "popup_id": 4,
+                    }
+
+                    fetch('/createLeadFromPopup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .content
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(bodyData)
+                    });
+
+                    Lumen.setCookie('contact_info', 1, 365);
+
+                    Lumen.ga4('popup_click', {
+                        'click-type': 'submit_email',
+                        element_id: 'email-collection-submit-button',
+                        section: 'email-collection-section',
+                    });
+                },
+
+                validate() {
+                    this.errEmail = false;
+                    this.errAnswer = false;
+                    let isValidated = true;
+
+                    // validate email
+                    if (!(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+                            .test(this.email))) {
+                        this.errEmail = true;
+                        isValidated = false;
+                    }
+
+                    if (!this.selectedAnswer) {
+                        this.errAnswer = true;
+                        isValidated = false;
+                    }
+
+                    return isValidated;
+                },
+            }));
+        })
+</script>
+    <script>
+        window.xSliderResearchScience = window.xSliderResearchScience || function() {
+            const instance = window.xSliderHomeCards({
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+
+            return instance;
+        };
+    </script>
+</head>
+<body class="bg-transparent home-page text-start">
+
+                        <div
+    x-data
+    x-observe="$store.at_top = true"
+    x-observe.out="$store.at_top = false"
+    style="font-size: 0;"
+    class="absolute top-0"
+>&nbsp;</div>
+<nav class="navbar">
+        <a href="/" class="logo">Ehsaas<span>.</span></a>
+        
+        <button class="mobile-menu-btn">☰</button>
+        
+        <div class="nav-links">
+            <a href="mood.html">MOOD AI</a>
+            <a href="sleep.html">SLEEP AND HEALING</a>
+            <a href="stress.html">STRESS AND ANXIETY</a>
+            <a href="./saathi.html">SAATHI ROOMS</a>
+            <a href="music.html">CHILL ZONE</a>
+            <a href="find_my_therapist.html">NEED HELP?</a>
+        </div>
+        
+        <div class="auth-buttons">
+            <button class="nav-btn login-btn" onclick="window.location.href='login.html'">Log in</button>
+            <button class="nav-btn signup-btn" onclick="window.location.href='signup.html'">Get Started</button>
+        </div>
+    </nav>
+
+            
+        <main class="testimonial-facts-variant flex flex-col">
+        <section
+    x-data="handleHeroHeight"
+    class="page-section page-section-hero-full page-static-hero"
+    id="hero-section"
+>
+<div class="page-section-container emotional-hero-section">
+    <div class="page-section-container-wrapper">
+        <div class="static-hero-heading">
+            <div class="inner-content animate__animated animate__fadeIn">
+                <div role="heading" aria-level="1" class="static-hero-title" id="static-hero-title-hero-section">
+                    <p class="text-gradient animate__animated animate__fadeInUp animate__delay-1s">
+                        <span>Connect With Your Emotions</span>
+                    </p>
+                </div>
+                <div class="static-hero-subtitle" id="static-hero-subtitle-hero-section">
+                    <p class="animate__animated animate__fadeInUp animate__delay-2s">
+                        <span>Ehsaas helps you understand, track, and nurture your emotional well-being.</span>
+                    </p>
+                </div>
+                <div class="static-hero-cta animate__animated animate__fadeInUp animate__delay-3s">
+                    <a id="static-hero-cta-hero-section" href="" class="btn2 btn2-purple pulse-animation">
+                        Start Your Journey
+                        <svg class="arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Floating emotion bubbles background -->
+    <div class="emotion-bubbles">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
+        <div class="bubble bubble-5"></div>
+    </div>
+</div>
+
+<style>
+    /* Base Styles */
+    .emotional-hero-section {
+        position: relative;
+        overflow: hidden;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        padding: 4rem 2rem;
+    }
+    
+    .page-section-container-wrapper {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .static-hero-heading {
+        max-width: 800px;
+    }
+    
+    /* Typography */
+    .static-hero-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        color: #2d3748;
+    }
+    
+    .text-gradient {
+        background: linear-gradient(90deg, #6b46c1 0%, #805ad5 50%, #9f7aea 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+    }
+    
+    .static-hero-subtitle {
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        line-height: 1.6;
+        color: #4a5568;
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+    }
+    
+    /* Button Styles */
+    .btn2 {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn2-purple {
+        background: linear-gradient(90deg, #6b46c1 0%, #805ad5 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
+    }
+    
+    .btn2-purple:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(107, 70, 193, 0.4);
+    }
+    
+    .arrow-icon {
+        margin-left: 0.5rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .btn2-purple:hover .arrow-icon {
+        transform: translateX(5px);
+    }
+    
+    /* Floating Bubbles */
+    .emotion-bubbles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+    
+    .bubble {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(159, 122, 234, 0.1);
+        backdrop-filter: blur(5px);
+        animation: float 15s infinite linear;
+    }
+    
+    .bubble-1 {
+        width: 150px;
+        height: 150px;
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+    }
+    
+    .bubble-2 {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        right: 10%;
+        animation-delay: 2s;
+    }
+    
+    .bubble-3 {
+        width: 100px;
+        height: 100px;
+        bottom: 20%;
+        left: 15%;
+        animation-delay: 4s;
+    }
+    
+    .bubble-4 {
+        width: 250px;
+        height: 250px;
+        bottom: 10%;
+        right: 5%;
+        animation-delay: 1s;
+    }
+    
+    .bubble-5 {
+        width: 80px;
+        height: 80px;
+        top: 60%;
+        right: 30%;
+        animation-delay: 3s;
+    }
+    
+    /* Animations */
+    @keyframes float {
+        0% {
+            transform: translateY(0) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-50px) rotate(180deg);
+        }
+        100% {
+            transform: translateY(0) rotate(360deg);
+        }
+    }
+    
+    .pulse-animation {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .emotional-hero-section {
+            min-height: 70vh;
+            text-align: center;
+        }
+        
+        .static-hero-subtitle {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .bubble-2, .bubble-4 {
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    // Add intersection observer for scroll animations
+    document.addEventListener('DOMContentLoaded', function() {
+        const heroSection = document.querySelector('.emotional-hero-section');
+        
+        // Add scroll-triggered animation class
+        setTimeout(() => {
+            heroSection.classList.add('animate-in');
+        }, 100);
+        
+        // Make bubbles interactive on desktop
+        if (window.innerWidth > 768) {
+            const bubbles = document.querySelectorAll('.bubble');
+            
+            heroSection.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const { left, top } = heroSection.getBoundingClientRect();
+                
+                bubbles.forEach((bubble, index) => {
+                    const speed = (index + 1) * 0.5;
+                    const xPos = (clientX - left) / 50 * speed;
+                    const yPos = (clientY - top) / 50 * speed;
+                    
+                    bubble.style.transform = `translate(${xPos}px, ${yPos}px)`;
+                });
+            });
+        }
+    });
+</script>
+        <div class="static-hero-content-device">
+            <div class="inner-content">
+                <picture class="responsive-image-container static-hero-device" alt="hero-device-and-hand">
+            
+</picture>
+<a href="./Therapist_AI.html"></a>
+<div
+class="responsive-video-container relative h-full flex justify-end items-start static-hero-app-animation"
+x-data
+x-autoplay-videos
+>
+<!-- Middle Desktop Video -->
+<video
+  class="hidden middledesktop:block animated-border video-middle-desktop"
+  muted
+  disablepictureinpicture
+  playsinline
+  loop
+  autoplay
+>
+  <source type="video/mp4" src="./startv.mp4" />
+  <source type="video/webm" src="./startv.mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<!-- Desktop Video -->
+<video
+  class="hidden desktop:block middledesktop:hidden animated-border video-desktop"
+  muted
+  disablepictureinpicture
+  playsinline
+  loop
+  autoplay
+>
+  <source type="video/mp4" src="./startv.mp4" />
+  <source type="video/webm" src="./startv.mp4" />
+  Your browser does not support the video tag.
+</video>
+</div>
+
+    <div class="static-hero-bottom-gradient"></div>
+
+</section>
+
+<a href="./templates/therapist.html";
+
+
+
+
+
+
+        
+        <section class="z-10 breath-count-section" data-theme-changer='dark'>
+            <div class="page-section no-global-text-style">
+                <div class="page-section-container">
+                    <div class="breath-count-section-content">
+                        <div role="heading" aria-level="2" class="breath-count-section-title">
+                            <p><span style="white-space-collapse: preserve;"><span style="color: #c392ff;">65</span> million breaths and counting</span></p>
+                        </div>
+                        <div class="breath-count-section-subtitle">
+                            <p><span style="white-space-collapse: preserve;">Join the movement toward Peace💌. </span></p>
+                        </div>
+                    </div>
+                    <div class="breath-count-section-video-container">
+                        <video id="video-breath-count" class="hidden desktop:block" muted playsinline autoplay preload
+                        disablepictureinpicture loop data-unique-events
+                        style="width: 100%; height: auto;">
+                        <source type="video/mp4" src="./smile.mp4">
+                    </video>
+                    
+                        <video id="video-breath-count-mobile" class="desktop:hidden" muted playsinline autoplay preload
+                            disablepictureinpicture loop data-unique-events>
+                                                        <source type="video/mp4"
+                                src="https://src.metaflow.co/Pages/Home%20Super/breath-data-section/lumen-metabolic-health.mp4">
+                        </video>
+                        <span class="absolute inset-0 block z-2"></span>
+                                            </div>
+                </div>
+            </div>
+            <div class="decorative-curve">
+                <img class="block desktop:hidden" src="https://src.metaflow.co/assets/Pages/home-super/breath-count-divider-medium.svg"
+                    alt="Breath Count Section Divider" />
+                <img class="hidden desktop:block" src="https://src.metaflow.co/assets/Pages/home-super/breath-count-divider-large.svg"
+                    alt="Breath Count Section Divider" />
+            </div>
+        </section>
+
+        
+        <section class="testimonial-section page-section no-global-text-style order-5">
+            <div class="page-section-container">
+                <div class="page-section-grid">
+                    <div role="heading" aria-level="2" class="testimonial-section-title">
+                        <p><span style="white-space-collapse: preserve;">Join 300K+ Lumeners<br />changing their lives</span></p>
+                    </div>
+                </div>
+                <div class="testimonial-section-container-bottom">
+                    <div x-data="xSliderTestimonials({})" x-init="load()" class="testimonial-slider w-full">
+    <template x-if="started">
+        
+        <div x-ref="sc" class="swiper swiper-container">
+            
+            <div x-ref="sw" class="swiper-wrapper">
+                
+                <div x-data="{ isPlaying: false }" class="swiper-slide">
+            <div
+    class="home-card with-gradient testimonial-slider-card"
+>
+    <div class="home-card-inner" >
+        <div class="testimonial-slider-card-video">
+                    <div class="testimonial-slider-card-video-inner">
+                        <div class="testimonial-slider-card-video-tags">
+                                                            <div class="testimonial-slider-card-video-icon">
+                                    <img src="https://src.metaflow.co/Pages/Home%20Super/testimonials/topic.svg"
+                                        alt="" />
+                                </div>
+                            
+                                                            <div class="testimonial-slider-card-video-tag">
+                                    Manage weight
+                                </div>
+                                                    </div>
+                        <div class="testimonial-slider-card-video-holder">
+                            <video
+                                id="home-testimonial-manage-weight"
+                                x-ref="video"
+                                xxxx-init="$watch('currentIndex', v => v === 0 ? !isPlaying&&$el.play() : isPlaying&&$el.pause());"
+                                x-on:play="isPlaying = true"
+                                x-on:ended="isPlaying = false"
+                                x-on:pause="isPlaying = false"
+                                poster="https://src.metaflow.co/Pages/Home%20Super/Manage%2520weight%2520%25280-00-00-11%2529_cropped_350x600.jpg"
+                                disablepictureinpicture
+                                playsinline preload="auto" muted>
+                                <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20Super/testimonials/Manage%20weight.mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="absolute top-0 right-0 z-10">
+            <button class="testimonial-slider-card-video-play-button"
+                            aria-label="Play/Pause testimonial video"
+                            @click="currentIndex = 0; if (isPlaying) {$refs.video.pause();} else {
+                                const slider = document.getElementsByClassName('testimonial-slider')[0]
+                                if (slider) {
+                                    const videos = slider.querySelectorAll('.swiper-slide video');
+                                    if (videos) {
+                                        videos.forEach(video => {
+                                            if (!video.paused) {video.pause();}
+                                        });
+                                    }
+                                }
+                                document.getElementById('home-testimonial-manage-weight').pause();
+                                $refs.video.muted = false;
+                                $refs.video.play();
+                            }">
+                            <svg x-show="!isPlaying" id="testimonial-button-play-manage-weight" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.446429" y="0.446429" width="41.1071" height="41.1071" rx="20.5536" stroke="black" stroke-width="0.892857" pointer-events="none"/>
+    <path pointer-events="none" d="M27 20.134C27.6667 20.5189 27.6667 21.4811 27 21.866L18.75 26.6292C18.0833 27.0141 17.25 26.5329 17.25 25.7631L17.25 16.2369C17.25 15.4671 18.0833 14.9859 18.75 15.3708L27 20.134Z" fill="black"/>
+</svg>
+                            <svg x-show="isPlaying" id="testimonial-button-pause-manage-weight" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.75" y="0.75" width="40.5" height="40.5" rx="20.25" stroke="black" stroke-width="1.5" pointer-events="none"/>
+    <rect x="17.8462" y="13.5" width="2" height="15" rx="1" fill="black" pointer-events="none"/>
+    <rect x="22.1538" y="13.5" width="2" height="15" rx="1" fill="black" pointer-events="none"/>
+</svg>
+                        </button>
+        </div>
+    
+    <div class="decorative-curve bg-white"></div>
+</div>
+
+            <div class="testimonial-slider-card-quote ">
+                "It's like night and day. It's amazing how this device has definitely helped with losing those extra pounds."
+            </div>
+            <div class="testimonial-slider-card-person">
+                                    Shakis
+
+                                            , 35
+                                                </div>
+        </div>
+            <div x-data="{ isPlaying: false }" class="swiper-slide">
+            <div
+    class="home-card with-gradient testimonial-slider-card"
+>
+    <div class="home-card-inner" >
+        <div class="testimonial-slider-card-video">
+                    <div class="testimonial-slider-card-video-inner">
+                        <div class="testimonial-slider-card-video-tags">
+                                                            <div class="testimonial-slider-card-video-icon">
+                                    <img src="https://src.metaflow.co/Pages/Home%20Super/testimonials/increase-muscle-mass.svg"
+                                        alt="" />
+                                </div>
+                            
+                                                            <div class="testimonial-slider-card-video-tag">
+                                    Increase muscle mass
+                                </div>
+                                                    </div>
+                        <div class="testimonial-slider-card-video-holder">
+                            <video
+                                id="home-testimonial-increase-muscle-mass"
+                                x-ref="video"
+                                xxxx-init="$watch('currentIndex', v => v === 1 ? !isPlaying&&$el.play() : isPlaying&&$el.pause());"
+                                x-on:play="isPlaying = true"
+                                x-on:ended="isPlaying = false"
+                                x-on:pause="isPlaying = false"
+                                poster="https://src.metaflow.co/Pages/Home%20Super/Increase%2520muscle%2520mass%2520%25280-00-08-27%2529_cropped_350x600.jpg"
+                                disablepictureinpicture
+                                playsinline preload="auto" muted>
+                                <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20Super/testimonials/Increase%20muscle%20mass.mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="absolute top-0 right-0 z-10">
+            <button class="testimonial-slider-card-video-play-button"
+                            aria-label="Play/Pause testimonial video"
+                            @click="currentIndex = 1; if (isPlaying) {$refs.video.pause();} else {
+                                const slider = document.getElementsByClassName('testimonial-slider')[0]
+                                if (slider) {
+                                    const videos = slider.querySelectorAll('.swiper-slide video');
+                                    if (videos) {
+                                        videos.forEach(video => {
+                                            if (!video.paused) {video.pause();}
+                                        });
+                                    }
+                                }
+                                document.getElementById('home-testimonial-increase-muscle-mass').pause();
+                                $refs.video.muted = false;
+                                $refs.video.play();
+                            }">
+                            <svg x-show="!isPlaying" id="testimonial-button-play-increase-muscle-mass" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.446429" y="0.446429" width="41.1071" height="41.1071" rx="20.5536" stroke="black" stroke-width="0.892857" pointer-events="none"/>
+    <path pointer-events="none" d="M27 20.134C27.6667 20.5189 27.6667 21.4811 27 21.866L18.75 26.6292C18.0833 27.0141 17.25 26.5329 17.25 25.7631L17.25 16.2369C17.25 15.4671 18.0833 14.9859 18.75 15.3708L27 20.134Z" fill="black"/>
+</svg>
+                            <svg x-show="isPlaying" id="testimonial-button-pause-increase-muscle-mass" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.75" y="0.75" width="40.5" height="40.5" rx="20.25" stroke="black" stroke-width="1.5" pointer-events="none"/>
+    <rect x="17.8462" y="13.5" width="2" height="15" rx="1" fill="black" pointer-events="none"/>
+    <rect x="22.1538" y="13.5" width="2" height="15" rx="1" fill="black" pointer-events="none"/>
+</svg>
+                        </button>
+        </div>
+    
+    <div class="decorative-curve bg-white"></div>
+</div>
+
+            <div class="testimonial-slider-card-quote ">
+                "I lost 23 pounds, I'm leaner than ever,I have more energy, and I eat healthier.I love it."
+            </div>
+            <div class="testimonial-slider-card-person">
+                                    Ryan
+
+                                            , 40
+                                                </div>
+        </div>
+            <div x-data="{ isPlaying: false }" class="swiper-slide">
+            <div
+    class="home-card with-gradient testimonial-slider-card"
+>
+    <div class="home-card-inner" >
+        <div class="testimonial-slider-card-video">
+                    <div class="testimonial-slider-card-video-inner">
+                        <div class="testimonial-slider-card-video-tags">
+                                                            <div class="testimonial-slider-card-video-icon">
+                                    <img src="https://src.metaflow.co/Pages/Home%20Super/testimonials/improve-metabolith.svg"
+                                        alt="" />
+                                </div>
+                            
+                                                            <div class="testimonial-slider-card-video-tag">
+                                    Improve metabolic health
+                                </div>
+                                                    </div>
+                        <div class="testimonial-slider-card-video-holder">
+                            <video
+                                id="home-testimonial-improve-metabolic-health"
+                                x-ref="video"
+                                xxxx-init="$watch('currentIndex', v => v === 2 ? !isPlaying&&$el.play() : isPlaying&&$el.pause());"
+                                x-on:play="isPlaying = true"
+                                x-on:ended="isPlaying = false"
+                                x-on:pause="isPlaying = false"
+                                poster="https://src.metaflow.co/Pages/Home%20Super/8523_Scene%25201_Camera_01_2%2520%25280-00-23-02%2529_cropped_350x600.png"
+                                disablepictureinpicture
+                                playsinline preload="auto" muted>
+                                <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20Super/testimonials/Lumen%20review%20.mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="absolute top-0 right-0 z-10">
+            <button class="testimonial-slider-card-video-play-button"
+                            aria-label="Play/Pause testimonial video"
+                            @click="currentIndex = 2; if (isPlaying) {$refs.video.pause();} else {
+                                const slider = document.getElementsByClassName('testimonial-slider')[0]
+                                if (slider) {
+                                    const videos = slider.querySelectorAll('.swiper-slide video');
+                                    if (videos) {
+                                        videos.forEach(video => {
+                                            if (!video.paused) {video.pause();}
+                                        });
+                                    }
+                                }
+                                document.getElementById('home-testimonial-improve-metabolic-health').pause();
+                                $refs.video.muted = false;
+                                $refs.video.play();
+                            }">
+                            <svg x-show="!isPlaying" id="testimonial-button-play-improve-metabolic-health" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.446429" y="0.446429" width="41.1071" height="41.1071" rx="20.5536" stroke="black" stroke-width="0.892857" pointer-events="none"/>
+    <path pointer-events="none" d="M27 20.134C27.6667 20.5189 27.6667 21.4811 27 21.866L18.75 26.6292C18.0833 27.0141 17.25 26.5329 17.25 25.7631L17.25 16.2369C17.25 15.4671 18.0833 14.9859 18.75 15.3708L27 20.134Z" fill="black"/>
+</svg>
+                            <svg x-show="isPlaying" id="testimonial-button-pause-improve-metabolic-health" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.75" y="0.75" width="40.5" height="40.5" rx="20.25" stroke="black" stroke-width="1.5" pointer-events="none"/>
+    <rect x="17.8462" y="13.5" width="2" height="15" rx="1" fill="black" pointer-events="none"/>
+    <rect x="22.1538" y="13.5" width="2" height="15" rx="1" fill="black" pointer-events="none"/>
+</svg>
+                        </button>
+        </div>
+    
+    <div class="decorative-curve bg-white"></div>
+</div>
+
+            <div class="testimonial-slider-card-quote ">
+                "Ever since I got the Lumen, I've been able to optimize my schedule to match my metabolic needs."
+            </div>
+            <div class="testimonial-slider-card-person">
+                                    Tina
+
+                                            , 33
+                                                </div>
+        </div>
+            <div x-data="{ isPlaying: false }" class="swiper-slide">
+            <div
+    class="home-card with-gradient testimonial-slider-card"
+>
+    <div class="home-card-inner" >
+        <div class="testimonial-slider-card-video">
+                    <div class="testimonial-slider-card-video-inner">
+                        <div class="testimonial-slider-card-video-tags">
+                                                            <div class="testimonial-slider-card-video-icon">
+                                    <img src="https://src.metaflow.co/Pages/Home%20Super/testimonials/energy-level.svg"
+                                        alt="" />
+                                </div>
+                            
+                                                            <div class="testimonial-slider-card-video-tag">
+                                    Increase energy
+                                </div>
+                                                    </div>
+                        <div class="testimonial-slider-card-video-holder">
+                            <video
+                                id="home-testimonial-increase-energy"
+                                x-ref="video"
+                                xxxx-init="$watch('currentIndex', v => v === 3 ? !isPlaying&&$el.play() : isPlaying&&$el.pause());"
+                                x-on:play="isPlaying = true"
+                                x-on:ended="isPlaying = false"
+                                x-on:pause="isPlaying = false"
+                                poster="https://src.metaflow.co/Pages/Home%20Super/Energy%2520level%2520%25280-00-00-10%2529_cropped_350x600.jpg"
+                                disablepictureinpicture
+                                playsinline preload="auto" muted>
+                                <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20Super/testimonials/Lumen%20testimonial%20.mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="absolute top-0 right-0 z-10">
+            <button class="testimonial-slider-card-video-play-button"
+                            aria-label="Play/Pause testimonial video"
+                            @click="currentIndex = 3; if (isPlaying) {$refs.video.pause();} else {
+                                const slider = document.getElementsByClassName('testimonial-slider')[0]
+                                if (slider) {
+                                    const videos = slider.querySelectorAll('.swiper-slide video');
+                                    if (videos) {
+                                        videos.forEach(video => {
+                                            if (!video.paused) {video.pause();}
+                                        });
+                                    }
+                                }
+                                document.getElementById('home-testimonial-increase-energy').pause();
+                                $refs.video.muted = false;
+                                $refs.video.play();
+                            }">
+                            <svg x-show="!isPlaying" id="testimonial-button-play-increase-energy" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.446429" y="0.446429" width="41.1071" height="41.1071" rx="20.5536" stroke="black" stroke-width="0.892857" pointer-events="none"/>
+    <path pointer-events="none" d="M27 20.134C27.6667 20.5189 27.6667 21.4811 27 21.866L18.75 26.6292C18.0833 27.0141 17.25 26.5329 17.25 25.7631L17.25 16.2369C17.25 15.4671 18.0833 14.9859 18.75 15.3708L27 20.134Z" fill="black"/>
+</svg>
+                            <svg x-show="isPlaying" id="testimonial-button-pause-increase-energy" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.75" y="0.75" width="40.5" height="40.5" rx="20.25" stroke="black" stroke-width="1.5" pointer-events="none"/>
+    <rect x="17.8462" y="13.5" width="2" height="15" rx="1" fill="black" pointer-events="none"/>
+    <rect x="22.1538" y="13.5" width="2" height="15" rx="1" fill="black" pointer-events="none"/>
+</svg>
+                        </button>
+        </div>
+    
+    <div class="decorative-curve bg-white"></div>
+</div>
+
+            <div class="testimonial-slider-card-quote ">
+                "I'm no longer so fatigued in the afternoons after I have a heavy workout day."
+            </div>
+            <div class="testimonial-slider-card-person">
+                                    Heather
+
+                                            , 52
+                                                </div>
+        </div>
+            </div>
+
+            
+                            <div class="slider-v2-pagination invisible-desktop">
+            <div class="swiper-navigation-buttons">
+                <div class="swiper-navigation-button swiper-button-prev"></div>
+                <div class="swiper-navigation-button swiper-button-next"></div>
+            </div>
+        </div>
+            
+            
+                    </div>
+    </template>
+</div>
+
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="as-seen-on-section order-3">
+            <div class="page-section-container">
+                <h2 class="as-seen-on-section-title">As seen on</h2>
+                <div class="as-seen-on-section-slider-container">
+                    <div x-data x-infinity-horizontal-scroll draggable speed="0.5" class="infinity-horizontal-scroll">
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/as-seen-on/esquire.svg"
+                                    height="23"
+                                    width="144"
+                                    alt="Esquire"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/as-seen-on/sports%20tech%20group.svg"
+                                    height="35"
+                                    width="105"
+                                    alt="Sports Tech Group"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/as-seen-on/Fast%20Company.svg"
+                                    height="35"
+                                    width="144"
+                                    alt="Fast Company"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/lumen-as-seen-on-marie-claire.svg"
+                                    height="40"
+                                    width="271"
+                                    alt="Marie Claire"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/as-seen-on/Consumer_Electronics_Show.svg"
+                                    height="39"
+                                    width="68"
+                                    alt="Consumer Electronics Show"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/as-seen-on/business%20wire.svg"
+                                    height="35"
+                                    width="144"
+                                    alt="Business Wire"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/as-seen-on/mens-health.svg"
+                                    height="35"
+                                    width="144"
+                                    alt="Men&#039;s Health"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/lumen-as-seen-on-the-telegraph-1.svg"
+                                    height="41"
+                                    width="251"
+                                    alt="The Telegraph"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/as-seen-on/VOGUE_LOGO.svg"
+                                    height="25"
+                                    width="95"
+                                    alt="Vogue"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/lumen-as-seen-on-wired-2.svg"
+                                    height="25"
+                                    width="125"
+                                    alt="Wired"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/lumen-as-seen-on-bbc-1.svg"
+                                    height="67"
+                                    width="107"
+                                    alt="BBC"/>
+                            </div>
+                                                    <div class="as-seen-on-section-logos-logo">
+                                <img
+                                    src="https://src.metaflow.co/Pages/Home%20Super/as-seen-on/Time_Magazine_logo.svg"
+                                    height="26"
+                                    width="81"
+                                    alt="Time"/>
+                            </div>
+                                            </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="facts-section page-section no-global-text-style order-4">
+            <div class="page-section-container">
+                <div class="facts-section-container-inner">
+                    <div class="facts-section-content-wrapper">
+                        <div class="facts-section-content">
+                            <div role="heading" aria-level="2"
+                                 class="facts-section-title"><p>Real people<br style="--tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / .5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000;" />real results</p></div>
+                            <div class="facts-section-subtitle"><p>Lumen drives long-term, sustainable habit change that helps you reach your weight and health goals. Discover how good your body is designed to feel with Lumen.</p></div>
+                        </div>
+                        <div class="facts-section-user-facts">
+                                                            <div class="facts-section-fact">
+                                    <img src="https://src.metaflow.co/Pages/Home%20Super/facts/weight-loss-icon.svg" alt=""/>
+                                    <div class="facts-section-fact-text">
+                                        <div class="facts-section-fact-accent">Up to 12% of body weight</div>
+                                        <p>lost in just 6 months*</p>
+                                    </div>
+
+                                </div>
+                                                            <div class="facts-section-fact">
+                                    <img src="https://src.metaflow.co/Pages/Home%20Super/facts/metabolic-icon.svg" alt=""/>
+                                    <div class="facts-section-fact-text">
+                                        <div class="facts-section-fact-accent">30% improvement</div>
+                                        <p>in metabolic flexibility score*</p>
+                                    </div>
+
+                                </div>
+                                                            <div class="facts-section-fact">
+                                    <img src="https://src.metaflow.co/Pages/Home%20Super/facts/increase-icon.svg" alt=""/>
+                                    <div class="facts-section-fact-text">
+                                        <div class="facts-section-fact-accent">3% body fat percentage lost</div>
+                                        <p>on average in just 12 weeks**</p>
+                                    </div>
+
+                                </div>
+                                                    </div>
+                    </div>
+                    <div class="facts-section-cta">
+                        <a href="https://www.lumen.me/shop?utm_inref=hp-facts-section"
+                           class="btn2 btn2-purple medium_tablet:btn2-lg">
+                            Get Lumen
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="how-it-works-section page-section no-global-text-style order-2">
+            <div class="how-it-works-section-container page-section-container">
+
+                <div class="how-it-works-section-content"
+                     x-data="{intersect:false}" x-intersect:enter="intersect=true" x-intersect:leave="intersect=false">
+                    <div role="heading" aria-level="2" class="how-it-works-section-content-title"
+                         :class="intersect ? 'animate-fade animate-once animate-duration-[900ms] animate-normal animate-fill-forwards':''">
+                        <p><span style="white-space-collapse: preserve;">How it works</span></p>
+                    </div>
+                    <div class="how-it-works-section-content-subtitle"
+                         :class="intersect ? 'animate-fade animate-once animate-duration-[900ms] animate-normal animate-fill-forwards':''">
+                        <p><span style="white-space-collapse: preserve;">Get tailored guidance to improve your nutrition, </span><span style="white-space-collapse: preserve;">exercise, sleep, and stress levels for a healthier you. </span></p>
+                    </div>
+                </div>
+                <div x-data="xSliderHowItWorks({})" x-init="load()" class="how-it-works-section-slider">
+    <template x-if="started">
+        
+        <div x-ref="sc" class="swiper swiper-container">
+            
+            <div x-ref="sw" class="swiper-wrapper">
+                
+                <div class="swiper-slide">
+                        <div class="how-it-works-section-slice card-variant-1" x-data="{intersect:false}" x-intersect:enter.half="intersect=true" x-intersect:leave.half="intersect=false">
+                                    <picture class="responsive-image-container how-it-works-section-slice-bg">
+            <source
+            media="(max-width: 766px)"
+            srcset="https://src.metaflow.co/Pages/Home%20Super/breath-into-your-Lumen-each-morning-Desktop_cropped_890x680.webp"
+        />
+                <source
+            media="(min-width: 1920px)"
+            srcset="https://src.metaflow.co/Pages/Home%20Super/how-it-works/v2/card1/breath-into-your-Lumen-each-morning-Desktop.webp"
+        />
+            <img
+            src="https://src.metaflow.co/Pages/Home%20Super/how-it-works/v2/card1/breath-into-your-Lumen-each-morning-Desktop.webp"
+            alt=""
+        />
+</picture>
+                                <div class="how-it-works-section-slice-title animate-normal animate-duration-[900ms]" role="heading" aria-level="3"
+                     :class="intersect ? 'animate-fade-left' : 'opacity-0'">
+                    <p><span style="--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; font-weight: 600; color: var(--tw-prose-bold); white-space-collapse: preserve;">Take a deep breath. <br /></span><span style="font-weight: 400;">Breathe into your Lumen to get a real-time view of whether you're burning mostly fat or carbs, so you can understand the impact of your lifestyle on your metabolism. </span></p>
+                </div>
+                <div class="how-it-works-section-slice-media">
+                                                                        <div
+    class="home-media-card"
+>
+            
+        
+        <video
+            disablepictureinpicture
+            playsinline
+            preload
+            muted
+            poster=""
+            id="97e7ed8e"
+                        
+        >
+            <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20New/lumen-breath-analyzer.mp4">
+        </video>
+    </div>
+<script>
+    const video97e7ed8e = document.getElementById('97e7ed8e');
+    const observer97e7ed8e = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                video97e7ed8e.play();
+            } else {
+                video97e7ed8e.pause();
+            }
+        });
+    }, { threshold: 0.9 }); // 90% of the video must be visible to trigger
+
+    observer97e7ed8e.observe(video97e7ed8e);
+</script>
+                                                                                                <div
+    class="home-media-card"
+>
+            
+        
+        <video
+            disablepictureinpicture
+            playsinline
+            preload
+            muted
+            poster=""
+            id="a8bb5df1"
+                        
+        >
+            <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20New/lumen-burning-carbs-vs-fat.mp4">
+        </video>
+    </div>
+<script>
+    const videoa8bb5df1 = document.getElementById('a8bb5df1');
+    const observera8bb5df1 = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                videoa8bb5df1.play();
+            } else {
+                videoa8bb5df1.pause();
+            }
+        });
+    }, { threshold: 0.9 }); // 90% of the video must be visible to trigger
+
+    observera8bb5df1.observe(videoa8bb5df1);
+</script>
+                                                            </div>
+            </div>
+        </div>
+            <div class="swiper-slide">
+                        <div class="how-it-works-section-slice card-variant-2" x-data="{intersect:false}" x-intersect:enter.half="intersect=true" x-intersect:leave.half="intersect=false">
+                                    <picture class="responsive-image-container how-it-works-section-slice-bg">
+            <source
+            media="(max-width: 766px)"
+            srcset="https://src.metaflow.co/Pages/Home%20Super/how-it-works/v2/card2/lumen-meal-plans.webp"
+        />
+                <source
+            media="(min-width: 1920px)"
+            srcset="https://src.metaflow.co/Pages/Home%20Super/how-it-works/v2/card2/Find-your-balance-desktop.webp"
+        />
+            <img
+            src="https://src.metaflow.co/Pages/Home%20Super/how-it-works/v2/card2/Find-your-balance-desktop.webp"
+            alt=""
+        />
+</picture>
+                                <div class="how-it-works-section-slice-title animate-normal animate-duration-[900ms]" role="heading" aria-level="3"
+                     :class="intersect ? 'animate-fade-left' : 'opacity-0'">
+                    <p><span style="--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; font-weight: 600; color: var(--tw-prose-bold);">Get the guidance that matters.&nbsp;</span><br /><span style="font-weight: 400;">Find your balance with data-backed, personalized lifestyle and nutrition support based on your unique metabolic profile.</span></p>
+                </div>
+                <div class="how-it-works-section-slice-media">
+                                    </div>
+            </div>
+        </div>
+            <div class="swiper-slide">
+                        <div class="how-it-works-section-slice card-variant-3" x-data="{intersect:false}" x-intersect:enter.half="intersect=true" x-intersect:leave.half="intersect=false">
+                                    <div
+    class="responsive-video-container relative h-full flex justify-end items-start how-it-works-section-slice-bg"
+    x-data
+    x-autoplay-videos
+>
+                            <video
+            class="hidden desktop:block
+                
+                
+                
+                video-desktop"
+                muted
+            disablepictureinpicture
+            data-unique-events
+            playsinline
+            loop
+            autoplay
+        >
+                            <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20New/achieve-metabolic-health_Desktop.mp4">
+                                </video>
+                <video class="hidden small_tablet:block desktop:hidden landscape:hidden video-tablet" muted disablepictureinpicture
+            data-unique-events
+            playsinline
+            loop
+            autoplay
+        >
+                            <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20New/achieve-metabolic-health_Desktop.mp4">
+                                </video>
+                <video class="block small_tablet:hidden video-mobile" muted disablepictureinpicture data-unique-events
+            playsinline
+            loop
+            autoplay
+        >
+                            <source type="video/mp4" src="https://src.metaflow.co/Pages/Home%20Super/how-it-works/v2/card3/achieve-metabolic-health_Mobile%202.mp4">
+                                </video>
+    </div>
+                                <div class="how-it-works-section-slice-title animate-normal animate-duration-[900ms]" role="heading" aria-level="3"
+                     :class="intersect ? 'animate-fade-left' : 'opacity-0'">
+                    <p><span style="--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; font-weight: 600; color: var(--tw-prose-bold); white-space-collapse: preserve;">Reach your health goals.</span><span style="white-space-collapse: preserve; font-weight: 400;"> Lumen is your personal metabolic compass, helping improve your metabolic flexibility at every stage of life.</span></p>
+                </div>
+                <div class="how-it-works-section-slice-media">
+                                                                        <div class="home-media-card big">
+                                <img class="w-full h-auto" loading="lazy" src="https://src.metaflow.co/html-images/lumen-metabolic-flexibility.svg" />
+                            </div>
+                                                            </div>
+            </div>
+        </div>
+            </div>
+
+            
+                            <div class="slider-v2-pagination">
+            <div class="swiper-navigation-buttons">
+                <div class="swiper-navigation-button swiper-button-prev"></div>
+                <div class="swiper-navigation-button swiper-button-next"></div>
+            </div>
+        </div>
+            
+            
+                    </div>
+    </template>
+</div>
+
+            </div>
+        </section>
+
+        
+                    <section class="email-collection-section page-section no-global-text-style order-6">
+    <div class="page-section-container email-collection-section-container">
+        <div class="email-collection-section-content">
+            <div class="email-collection-section-icon">
+                                <img src="https://src.metaflow.co/Pages/Email%20Collection%20Mini%20Survey/Pillars%20%281%29.svg" alt="email-collection-section-icon"
+                    class="email-collection-section-icon-img">
+                            </div>
+            <div class="email-collection-section-text">
+                <div role="heading" aria-level="2" class="email-collection-section-title">
+                    <p style="--tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000;">Take your</p>
+<p style="--tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000;">first step</p>
+                </div>
+                <div class="email-collection-section-description">
+                    <p>Uncover the hidden connections between your lifestyle and your health goals with our free personalized metabolic health guide, and <strong>get $20 off your Lumen!</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="email-collection-section-form" x-data="emailCollectionSection">
+            
+            <div class="email-collection-section-tab email-collection-section-goals" x-show="activeTab === 'goals'"
+                x-cloak>
+                <div role="heading" aria-level="3" class="email-collection-section-form-title">
+                    <p>What's your primary<br style="--tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000;" />health goal right now?</p>
+                </div>
+                
+                <div class="email-collection-section-form-toggle">
+                                        <button class="email-collection-section-form-toggle-button"
+                        :class="{ 'active': selectedAnswer === 'enhance_fitness' }"
+                        @click="selectGoal('enhance_fitness')"
+                        id="email-collection-answer-enhance_fitness">
+                        Strength &amp; fitness
+                    </button>
+                                        <button class="email-collection-section-form-toggle-button"
+                        :class="{ 'active': selectedAnswer === 'lose_weight' }"
+                        @click="selectGoal('lose_weight')"
+                        id="email-collection-answer-lose_weight">
+                        Weight loss
+                    </button>
+                                        <button class="email-collection-section-form-toggle-button"
+                        :class="{ 'active': selectedAnswer === 'increase_energy' }"
+                        @click="selectGoal('increase_energy')"
+                        id="email-collection-answer-increase_energy">
+                        Feel more energized
+                    </button>
+                                    </div>
+            </div>
+            
+            <div class="email-collection-section-tab email-collection-section-email" x-show="activeTab === 'email'"
+                x-cloak>
+                                <div class="email-collection-section-form-incentive" x-cloak
+                    x-show="selectedAnswer === 'enhance_fitness'">
+
+                    <div role="heading" aria-level="3" class="email-collection-section-form-title">
+                        <span>Not getting the resultsyou want from your workouts?</span>
+                    </div>
+                    <div class="email-collection-section-form-description">
+                        <p><span style="white-space-collapse: preserve;">Discover free insights about how carb intake fuels the mitochondria in your muscles.</span></p>
+                    </div>
+                </div>
+                                <div class="email-collection-section-form-incentive" x-cloak
+                    x-show="selectedAnswer === 'lose_weight'">
+
+                    <div role="heading" aria-level="3" class="email-collection-section-form-title">
+                        <span>Tried everything and can't lose weight?</span>
+                    </div>
+                    <div class="email-collection-section-form-description">
+                        <p><span style="white-space-collapse: preserve;">Discover the surprising effects of certain foods on your metabolism and weight loss success.</span></p>
+                    </div>
+                </div>
+                                <div class="email-collection-section-form-incentive" x-cloak
+                    x-show="selectedAnswer === 'increase_energy'">
+
+                    <div role="heading" aria-level="3" class="email-collection-section-form-title">
+                        <span>Constantly feeling fatigued?</span>
+                    </div>
+                    <div class="email-collection-section-form-description">
+                        <p><span style="white-space-collapse: preserve;">Discover when your mitochondria crave fuel and what keeps them charged throughout the day.</span></p>
+                    </div>
+                </div>
+                
+                <form @submit="submit" class="email-collection-section-email-form" novalidate>
+                    <div class="email-collection-section-email-form-input">
+                        <svg class="email-collection-section-email-form-input-icon" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="Viewbox">
+        <path id="Vector"
+            d="M1.12245 7.09414C1.10958 7.18169 1.10958 7.27065 1.12245 7.3582V24.7534C1.11522 24.8192 1.11522 24.8856 1.12245 24.9514L10.0676 16.0558L1.12245 7.09414ZM15.976 20.0993C16.1564 20.1006 16.3353 20.0663 16.5024 19.9983C16.6695 19.9304 16.8215 19.83 16.9497 19.7032L30.1529 6.5H1.84862L15.0518 19.7032C15.18 19.83 15.332 19.9304 15.4991 19.9983C15.6662 20.0663 15.8451 20.1006 16.0255 20.0993M17.6759 20.3468C17.4632 20.5705 17.2072 20.7486 16.9234 20.8704C16.6397 20.9921 16.3342 21.0548 16.0255 21.0548C15.7168 21.0548 15.4113 20.9921 15.1276 20.8704C14.8439 20.7486 14.5879 20.5705 14.3751 20.3468L10.6947 16.6664L1.7661 25.6116C1.85906 25.6261 1.95371 25.6261 2.04667 25.6116H29.9219C30.0256 25.6301 30.1317 25.6301 30.2354 25.6116L21.3068 16.6664L17.6759 20.3468ZM30.8791 7.14365L21.9504 16.0558L30.8296 24.8854C30.8329 24.8415 30.8329 24.7973 30.8296 24.7534V7.3582C30.8381 7.28694 30.8381 7.21492 30.8296 7.14365"
+            fill="currentColor" />
+    </g>
+</svg>
+                        <input type="email" id="email-collection-section-email-email" name="email"
+                            placeholder="breathe@lumen.me" maxlength="40" minlength="2" x-model="email"
+                            @input.change="errEmail = false" :class="{ 'error': errEmail }"
+                            class="email-collection-section-email-input">
+                    </div>
+
+                    <div class="email-collection-section-email-privacy">
+                        <p>Read our <a href="/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms-of-use" target="_blank" rel="noopener">Terms of Use</a> to learn how we use your email address. You can unsubscribe at any time.</p>
+                    </div>
+
+                    <div class="email-collection-section-email-submit">
+                        <button type="button" class="back-btn btn2 btn2-purple btn2-outline" @click="goBack">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Arrow">
+<path id="path" fill-rule="evenodd" clip-rule="evenodd" d="M15 8C15 8.48325 14.6082 8.875 14.125 8.875L4.325 8.875L8.6125 13.1625C8.95078 13.5008 8.95078 14.0492 8.6125 14.3875C8.27423 14.7258 7.72578 14.7258 7.38751 14.3875L1.98995 8.98995C1.44322 8.44321 1.44322 7.55678 1.98995 7.01005L7.38751 1.61249C7.72578 1.27422 8.27423 1.27422 8.6125 1.61249C8.95078 1.95077 8.95078 2.49922 8.6125 2.83749L4.325 7.125L14.125 7.125C14.6082 7.125 15 7.51675 15 8Z" fill="black"/>
+</g>
+</svg>
+                        </button>
+                        <button type="submit" class="btn2 btn2-purple small_tablet:btn2-lg" id="email-collection-submit-button">
+                            Get your free guide
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="email-collection-section-tab email-collection-section-thank-you"
+                x-show="activeTab === 'thankyou'" x-cloak>
+                <div class="email-collection-section-thank-you-content">
+                    <div role="heading" aria-level="3" class="email-collection-section-thank-you-title">
+                        <p>Thank you!</p>
+                    </div>
+                    <div class="email-collection-section-form-description">
+                        <p style="text-align: center;">Your guide is on the way. In the meantime,<br />click below to apply code 20ME and redeem your discount.</p>
+                    </div>
+                </div>
+                <a class="btn2 btn2-white btn2-lg" id="email-collection-cta-button" href="/shop?discount=20me&amp;utm_inref=hp-offer-section">
+                    Shop Lumen now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+        
+        
+        <section class="research-section page-section order-7" data-theme-changer='dark'>
+            <div class="page-section-container research-section-container">
+                <div class="research-section-content">
+                    <div class="research-section-content-top"
+                         x-data="{intersect:false}" x-intersect:enter="intersect=true"
+                         x-intersect:leave="intersect=false">
+                        <div role="heading" aria-level="2" class="research-section-title heading"
+                             :class="intersect ? 'animate-fade animate-once animate-duration-[900ms] animate-normal animate-fill-forwards':''">
+                            <p><span style="white-space-collapse: preserve;">Innovative research,<br />groundbreaking applications </span></p>
+                        </div>
+                        <div class="research-section-subtitle description"
+                             :class="intersect ? 'animate-fade animate-once animate-duration-[900ms] animate-normal animate-fill-forwards':''">
+                            <p><span style="white-space-collapse: preserve;">Lumen collaborates with top institutions worldwide to conduct game-changing research about metabolism.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div x-data="xSliderResearchScience({})" x-init="load()" class="research-section-cards">
+    <template x-if="started">
+        
+        <div x-ref="sc" class="swiper swiper-container">
+            
+            <div x-ref="sw" class="swiper-wrapper">
+                
+                <div class="swiper-slide">
+            <div
+    class="home-card with-gradient research-card"
+>
+    <div class="home-card-inner" >
+        <div class="research-card-inner">
+                    <div class="research-card-title" role="heading" aria-level="3">
+                        Metabolism shifts throughout the menstrual cycle
+                    </div>
+                    <div class="research-card-subtitle">
+                        Lumen | Peer-reviewed study
+                    </div>
+                                            <div class="research-card-graph">
+                            <img src="https://src.metaflow.co/Pages/Home%20Super/science-section/%20lumen-app-measurement.svg"
+                                alt="" />
+                        </div>
+                                    </div>
+
+                    <img
+                class="absolute top-0 left-0 w-full h-full object-cover z-[-2]"
+                draggable="false"
+                src="https://src.metaflow.co/Pages/Home%20Super/lumen-metabolic-analysis_cropped_600x800.webp"
+                alt="Background image for home card"
+            />
+            </div>
+
+            <div class="absolute top-0 right-0 z-10">
+            <a target="_blank" href="https://www.lumen.me/blog/women-s-hormonal-shifts-are-inextricably-linked-to-metabolism?srsltid=AfmBOorVKuIga3oodozkrtkg7KJ6ntjR8KS43BYTlOe2Qzq97GtheUKH" aria-label="Link to Science Item Metabolism shifts throughout the menstrual cycle">
+                            <svg  width="50" height="51" viewBox="0 0 50 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect y="0.138916" width="50" height="50" rx="25" fill="#FAF7FF"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8128 31.3262C18.3857 30.8991 18.3857 30.2065 18.8128 29.7794L27.4749 21.1173L19.8956 21.1173C19.2976 21.1173 18.8128 20.6326 18.8128 20.0346C18.8128 19.4366 19.2976 18.9518 19.8956 18.9518L29.4372 18.9518C30.4037 18.9518 31.1872 19.7353 31.1872 20.7018L31.1872 30.2435C31.1872 30.8414 30.7024 31.3262 30.1044 31.3262C29.5064 31.3262 29.0217 30.8414 29.0217 30.2435L29.0217 22.6641L20.3596 31.3262C19.9325 31.7533 19.24 31.7533 18.8128 31.3262Z" fill="#211537"/>
+</svg>
+                        </a>
+        </div>
+    
+    <div class="decorative-curve bg-lumen-purple-3"></div>
+</div>
+        </div>
+            <div class="swiper-slide">
+            <div
+    class="home-card with-gradient research-card"
+>
+    <div class="home-card-inner" >
+        <div class="research-card-inner">
+                    <div class="research-card-title" role="heading" aria-level="3">
+                        Metabolic flexibility improves carb usage post-meal
+                    </div>
+                    <div class="research-card-subtitle">
+                        Lumen | Peer-reviewed study
+                    </div>
+                                            <div class="research-card-graph">
+                            <img src="https://src.metaflow.co/Pages/Home%20Super/science-section/lumen-for-weight-loss.svg"
+                                alt="" />
+                        </div>
+                                    </div>
+
+                    <img
+                class="absolute top-0 left-0 w-full h-full object-cover z-[-2]"
+                draggable="false"
+                src="https://src.metaflow.co/Pages/Home%20Super/lumen-weight-loss_cropped_600x800.webp"
+                alt="Background image for home card"
+            />
+            </div>
+
+            <div class="absolute top-0 right-0 z-10">
+            <a target="_blank" href="https://www.lumen.me/blog/the-link-between-metabolic-flexibility-and-bmi" aria-label="Link to Science Item Metabolic flexibility improves carb usage post-meal">
+                            <svg  width="50" height="51" viewBox="0 0 50 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect y="0.138916" width="50" height="50" rx="25" fill="#FAF7FF"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8128 31.3262C18.3857 30.8991 18.3857 30.2065 18.8128 29.7794L27.4749 21.1173L19.8956 21.1173C19.2976 21.1173 18.8128 20.6326 18.8128 20.0346C18.8128 19.4366 19.2976 18.9518 19.8956 18.9518L29.4372 18.9518C30.4037 18.9518 31.1872 19.7353 31.1872 20.7018L31.1872 30.2435C31.1872 30.8414 30.7024 31.3262 30.1044 31.3262C29.5064 31.3262 29.0217 30.8414 29.0217 30.2435L29.0217 22.6641L20.3596 31.3262C19.9325 31.7533 19.24 31.7533 18.8128 31.3262Z" fill="#211537"/>
+</svg>
+                        </a>
+        </div>
+    
+    <div class="decorative-curve bg-lumen-purple-3"></div>
+</div>
+        </div>
+            <div class="swiper-slide">
+            <div
+    class="home-card with-gradient research-card"
+>
+    <div class="home-card-inner" >
+        <div class="research-card-inner">
+                    <div class="research-card-title" role="heading" aria-level="3">
+                        Lumen found to improve key health markers
+                    </div>
+                    <div class="research-card-subtitle">
+                        Ichilov Tel Aviv Sourasky Medical Center | Pilot clinical trial
+                    </div>
+                                            <div class="research-card-graph">
+                            <img src="https://src.metaflow.co/Pages/Home%20Super/science-section/lumen-fat-burning.svg"
+                                alt="" />
+                        </div>
+                                    </div>
+
+                    <img
+                class="absolute top-0 left-0 w-full h-full object-cover z-[-2]"
+                draggable="false"
+                src="https://src.metaflow.co/Pages/Home%20Super/what-is-lumen-weight-loss_cropped_600x800.webp"
+                alt="Background image for home card"
+            />
+            </div>
+
+            <div class="absolute top-0 right-0 z-10">
+            <a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/36195053/" aria-label="Link to Science Item Lumen found to improve key health markers">
+                            <svg  width="50" height="51" viewBox="0 0 50 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect y="0.138916" width="50" height="50" rx="25" fill="#FAF7FF"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8128 31.3262C18.3857 30.8991 18.3857 30.2065 18.8128 29.7794L27.4749 21.1173L19.8956 21.1173C19.2976 21.1173 18.8128 20.6326 18.8128 20.0346C18.8128 19.4366 19.2976 18.9518 19.8956 18.9518L29.4372 18.9518C30.4037 18.9518 31.1872 19.7353 31.1872 20.7018L31.1872 30.2435C31.1872 30.8414 30.7024 31.3262 30.1044 31.3262C29.5064 31.3262 29.0217 30.8414 29.0217 30.2435L29.0217 22.6641L20.3596 31.3262C19.9325 31.7533 19.24 31.7533 18.8128 31.3262Z" fill="#211537"/>
+</svg>
+                        </a>
+        </div>
+    
+    <div class="decorative-curve bg-lumen-purple-3"></div>
+</div>
+        </div>
+            <div class="swiper-slide">
+            <div
+    class="home-card with-gradient research-card"
+>
+    <div class="home-card-inner" >
+        <div class="research-card-inner">
+                    <div class="research-card-title" role="heading" aria-level="3">
+                        Menopause impairs metabolic flexibility
+                    </div>
+                    <div class="research-card-subtitle">
+                        Lumen | Peer-reviewed study
+                    </div>
+                                            <div class="research-card-graph">
+                            <img src="https://src.metaflow.co/Pages/Home%20Super/science-section/metabolic-analysis.svg"
+                                alt="" />
+                        </div>
+                                    </div>
+
+                    <img
+                class="absolute top-0 left-0 w-full h-full object-cover z-[-2]"
+                draggable="false"
+                src="https://src.metaflow.co/Pages/Home%20Super/what-is-lumen-metabolism_cropped_600x800.webp"
+                alt="Background image for home card"
+            />
+            </div>
+
+            <div class="absolute top-0 right-0 z-10">
+            <a target="_blank" href="https://www.lumen.me/blog/women-s-hormonal-shifts-are-inextricably-linked-to-metabolism?srsltid=AfmBOorVKuIga3oodozkrtkg7KJ6ntjR8KS43BYTlOe2Qzq97GtheUKH" aria-label="Link to Science Item Menopause impairs metabolic flexibility">
+                            <svg  width="50" height="51" viewBox="0 0 50 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect y="0.138916" width="50" height="50" rx="25" fill="#FAF7FF"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8128 31.3262C18.3857 30.8991 18.3857 30.2065 18.8128 29.7794L27.4749 21.1173L19.8956 21.1173C19.2976 21.1173 18.8128 20.6326 18.8128 20.0346C18.8128 19.4366 19.2976 18.9518 19.8956 18.9518L29.4372 18.9518C30.4037 18.9518 31.1872 19.7353 31.1872 20.7018L31.1872 30.2435C31.1872 30.8414 30.7024 31.3262 30.1044 31.3262C29.5064 31.3262 29.0217 30.8414 29.0217 30.2435L29.0217 22.6641L20.3596 31.3262C19.9325 31.7533 19.24 31.7533 18.8128 31.3262Z" fill="#211537"/>
+</svg>
+                        </a>
+        </div>
+    
+    <div class="decorative-curve bg-lumen-purple-3"></div>
+</div>
+        </div>
+            </div>
+
+            
+                            <div class="slider-v2-pagination invisible-desktop">
+            <div class="swiper-navigation-buttons">
+                <div class="swiper-navigation-button swiper-button-prev"></div>
+                <div class="swiper-navigation-button swiper-button-next"></div>
+            </div>
+        </div>
+            
+            
+                    </div>
+    </template>
+</div>
+
+
+            </div>
+        </section>
+
+        
+        <section class="b2b-section page-section no-global-text-style order-8" data-theme-changer='dark'>
+            <div class="page-section-container">
+                <div class="b2b-section-content">
+                    <div role="heading" aria-level="2" class="b2b-section-title">
+                        <p><span style="white-space-collapse: preserve;">Lumen is the top choice for doctors and clinics putting metabolic health first</span></p>
+                    </div>
+                    <div class="b2b-section-subtitle">
+                        <p><span style="white-space-collapse: preserve;">Innovative, individualized, and data-driven solutions that empower both practitioners and patients to improve metabolic health.</span></p>
+                    </div>
+                                            <div class="b2b-section-cta">
+                            <a aria-label="Learn More About Link"
+                               target="_blank"
+                               href="https://www.lumen.me/health-professionals"
+                               class="whitespace-nowrap btn2 btn2-lg btn2-purple">Learn more</a>
+                        </div>
+                                        <div class="b2b-image">
+                        <picture>
+                            <source media="(max-width: 480px)"
+                                    srcset="https://src.metaflow.co/Pages/Home%20Super/lumen-metabolism-data%2520_cropped_647x311.png">
+                            <source media="(max-width: 1439px)"
+                                    srcset="https://src.metaflow.co/Pages/Home%20Super/b2b-section/b2b-tablet.webp">
+                            <source media="(min-width: 1440px)" srcset="https://src.metaflow.co/Pages/Home%20Super/b2b-section/b2b-desktop.webp">
+                            <img
+                                src="https://src.metaflow.co/Pages/Home%20Super/lumen-metabolism-data%2520_cropped_647x311.png"
+                                alt="Lumen Metabolism Data Enables Practitioners and Patients to Improve Metabolic Health."/>
+                        </picture>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+                    <section class="faq-section faq-section-home page-section no-global-text-style order-9">
+                <div class="page-section-container">
+                    <div role="heading" aria-level="2" class="faq-section-title">
+                        FAQ
+                    </div>
+                    <div x-data="xHomeFaq(0)" class="home-faq-list" data-section="faq" data-click-type="toggle">
+            <div class="home-faq-list-item ">
+            <button id="default section-0"
+                @click="if(_current === 0) _current = -1; else _current = 0"
+                class="flex items-center justify-between w-full pb-4 font-bold border-b-2 border-gray-alto "
+            >
+                <div class="flex items-center flex-1 gap-3">
+                                        <div
+                        class="flex-1 pr-2 font-medium text-left typography-body-medium group-hover:opacity-100">
+                        How does Lumen measure my metabolism?
+                    </div>
+                </div>
+                                    <div class="w-5 transition-all duration-200 ease-in-out 2xl:w-6"
+                        :class="0 !== _current ? 'transform -rotate-45' : ''">
+                        <svg class="w-full" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                            viewBox="0 0 26 26" fill="none">
+                            <rect x="6.30603" y="7.60681" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(-45 6.30603 7.60681)" fill="#141414" />
+                            <rect x="18.6652" y="6.57788" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(45 18.6652 6.57788)" fill="#141414" />
+                        </svg>
+                    </div>
+                            </button>
+            <div x-show="0 === _current" x-collapse>
+                <div class="flex">
+                                        <div class="flex-1 pt-4 item-list-content">
+                        <p>When your mitochondria use carbs as fuel, they release more CO₂ into your blood, and when they burn fat, they release less CO₂. Lumen analyzes the CO₂% in your breath and determines if you are using mostly fat or carbs for fuel based on the CO₂ concentration.&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="home-faq-list-item ">
+            <button id="default section-1"
+                @click="if(_current === 1) _current = -1; else _current = 1"
+                class="flex items-center justify-between w-full pb-4 font-bold border-b-2 border-gray-alto "
+            >
+                <div class="flex items-center flex-1 gap-3">
+                                        <div
+                        class="flex-1 pr-2 font-medium text-left typography-body-medium group-hover:opacity-100">
+                        Is Lumen’s technology validated?
+                    </div>
+                </div>
+                                    <div class="w-5 transition-all duration-200 ease-in-out 2xl:w-6"
+                        :class="1 !== _current ? 'transform -rotate-45' : ''">
+                        <svg class="w-full" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                            viewBox="0 0 26 26" fill="none">
+                            <rect x="6.30603" y="7.60681" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(-45 6.30603 7.60681)" fill="#141414" />
+                            <rect x="18.6652" y="6.57788" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(45 18.6652 6.57788)" fill="#141414" />
+                        </svg>
+                    </div>
+                            </button>
+            <div x-show="1 === _current" x-collapse>
+                <div class="flex">
+                                        <div class="flex-1 pt-4 item-list-content">
+                        <p>Lumen&rsquo;s technology is validated by multiple peer-reviewed scientific studies and is proven to measure metabolism as accurately as the gold-standard metabolic cart. Read the <a style="color: #7c57fd;" href="https://www.i-jmr.org/2021/2/e25371" target="_blank" rel="noopener">peer-reviewed paper</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="home-faq-list-item ">
+            <button id="default section-2"
+                @click="if(_current === 2) _current = -1; else _current = 2"
+                class="flex items-center justify-between w-full pb-4 font-bold border-b-2 border-gray-alto "
+            >
+                <div class="flex items-center flex-1 gap-3">
+                                        <div
+                        class="flex-1 pr-2 font-medium text-left typography-body-medium group-hover:opacity-100">
+                        How does metabolic flexibility improve my health?
+                    </div>
+                </div>
+                                    <div class="w-5 transition-all duration-200 ease-in-out 2xl:w-6"
+                        :class="2 !== _current ? 'transform -rotate-45' : ''">
+                        <svg class="w-full" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                            viewBox="0 0 26 26" fill="none">
+                            <rect x="6.30603" y="7.60681" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(-45 6.30603 7.60681)" fill="#141414" />
+                            <rect x="18.6652" y="6.57788" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(45 18.6652 6.57788)" fill="#141414" />
+                        </svg>
+                    </div>
+                            </button>
+            <div x-show="2 === _current" x-collapse>
+                <div class="flex">
+                                        <div class="flex-1 pt-4 item-list-content">
+                        <p>Metabolic flexibility refers to how efficiently your mitochondria switch from burning carbs or fats for fuel, depending on their availability and your body&rsquo;s needs. Being metabolically flexible can be critical for disease prevention and helps with managing weight, improved insulin sensitivity, higher energy levels, better sleep, and even longevity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="home-faq-list-item ">
+            <button id="default section-3"
+                @click="if(_current === 3) _current = -1; else _current = 3"
+                class="flex items-center justify-between w-full pb-4 font-bold border-b-2 border-gray-alto "
+            >
+                <div class="flex items-center flex-1 gap-3">
+                                        <div
+                        class="flex-1 pr-2 font-medium text-left typography-body-medium group-hover:opacity-100">
+                        Do I need the Lumen device to use the premium app features?
+                    </div>
+                </div>
+                                    <div class="w-5 transition-all duration-200 ease-in-out 2xl:w-6"
+                        :class="3 !== _current ? 'transform -rotate-45' : ''">
+                        <svg class="w-full" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                            viewBox="0 0 26 26" fill="none">
+                            <rect x="6.30603" y="7.60681" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(-45 6.30603 7.60681)" fill="#141414" />
+                            <rect x="18.6652" y="6.57788" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(45 18.6652 6.57788)" fill="#141414" />
+                        </svg>
+                    </div>
+                            </button>
+            <div x-show="3 === _current" x-collapse>
+                <div class="flex">
+                                        <div class="flex-1 pt-4 item-list-content">
+                        <p>Yes, the Lumen device and app work together. The Lumen device measures your metabolism through your breath in real-time and the app provides personalized insights and lifestyle guidance based on those measurements.&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="home-faq-list-item ">
+            <button id="default section-4"
+                @click="if(_current === 4) _current = -1; else _current = 4"
+                class="flex items-center justify-between w-full pb-4 font-bold border-b-2 border-gray-alto "
+            >
+                <div class="flex items-center flex-1 gap-3">
+                                        <div
+                        class="flex-1 pr-2 font-medium text-left typography-body-medium group-hover:opacity-100">
+                        How can I pay for Lumen using HSA/FSA?
+                    </div>
+                </div>
+                                    <div class="w-5 transition-all duration-200 ease-in-out 2xl:w-6"
+                        :class="4 !== _current ? 'transform -rotate-45' : ''">
+                        <svg class="w-full" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                            viewBox="0 0 26 26" fill="none">
+                            <rect x="6.30603" y="7.60681" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(-45 6.30603 7.60681)" fill="#141414" />
+                            <rect x="18.6652" y="6.57788" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(45 18.6652 6.57788)" fill="#141414" />
+                        </svg>
+                    </div>
+                            </button>
+            <div x-show="4 === _current" x-collapse>
+                <div class="flex">
+                                        <div class="flex-1 pt-4 item-list-content">
+                        <p>After adding your Lumen to the cart, select &ldquo;HSA|FSA&rdquo; as your checkout option, currently available only for annual or annual Duo memberships.</p>
+<p>&nbsp;</p>
+<p>At checkout, Flex will prompt you to fill in a short health questionnaire to confirm your eligibility to pay with your HSA/FSA.</p>
+<p>From there, enter your HSA/FSA card details and complete your checkout as usual.</p>
+<p>If you don&rsquo;t have an HSA/FSA card, you can complete the checkout with a regular credit or debit card, and Flex will provide you with an itemized receipt to submit for reimbursement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="home-faq-list-item ">
+            <button id="default section-5"
+                @click="if(_current === 5) _current = -1; else _current = 5"
+                class="flex items-center justify-between w-full pb-4 font-bold border-b-2 border-gray-alto "
+            >
+                <div class="flex items-center flex-1 gap-3">
+                                        <div
+                        class="flex-1 pr-2 font-medium text-left typography-body-medium group-hover:opacity-100">
+                        Who is Lumen for?
+                    </div>
+                </div>
+                                    <div class="w-5 transition-all duration-200 ease-in-out 2xl:w-6"
+                        :class="5 !== _current ? 'transform -rotate-45' : ''">
+                        <svg class="w-full" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                            viewBox="0 0 26 26" fill="none">
+                            <rect x="6.30603" y="7.60681" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(-45 6.30603 7.60681)" fill="#141414" />
+                            <rect x="18.6652" y="6.57788" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(45 18.6652 6.57788)" fill="#141414" />
+                        </svg>
+                    </div>
+                            </button>
+            <div x-show="5 === _current" x-collapse>
+                <div class="flex">
+                                        <div class="flex-1 pt-4 item-list-content">
+                        <p>Lumen is for anyone looking to improve their metabolic health, manage their weight, boost their energy levels, support their workout routine, and live happier and longer lives.</p>
+<p>&nbsp;</p>
+<p>If you are under 16 years of age, pregnant, breastfeeding, or suffer from the following conditions, please consult a medical professional before using Lumen:&nbsp;</p>
+<p>Diabetes<br />Severe asthma<br />COPD</p>
+<p>&nbsp;</p>
+<p>Additionally, Lumen's nutritional recommendations may not be suitable for people with:</p>
+<p>Kidney disease<br />Cancer<br />Thyroid disorder</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="home-faq-list-item ">
+            <button id="default section-6"
+                @click="if(_current === 6) _current = -1; else _current = 6"
+                class="flex items-center justify-between w-full pb-4 font-bold border-b-2 border-gray-alto border-none"
+            >
+                <div class="flex items-center flex-1 gap-3">
+                                        <div
+                        class="flex-1 pr-2 font-medium text-left typography-body-medium group-hover:opacity-100">
+                        Is there a warranty?
+                    </div>
+                </div>
+                                    <div class="w-5 transition-all duration-200 ease-in-out 2xl:w-6"
+                        :class="6 !== _current ? 'transform -rotate-45' : ''">
+                        <svg class="w-full" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                            viewBox="0 0 26 26" fill="none">
+                            <rect x="6.30603" y="7.60681" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(-45 6.30603 7.60681)" fill="#141414" />
+                            <rect x="18.6652" y="6.57788" width="2.13333" height="17.4778" rx="1.06667"
+                                transform="rotate(45 18.6652 6.57788)" fill="#141414" />
+                        </svg>
+                    </div>
+                            </button>
+            <div x-show="6 === _current" x-collapse>
+                <div class="flex">
+                                        <div class="flex-1 pt-4 item-list-content">
+                        <p>Yes, we offer a one-year warranty from the date the device is delivered to you. If your device or charging dock are damaged by manufacturing defects during that period, we'll fix or replace them free of charge. You can read our full warranty policy <a style="color: #7c57fd;" href="/terms-of-use#warranty" target="_blank" rel="noopener">here</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    window.xHomeFaq = window.xHomeFaq || function(currentActive,) {
+        return {
+            _current: currentActive,
+        };
+    };
+</script>
+                </div>
+            </section>
+        
+        
+                    <section class="reference-section page-section order-10">
+                <div class="page-section-container">
+                    <p>* As reported in 2024 Lumen user data analysis&nbsp;</p>
+<p>** <a href="https://pubmed.ncbi.nlm.nih.gov/36195053/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/36195053/</a></p>
+                    <div class="divider"></div>
+                </div>
+            </section>
+            </main>
+                        <div x-init="controlPopup()" class="popup-container" :class="{'displayed': $store?.xPopup?.showPopup }" id="popup" style="display:none" ></div>
+<div x-init="controlChat()" id="chat" style="display:none" ></div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-content-logos">
+            <svg width="148" height="28" viewBox="0 0 148 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M124.896 2.02197C119.288 2.02871 114.743 6.57702 114.736 12.1897V25.3361C114.721 25.8783 115.001 26.3862 115.468 26.6619C115.935 26.9376 116.514 26.9376 116.981 26.6619C117.448 26.3862 117.728 25.8783 117.713 25.3361V12.1897C117.764 8.25618 120.965 5.09438 124.896 5.09438C128.827 5.09438 132.028 8.25618 132.079 12.1897V25.3361C132.063 25.8783 132.344 26.3862 132.81 26.6619C133.277 26.9376 133.857 26.9376 134.324 26.6619C134.791 26.3862 135.071 25.8783 135.055 25.3361V12.1897C135.049 6.57721 130.505 2.02871 124.896 2.02197V2.02197Z" fill="#0C0C0C"/>
+    <path d="M72.6993 2.02197C69.4999 2.02537 66.5229 3.6605 64.8018 6.35965C62.56 2.84331 58.2677 1.23029 54.2673 2.40081C50.2668 3.57132 47.5189 7.24429 47.523 11.4154V25.3385C47.523 26.1607 48.189 26.8272 49.0105 26.8272C49.8321 26.8272 50.4981 26.1607 50.4981 25.3385V11.4154C50.4981 7.87327 53.3674 5.00183 56.9068 5.00183C60.4462 5.00183 63.3155 7.87327 63.3155 11.4154V25.3385C63.3155 26.1607 63.9815 26.8272 64.8031 26.8272C65.6246 26.8272 66.2906 26.1607 66.2906 25.3385V11.4154C66.2906 7.87327 69.1599 5.00183 72.6993 5.00183C76.2387 5.00183 79.108 7.87327 79.108 11.4154V25.3385C79.108 26.1607 79.774 26.8272 80.5956 26.8272C81.4172 26.8272 82.0832 26.1607 82.0832 25.3385V11.4154C82.0784 6.23045 77.8803 2.02804 72.6993 2.02197Z" fill="#0C0C0C"/>
+    <path d="M40.4594 2.54053C39.6372 2.54053 38.9706 3.20759 38.9706 4.03046V17.1744C38.9193 21.1079 35.7185 24.2697 31.7876 24.2697C27.8567 24.2697 24.6558 21.1079 24.6046 17.1744V4.03046C24.6046 3.20793 23.9383 2.54114 23.1164 2.54114C22.2945 2.54114 21.6282 3.20793 21.6282 4.03046V17.1744C21.6892 22.746 26.2198 27.2306 31.7876 27.2306C37.3553 27.2306 41.8859 22.746 41.947 17.1744V4.03046C41.947 3.20807 41.2812 2.5412 40.4594 2.54053Z" fill="#0C0C0C"/>
+    <path d="M15.6764 23.8478H10.16C6.19428 23.8437 2.98042 20.6274 2.97638 16.6587V4.02732C2.9533 3.22141 2.29382 2.58008 1.48819 2.58008C0.682558 2.58008 0.0230817 3.22141 0 4.02732V16.6611C0.00606311 22.2741 4.55131 26.8228 10.16 26.8289H15.6764C16.2182 26.8444 16.7257 26.564 17.0012 26.0968C17.2767 25.6296 17.2767 25.0495 17.0012 24.5823C16.7257 24.1151 16.2182 23.8347 15.6764 23.8502V23.8478Z" fill="#0C0C0C"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M86.5518 14.6803C86.5518 7.70034 91.875 2.02197 98.4206 2.02197C104.944 2.21385 110.165 7.50397 110.275 14.0344C110.295 14.4412 110.147 14.8384 109.866 15.1332C109.585 15.4279 109.195 15.5945 108.788 15.594H89.5685C89.8093 20.3664 93.6471 24.1674 98.4182 24.3587C101.238 24.3562 103.916 23.1233 105.752 20.9825C106.098 20.5789 106.634 20.3908 107.156 20.4892C107.678 20.5875 108.109 20.9573 108.285 21.4592C108.461 21.9612 108.356 22.519 108.01 22.9226C105.61 25.7223 102.109 27.3342 98.423 27.3361H98.4084C91.8701 27.3312 86.5518 21.6602 86.5518 14.6803ZM98.4202 4.99773C94.0261 4.99773 90.3106 8.25291 89.7295 12.6118H107.111C106.53 8.25291 102.814 4.99773 98.4202 4.99773Z" fill="#0C0C0C"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M145.396 8.79451C147.024 8.07564 148.053 6.44001 147.998 4.6599C147.992 3.517 147.526 2.42467 146.707 1.62832C145.888 0.831968 144.784 0.398385 143.642 0.424984C141.862 0.421357 140.258 1.4987 139.588 3.14831C138.917 4.79793 139.313 6.68985 140.59 7.93077C141.866 9.17168 143.768 9.51338 145.396 8.79451ZM145.016 1.3908C146.313 1.95425 147.138 3.24748 147.105 4.66147C147.106 5.57461 146.739 6.44954 146.087 7.08841C145.435 7.72727 144.553 8.0761 143.641 8.05601C142.228 8.0596 140.953 7.20596 140.418 5.89709C139.882 4.58823 140.192 3.08508 141.202 2.09554C142.212 1.106 143.72 0.827342 145.016 1.3908ZM145.393 6.18062C145.396 6.42867 145.47 6.67055 145.607 6.87788H144.805C144.678 6.66805 144.616 6.42554 144.626 6.18062L144.59 5.71578C144.554 5.21547 144.412 5.054 143.966 5.054H142.734V6.87788H141.948V2.33837H143.877C144.843 2.33837 145.466 2.78486 145.466 3.60689C145.496 4.06866 145.231 4.49895 144.805 4.67846C145.136 4.82543 145.347 5.15648 145.34 5.51884L145.393 6.18062ZM143.874 3.05112C144.392 3.05112 144.661 3.26502 144.661 3.69403L144.66 3.6928C144.66 4.10348 144.391 4.33449 143.947 4.33571H142.732V3.05112H143.874Z" fill="#0C0C0C"/>
+</svg>
+            <div class="footer-content-social-networks">
+                <a aria-label="Instagram Link" data-l-eventful-on="click" data-l-event="footer-link" target="_blank" href="https://www.instagram.com/lumen.me/">
+                    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="18.9049" cy="8.09537" r="1.215" fill="#0C0C0C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8.30078 13.5001C8.30078 10.6286 10.6286 8.30078 13.5001 8.30078C16.3717 8.30078 18.6995 10.6286 18.6995 13.5001C18.6995 16.3717 16.3717 18.6995 13.5001 18.6995C10.6286 18.6995 8.30078 16.3717 8.30078 13.5001ZM10.1251 13.5001C10.1251 15.3641 11.6362 16.8751 13.5001 16.8751C14.3952 16.8751 15.2537 16.5196 15.8866 15.8866C16.5196 15.2537 16.8751 14.3952 16.8751 13.5001C16.8751 11.6362 15.3641 10.1251 13.5001 10.1251C11.6362 10.1251 10.1251 11.6362 10.1251 13.5001Z" fill="#0C0C0C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.32546 3.43592C10.4054 3.38664 10.7502 3.375 13.5 3.375C16.2498 3.375 16.5946 3.38664 17.6741 3.43634C18.5141 3.45316 19.3451 3.6123 20.1319 3.90698C21.492 4.43291 22.5673 5.50805 23.0934 6.86812C23.3881 7.65475 23.5472 8.48564 23.5641 9.32546C23.6134 10.4054 23.625 10.7502 23.625 13.5C23.625 16.2498 23.6134 16.5946 23.5645 17.6741C23.5477 18.5141 23.3885 19.3451 23.0939 20.1319C22.5678 21.4921 21.4925 22.5674 20.1323 23.0934C19.3455 23.3881 18.5145 23.5473 17.6745 23.5641C16.5946 23.6134 16.2498 23.625 13.5 23.625C10.7502 23.625 10.4054 23.6134 9.32588 23.5645C8.48592 23.5477 7.65488 23.3886 6.86812 23.0939C5.50789 22.5678 4.43258 21.4925 3.90656 20.1323C3.61188 19.3455 3.45274 18.5145 3.43592 17.6745C3.38664 16.5946 3.375 16.2498 3.375 13.5C3.375 10.7502 3.38664 10.4054 3.43592 9.32588C3.45273 8.48592 3.61187 7.65488 3.90656 6.86812C4.43258 5.50789 5.50789 4.43258 6.86812 3.90656C7.65475 3.61192 8.48564 3.45278 9.32546 3.43592ZM17.5913 5.25842C16.5237 5.20965 16.2035 5.19936 13.5 5.19936V5.19927C10.7965 5.19927 10.4763 5.20965 9.40866 5.25833C8.7666 5.26598 8.13064 5.38391 7.52853 5.60697C6.64556 5.94769 5.94765 6.64563 5.60697 7.52861C5.38391 8.13072 5.26598 8.76669 5.25833 9.40874C5.20957 10.4763 5.19927 10.7966 5.19927 13.5001C5.19927 16.2035 5.20965 16.5238 5.25833 17.5914C5.26598 18.2335 5.38391 18.8694 5.60697 19.4716C5.94767 20.3545 6.64557 21.0524 7.52853 21.3931C8.13064 21.6162 8.7666 21.7341 9.40866 21.7417C10.4762 21.7905 10.7963 21.8008 13.5 21.8008C16.2037 21.8008 16.5238 21.7904 17.5913 21.7417C18.2334 21.7341 18.8694 21.6162 19.4715 21.3931C20.3544 21.0524 21.0523 20.3545 21.393 19.4716C21.6161 18.8694 21.734 18.2335 21.7417 17.5914C21.7904 16.5238 21.8007 16.2035 21.8007 13.5001C21.8007 10.7966 21.7903 10.4763 21.7417 9.40874C21.734 8.76669 21.6161 8.13072 21.393 7.52861C21.0523 6.64566 20.3544 5.94776 19.4715 5.60706C18.8694 5.38399 18.2334 5.26606 17.5913 5.25842Z" fill="#0C0C0C"/>
+</svg>
+                </a>
+                <a aria-label="Youtube Link" data-l-eventful-on="click" data-l-event="footer-link" target="_blank" href="https://www.youtube.com/channel/UC3XkEyGUMXfRhZcB0Ve_fQQ?view_as=subscriber">
+                    <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.4808 5.72926C24.4972 6.00286 25.2912 6.79685 25.5648 7.81332C25.9083 9.6892 26.075 11.5932 26.0626 13.5002C26.075 15.4072 25.9083 17.3112 25.5648 19.1871C25.2912 20.2035 24.4972 20.9975 23.4808 21.2711C21.6414 21.7689 14.2501 21.7689 14.2501 21.7689C14.2501 21.7689 6.8589 21.7689 5.01952 21.2711C4.00305 20.9975 3.20906 20.2035 2.93546 19.1871C2.59201 17.3112 2.42534 15.4072 2.43765 13.5002C2.42534 11.5932 2.59201 9.6892 2.93546 7.81332C3.20906 6.79685 4.00305 6.00286 5.01952 5.72926C6.8589 5.23145 14.2501 5.23145 14.2501 5.23145C14.2501 5.23145 21.6414 5.23145 23.4808 5.72926ZM18.0217 13.5002L11.8876 9.95645V17.0439L18.0217 13.5002Z" fill="#0C0C0C"/>
+</svg>
+                </a>
+                <a aria-label="X Link" data-l-eventful-on="click" data-l-event="footer-link" target="_blank" href="https://x.com/LumenMetabolism">
+                    <svg width="24" height="24" viewBox="0 0 20 20"  fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M14.9726 2.59229H17.4873L11.9659 8.87901L18.4166 17.4071H13.3544L9.39106 12.2246L4.85368 17.4071H2.33899L8.18838 10.683L2.01099 2.59229H7.1989L10.7796 7.32647L14.9726 2.59229ZM14.0924 15.9311H15.4865L6.46636 4.01363H4.96848L14.0924 15.9311Z"
+        fill="#0C0C0C" />
+</svg>
+                </a>
+                <a aria-label="Pinterest Link" data-l-eventful-on="click" data-l-event="footer-link" target="_blank" href="https://www.pinterest.com/MyLumen">
+                    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.4998 1.6875C7.85181 1.72596 3.02131 5.75728 1.97298 11.3072C0.924654 16.8572 3.95186 22.3728 9.19666 24.4688C9.02574 23.3502 9.02574 22.2123 9.19666 21.0938L10.5888 15.1875C10.3685 14.6526 10.2594 14.0784 10.2682 13.5C10.2682 11.8631 11.2217 10.6313 12.4029 10.6313C12.836 10.6247 13.2503 10.8076 13.5373 11.1319C13.8243 11.4562 13.9555 11.8897 13.8963 12.3188C13.8963 13.3313 13.2551 14.85 12.9176 16.2506C12.7702 16.7807 12.8904 17.3494 13.2399 17.7744C13.5893 18.1995 14.124 18.4274 14.6726 18.3853C16.7651 18.3853 18.3851 16.1663 18.3851 12.9769C18.4276 11.6664 17.9169 10.3986 16.9778 9.48359C16.0387 8.56861 14.758 8.09094 13.4492 8.1675C12.0525 8.10751 10.6923 8.62195 9.68485 9.5911C8.67745 10.5603 8.11076 11.8996 8.11666 13.2975C8.10728 14.2612 8.40258 15.2032 8.96041 15.9891C9.04277 16.0806 9.07437 16.207 9.04478 16.3266C8.95197 16.6978 8.74947 17.5078 8.71572 17.6681C8.68197 17.8284 8.53853 17.9297 8.31916 17.8284C6.8426 17.1366 5.92291 14.985 5.92291 13.2469C5.92291 9.52594 8.63135 6.10031 13.7276 6.10031C17.8198 6.10031 21.0092 9.01969 21.0092 12.9262C21.0092 16.9931 18.4779 20.2669 14.8751 20.2669C13.802 20.3042 12.7828 19.7962 12.1667 18.9169L11.4326 21.7266C11.0807 22.8185 10.5871 23.8596 9.96447 24.8231C11.1118 25.1622 12.3035 25.3272 13.4998 25.3125C20.0236 25.3125 25.3123 20.0239 25.3123 13.5C25.3123 6.97614 20.0236 1.6875 13.4998 1.6875" fill="#0C0C0C"/>
+</svg>
+                </a>
+                <a aria-label="Facebook Link" data-l-eventful-on="click" data-l-event="footer-link" target="_blank" href="https://www.facebook.com/Lumen.me/">
+                    <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M23.0028 3.375H4.99719C4.37933 3.37959 3.87959 3.87933 3.875 4.49719V22.5028C3.87959 23.1207 4.37933 23.6204 4.99719 23.625H14.6919V15.795H12.0594V12.7322H14.6919V10.4794C14.6919 7.86375 16.2866 6.43781 18.6322 6.43781C19.4169 6.43781 20.2016 6.43781 20.9862 6.55594V9.28125H19.3747C18.1006 9.28125 17.8559 9.88875 17.8559 10.7747V12.7238H20.8934L20.4969 15.7866H17.8559V23.625H23.0028C23.6207 23.6204 24.1204 23.1207 24.125 22.5028V4.49719C24.1204 3.87933 23.6207 3.37959 23.0028 3.375Z" fill="#0C0C0C"/>
+</svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-content-top">
+            <div class="footer-content-top-middle">
+                <div class="footer-content-site-links">
+                    <div class="footer-content-site-links-column">
+                        <h3>Company</h3>
+
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/about">About</a>
+                                                <a data-l-eventful-on="click" data-l-event="footer-link" target="_blank" href="https://help.lumen.me/s/">
+                            Help center                        </a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" target="_blank" href="https://help.lumen.me/s/contactsupport">
+                            Contact us                        </a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" target="_blank" href="mailto:security@lumen.me">Information security</a>
+                    </div>
+                    <div class="footer-content-site-links-column">
+                        <h3>Resources</h3>
+
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/metabolic-flexibility">Metabolic Flexibility</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/how-lumen-works">How Lumen works</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/intermittent-fasting">Intermittent Fasting</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/lumen-reviews">Reviews</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/press">Press</a>
+                        <div class="footer-content-site-links-column-row">
+                            <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/blog">Blog</a>
+                            <span class="px-1 sm:px-2">|</span>
+                            <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/vlog">Vlog</a>
+                        </div>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/faq">FAQ</a>
+                    </div>
+                    <div class="footer-content-site-links-column">
+                        <h3>Partner</h3>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/research">Research with Lumen</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/experts">Influencer Program</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/affiliates">Affiliate program</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/health-professionals">Health Professionals</a>
+                    </div>
+                    <div class="footer-content-site-links-column">
+                        <h3>Legal</h3>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/terms-of-use">Terms of use</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/privacy-policy">Privacy policy</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/consumer-health-privacy-policy">Consumer health privacy policy</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/terms-of-use#refund">Refund policy</a>
+                        <a data-l-eventful-on="click" data-l-event="footer-link" href="https://www.lumen.me/terms-of-use#warranty">Warranty</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-content-top-right">
+                <div class="footer-content-newsletter-subscription">
+                    <h3>Subscribe to the Lumen newsletter.</h3>
+                    <p>Sign up to receive $20 off along with the latest insights about metabolic health.</p>
+                    <div
+    x-data="xSubscribe('footer')"
+>
+    <form
+        x-show="!st"
+        x-on:submit.prevent="submit(email)"
+        x-data="{email: ''}"
+        method="post"
+        action="#"
+        class="space-y-3" ga-action="footer" data-input-bg="transparent"
+    >
+        <div z-id="form-input" x-data="{bg:'bg-transparent', current_bg: $el.parentNode.dataset.inputBg}"
+     dir="ltr"
+     class="form-field relative border border-transparent px-5 flex focus-within:border-red py-4 rounded-sm"
+     x-bind:class="current_bg">
+        <input placeholder="Enter your email" x-bind:class="bg" @input="bg = $el.value.length ? current_bg : 'bg-transparent'"
+           class="absolute top-0 start-0 w-full px-5 py-4 rounded-sm focus:outline-none"
+           type="email" name="email"
+           id="email_sf67fa28c9911c2" x-model="email" autocomplete="email" dir="ltr" minlength="7"
+           aria-label="Email"
+            required >
+</div>
+                <button
+            type="submit"
+            class="w-[49px] h-[49px] flex items-center justify-center bg-purple-smooze rounded-full absolute right-0 top-0 bottom-0 "
+        >
+                            <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1.1998 8.16621C1.1998 7.73128 1.55238 7.37871 1.98731 7.37871L10.8073 7.37871L6.94855 3.51996C6.64411 3.21551 6.64411 2.72191 6.94855 2.41746C7.253 2.11301 7.7466 2.11301 8.05105 2.41746L12.8099 7.17626C13.3566 7.723 13.3566 8.60943 12.8099 9.15616L8.05105 13.915C7.7466 14.2194 7.253 14.2194 6.94855 13.915C6.64411 13.6105 6.64411 13.1169 6.94855 12.8125L10.8073 8.95372L1.98731 8.95372C1.55238 8.95372 1.1998 8.60114 1.1998 8.16621Z" fill="#7C57FD"/>
+</svg>
+                    </button>
+        <input type="hidden" name="_token" value="b4m1x2luDi2dffsGgEYoc9HYjXKCdCuOvLBLgZd9" autocomplete="off">    </form>
+    <div x-show="st">
+                    <div
+                class="text-lumen-secondary text-sm p-0">
+                                    <div class="py-2 font-bold">
+                        Thanks for subscribing!
+                    </div>
+                                As a special thank you, save $20 on your order by using
+                <span class="font-bold">20ME</span>.
+            </div>
+            </div>
+</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-content-bottom">
+            <div class="footer-content-bottom-left">
+                <div class="footer-content-payment">
+                    <div>Secure Checkout</div>
+                    <div class="footer-content-payment-methods">
+                        <svg width="24" height="17" viewBox="0 0 24 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_11513_8601)">
+<path d="M0 2.5C0 1.39543 0.895431 0.5 2 0.5H22C23.1046 0.5 24 1.39543 24 2.5V14.5C24 15.6046 23.1046 16.5 22 16.5H2C0.89543 16.5 0 15.6046 0 14.5V2.5Z" fill="#D8E3F3"/>
+<path d="M20.6548 5.51758H19.3975C19.0174 5.51758 18.725 5.63454 18.5495 6.01465L16.1519 11.4825H17.8478C17.8478 11.4825 18.1402 10.7515 18.1986 10.5761C18.3741 10.5761 20.0407 10.5761 20.2747 10.5761C20.3331 10.7807 20.4793 11.4533 20.4793 11.4533H21.9998L20.6548 5.51758ZM18.6665 9.34799C18.8127 8.99711 19.3097 7.68132 19.3097 7.68132C19.3097 7.71056 19.4559 7.33044 19.5144 7.12577L19.6314 7.65208C19.6314 7.65208 19.953 9.08483 20.0115 9.37723H18.6665V9.34799Z" fill="#3362AB"/>
+<path d="M16.2692 9.52325C16.2692 10.7513 15.1581 11.57 13.433 11.57C12.702 11.57 12.0002 11.4238 11.6201 11.2484L11.854 9.90337L12.0587 9.99109C12.585 10.225 12.9359 10.3127 13.5792 10.3127C14.047 10.3127 14.5441 10.1373 14.5441 9.72793C14.5441 9.46478 14.3394 9.28934 13.6961 8.99694C13.0821 8.70454 12.2634 8.23671 12.2634 7.38875C12.2634 6.21916 13.4037 5.42969 15.0119 5.42969C15.626 5.42969 16.1523 5.54665 16.4739 5.69285L16.24 6.9794L16.123 6.86244C15.8306 6.74548 15.4505 6.62852 14.895 6.62852C14.2809 6.65776 13.9885 6.92092 13.9885 7.15483C13.9885 7.41799 14.3394 7.62267 14.895 7.88583C15.8306 8.32442 16.2692 8.8215 16.2692 9.52325Z" fill="#3362AB"/>
+<path d="M2 5.57594L2.02924 5.45898H4.54386C4.89474 5.45898 5.15789 5.57594 5.24561 5.95606L5.80117 8.58764C5.24561 7.18413 3.95906 6.04378 2 5.57594Z" fill="#F9B50B"/>
+<path d="M9.33939 5.51752L6.79553 11.4532H5.07039L3.6084 6.48243C4.66103 7.15495 5.53822 8.20758 5.85986 8.93857L6.0353 9.55261L7.61425 5.48828H9.33939V5.51752Z" fill="#3362AB"/>
+<path d="M10.0117 5.48828H11.6199L10.5965 11.4532H8.98828L10.0117 5.48828Z" fill="#3362AB"/>
+</g>
+<defs>
+<clipPath id="clip0_11513_8601">
+<rect width="24" height="16" fill="white" transform="translate(0 0.5)"/>
+</clipPath>
+</defs>
+</svg>
+                        <svg width="24" height="17" viewBox="0 0 24 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_11513_8603)">
+<path d="M0 2.5C0 1.39543 0.895431 0.5 2 0.5H22C23.1046 0.5 24 1.39543 24 2.5V14.5C24 15.6046 23.1046 16.5 22 16.5H2C0.89543 16.5 0 15.6046 0 14.5V2.5Z" fill="#FDEACE"/>
+<path d="M14.5044 3.76398L9.33984 3.78174L9.49634 13.2367L14.6609 13.2189L14.5044 3.76398Z" fill="#FF5F00"/>
+<path d="M9.6798 8.52808C9.64784 6.60503 10.5093 4.89632 11.8586 3.78797C10.8401 2.98875 9.56328 2.50815 8.17913 2.51289C4.90002 2.52412 2.29181 5.22548 2.34711 8.5532C2.40241 11.8809 5.1001 14.5641 8.37922 14.5529C9.76336 14.5481 11.0241 14.0588 12.0159 13.2527C10.6302 12.1705 9.71176 10.4511 9.6798 8.52808Z" fill="#EB001B"/>
+<path d="M21.6536 8.44711C21.7089 11.7748 19.1007 14.4762 15.8216 14.4874C14.4374 14.4922 13.1606 14.0116 12.1421 13.2123C13.5079 12.1039 14.3529 10.3953 14.3209 8.47222C14.2889 6.54917 13.3708 4.84655 11.9848 3.74757C12.9766 2.94146 14.2373 2.45217 15.6215 2.44743C18.9006 2.4362 21.5986 5.13611 21.6536 8.44711Z" fill="#F79E1B"/>
+</g>
+<defs>
+<clipPath id="clip0_11513_8603">
+<rect width="24" height="16" fill="white" transform="translate(0 0.5)"/>
+</clipPath>
+</defs>
+</svg>
+                        <svg width="24" height="17" viewBox="0 0 24 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_11513_8604)">
+<path d="M0 2.5C0 1.39543 0.895431 0.5 2 0.5H22C23.1046 0.5 24 1.39543 24 2.5V14.5C24 15.6046 23.1046 16.5 22 16.5H2C0.89543 16.5 0 15.6046 0 14.5V2.5Z" fill="#D4DEF7"/>
+<path d="M17.7114 5.43538L17.247 6.45908H18.1783L17.7114 5.43538ZM12.3528 6.06974C12.4403 6.0282 12.4919 5.93783 12.4919 5.82562C12.4919 5.71565 12.4377 5.636 12.3502 5.59858C12.2705 5.55709 12.1478 5.5523 12.0302 5.5523H11.1994V6.12268H12.0191C12.1504 6.12271 12.2601 6.12096 12.3528 6.06974ZM1.70733 5.43538L1.24821 6.45908H2.16922L1.70733 5.43538ZM23.0832 11.9935H21.7803V11.4427H23.0779C23.2066 11.4427 23.2967 11.4274 23.3509 11.3791C23.4022 11.336 23.4312 11.2752 23.4307 11.2116C23.4307 11.1368 23.398 11.0773 23.3482 11.0418C23.2993 11.0026 23.228 10.9847 23.1105 10.9847C22.477 10.9651 21.6867 11.0025 21.6867 10.1897C21.6867 9.81722 21.9467 9.42508 22.6547 9.42508H23.9986V8.91403H22.75C22.3732 8.91403 22.0994 8.99613 21.9056 9.12383V8.91403H20.0587C19.7634 8.91403 19.4168 8.98062 19.2528 9.12383V8.91403H15.9546V9.12383C15.6922 8.95155 15.2492 8.91403 15.0449 8.91403H12.8694V9.12383C12.6618 8.94088 12.1999 8.91403 11.9185 8.91403H9.48381L8.92675 9.46256L8.40492 8.91403H4.76792V12.4982H8.3363L8.91032 11.9409L9.4511 12.4982L11.6507 12.5V11.6569H11.867C12.1588 11.6611 12.503 11.6503 12.8067 11.5309V12.4981H14.621V11.5639H14.7085C14.8201 11.5639 14.8312 11.5682 14.8312 11.6697V12.4979H20.3427C20.6926 12.4979 21.0584 12.4165 21.2609 12.2685V12.4979H23.0092C23.3729 12.4979 23.7282 12.4515 23.9986 12.3328V11.6651C23.8347 11.8831 23.5152 11.9936 23.0831 11.9936L23.0832 11.9935ZM11.8959 11.1472H11.054V12.0087H9.74264L8.91185 11.1585L8.04851 12.0087H5.37602V9.44021H8.08962L8.91967 10.2822L9.77784 9.44021H11.9337C12.4691 9.44021 13.0707 9.5751 13.0707 10.2864C13.0707 10.9999 12.4856 11.1472 11.8959 11.1472ZM15.9439 11.0307C16.0392 11.1561 16.053 11.2731 16.0558 11.4996V12.0087H15.3783V11.6874C15.3783 11.5329 15.3947 11.3041 15.2693 11.1846C15.1708 11.0927 15.0205 11.0707 14.7743 11.0707H14.0533V12.0087H13.3754V9.44024H14.9329C15.2746 9.44024 15.5234 9.45406 15.7448 9.56143C15.9577 9.67847 16.0917 9.83881 16.0917 10.1318C16.0916 10.5417 15.7911 10.7509 15.6135 10.8151C15.7636 10.8655 15.8863 10.9559 15.9439 11.0307ZM18.7309 9.97142H17.151V10.4383H18.6923V10.9624H17.151V11.4735L18.7309 11.4757V12.0087H16.4791V9.44021H18.7309V9.97142ZM20.4646 12.0087H19.1506V11.4579H20.4594C20.5874 11.4579 20.6781 11.4425 20.735 11.3943C20.7814 11.3546 20.8147 11.2968 20.8147 11.2269C20.8147 11.1519 20.7786 11.0925 20.7324 11.0569C20.6808 11.0177 20.6095 11 20.4921 11C19.8611 10.9803 19.071 11.0177 19.071 10.2049C19.071 9.83238 19.3283 9.44024 20.0356 9.44024H21.3883V9.98684H20.1505C20.0279 9.98684 19.9481 9.99111 19.8803 10.0334C19.8063 10.075 19.7789 10.1366 19.7789 10.2181C19.7789 10.3149 19.8417 10.3809 19.9265 10.4094C19.9977 10.4319 20.0741 10.4385 20.1891 10.4385L20.5523 10.4475C20.9184 10.4555 21.1699 10.5133 21.3228 10.654C21.454 10.7777 21.5246 10.9338 21.5246 11.1982C21.5245 11.7507 21.145 12.0087 20.4646 12.0087ZM15.2319 10.0128C15.1504 9.96879 15.0301 9.96645 14.91 9.96645H14.0792V10.5433H14.8989C15.0301 10.5433 15.1417 10.5391 15.2319 10.4904C15.3193 10.4423 15.3717 10.3537 15.3717 10.2438C15.3717 10.134 15.3193 10.0544 15.2319 10.0128ZM22.7702 9.96639C22.6475 9.96639 22.5659 9.97063 22.4972 10.0128C22.426 10.0545 22.3987 10.1161 22.3987 10.1976C22.3987 10.2944 22.4588 10.3604 22.5462 10.3889C22.6174 10.4115 22.6938 10.418 22.8061 10.418L23.1719 10.4269C23.5408 10.4352 23.7872 10.493 23.9374 10.6337C23.9648 10.6533 23.9812 10.6752 24 10.6973V9.96645H22.7703L22.7702 9.96639ZM11.9192 9.96639H11.0395V10.6206H11.9114C12.1706 10.6206 12.3318 10.5035 12.3319 10.2813C12.3318 10.0567 12.1628 9.96639 11.9192 9.96639ZM6.04801 9.96639V10.4334H7.52915V10.9575H6.04801V11.4684H7.70678L8.47748 10.7149L7.73952 9.96639H6.04801ZM10.3795 11.7626V9.70336L9.34365 10.7164L10.3795 11.7626ZM6.10462 7.63873V8.08129H11.7414L11.7387 7.14504H11.8478C11.9242 7.14746 11.9464 7.15386 11.9464 7.26859V8.08132H14.8618V7.86334C15.097 7.97798 15.4627 8.08132 15.9439 8.08132H17.1704L17.4329 7.51097H18.0149L18.2716 8.08132H20.635V7.53954L20.9929 8.08129H22.8869V4.5H21.0125V4.92296L20.7501 4.5H18.8267V4.92296L18.5857 4.5H15.9877C15.5528 4.5 15.1706 4.55522 14.8618 4.70913V4.5H13.0689V4.70913C12.8724 4.55049 12.6046 4.5 12.307 4.5H5.75699L5.31753 5.42504L4.8662 4.5H2.80317V4.92296L2.57649 4.5H0.817064L3.07699e-05 6.20282V7.5649L1.20818 4.99699H2.21063L3.35804 7.42826V4.99699H4.45927L5.34221 6.73899L6.15336 4.99699H7.27668V7.5649H6.58513L6.5826 5.55376L5.60424 7.5649H5.01186L4.03101 5.55198V7.5649H2.65867L2.39944 6.99212H0.994668L0.732754 7.5649H0V8.0815H1.15283L1.41274 7.51111H1.99472L2.25396 8.0815H4.5221V7.64539L4.72453 8.08331H5.90197L6.10444 7.63882L6.10462 7.63873ZM14.987 5.29631C15.205 5.09136 15.5466 4.99685 16.0115 4.99685H16.6647V5.54707H16.0252C15.7791 5.54707 15.64 5.58038 15.5061 5.69923C15.391 5.80733 15.3121 6.01172 15.3121 6.28086C15.3121 6.55598 15.3723 6.75433 15.4976 6.8839C15.6015 6.98552 15.7903 7.01634 15.9679 7.01634H16.271L17.2219 4.99693H18.2327L19.375 7.42577V4.99696H20.4023L21.5883 6.78536V4.99696H22.2794V7.56478H21.3233L20.0444 5.63746V7.56478H18.6704L18.4078 6.992H17.0063L16.7516 7.56478H15.962C15.6341 7.56478 15.2189 7.49881 14.9837 7.28075C14.7466 7.06274 14.6233 6.76739 14.6233 6.30046C14.6232 5.91957 14.6968 5.57144 14.987 5.29631ZM13.5992 4.99688H14.2876V7.56478H13.5992V4.99688ZM10.4955 4.99688H12.0472C12.392 4.99688 12.6462 5.0052 12.8643 5.11988C13.0777 5.23458 13.2057 5.40204 13.2057 5.68842C13.2057 6.09788 12.9053 6.30937 12.7303 6.37292C12.8779 6.42405 13.0041 6.51435 13.0642 6.58915C13.1594 6.71688 13.1758 6.83097 13.1758 7.06028V7.56475H12.4953L12.4928 7.24092C12.4928 7.08637 12.509 6.86415 12.3863 6.74069C12.2877 6.65041 12.1374 6.63075 11.8945 6.63075H11.1702V7.56478H10.4956L10.4955 4.99688ZM7.77562 4.99688H10.0295V5.53162H8.45037V5.99448H9.99157V6.52087H8.45037V7.0337H10.0295V7.56475H7.77562V4.99688Z" fill="#2557D6"/>
+</g>
+<defs>
+<clipPath id="clip0_11513_8604">
+<rect width="24" height="16" fill="white" transform="translate(0 0.5)"/>
+</clipPath>
+</defs>
+</svg>
+                        <svg width="24" height="17" viewBox="0 0 24 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_11513_8605)">
+<path d="M0 2.5C0 1.39543 0.895431 0.5 2 0.5H22C23.1046 0.5 24 1.39543 24 2.5V14.5C24 15.6046 23.1046 16.5 22 16.5H2C0.89543 16.5 0 15.6046 0 14.5V2.5Z" fill="#FCE0CF"/>
+<path d="M14.2901 8.49115C14.292 8.06129 14.1308 7.63081 13.8064 7.30641C13.4814 6.98134 13.0498 6.8203 12.6191 6.82289C12.617 6.82289 12.615 6.82275 12.6129 6.82275C11.6775 6.82275 10.9355 7.56452 10.9355 8.50016C10.9355 9.42657 11.6866 10.1774 12.6129 10.1774C13.5485 10.1774 14.2904 9.43554 14.2904 8.50016C14.2904 8.49709 14.2901 8.49419 14.2901 8.49115Z" fill="#F26E21"/>
+<path d="M10.6237 9.20979C10.373 9.46077 10.1416 9.55882 9.89234 9.56413C9.28516 9.55869 8.83875 9.10902 8.83875 8.46794C8.83875 8.14523 8.96094 7.88074 9.1545 7.65479C9.33602 7.48247 9.56986 7.37112 9.83877 7.37112C10.129 7.37112 10.3549 7.46788 10.6128 7.72595V6.98404C10.355 6.85508 10.129 6.79053 9.83877 6.79053C9.42871 6.81984 9.04208 6.98552 8.74552 7.24568C8.66005 7.32259 8.57814 7.40748 8.50869 7.50464C8.29206 7.78541 8.16113 8.12922 8.16113 8.50032C8.16113 9.43565 8.9033 10.1453 9.83872 10.1453C9.84327 10.1453 9.84778 10.1449 9.85219 10.1449C9.85848 10.1449 9.86468 10.1453 9.87093 10.1453C10.129 10.1453 10.3549 10.0809 10.6452 9.95188L10.6237 9.20979C10.6128 9.22068 10.6345 9.23081 10.6237 9.24111V9.20979Z" fill="#2B2B2B"/>
+<path d="M16.4082 7.25253L15.6777 9.04861L14.8389 6.91943H14.1616L15.4841 10.1775H15.8389L17.226 6.91943H16.5487L16.4082 7.25253Z" fill="#2B2B2B"/>
+<path d="M17.4839 8.33882V10.0809H19.2259H19.258V9.56456H18.7097H18.129V8.98406V8.69383H19.2259V8.14526H18.129V7.46791H19.258V6.91943H17.4839V8.33882Z" fill="#2B2B2B"/>
+<path d="M2.90339 6.91943H2V10.0809H2.90334C3.38714 10.0809 3.74192 9.95173 4.03224 9.72591C4.38702 9.43559 4.61292 8.9841 4.61292 8.50031C4.61296 7.56458 3.93543 6.91943 2.90339 6.91943ZM3.64525 9.30667C3.45169 9.46789 3.19362 9.56456 2.8065 9.56456H2.61294V7.46786H2.7742C3.16132 7.46786 3.41939 7.53237 3.61299 7.72584C3.83876 7.91927 3.96786 8.20977 3.96786 8.50018C4.00012 8.79049 3.87111 9.11293 3.64525 9.30667Z" fill="#2B2B2B"/>
+<path d="M5.51621 6.91895H4.90332V10.0803H5.51621V6.91895Z" fill="#2B2B2B"/>
+<path d="M7.06435 8.14511C6.67731 8.0161 6.58042 7.91925 6.58042 7.75803C6.58042 7.56447 6.77398 7.40321 7.03205 7.40321C7.22561 7.40321 7.38688 7.46776 7.54818 7.66132L7.87084 7.24199C7.61269 7.01608 7.29025 6.88721 6.93538 6.88721C6.38686 6.88721 5.93523 7.27433 5.93523 7.79028C5.93523 8.242 6.12897 8.43552 6.70952 8.66133C6.96759 8.75796 7.06439 8.79034 7.12903 8.85485C7.25782 8.91926 7.32246 9.04841 7.32246 9.17729C7.32246 9.4354 7.12903 9.629 6.83853 9.629C6.54795 9.629 6.2901 9.46774 6.16105 9.20963L5.77393 9.59675C6.06438 10.0161 6.4192 10.2096 6.87083 10.2096C7.51593 10.2096 7.96734 9.79027 7.96734 9.17729C7.96742 8.62903 7.77404 8.40322 7.06435 8.14511Z" fill="#2B2B2B"/>
+<path d="M20.9999 8.75811C21.4836 8.66148 21.7418 8.33878 21.7418 7.85503C21.7418 7.27448 21.3224 6.91943 20.6128 6.91943H19.6772V10.0809H20.2901V8.82266H20.387L21.2578 10.0809H21.9998L20.9999 8.75811ZM20.4836 8.37099H20.2902V7.40336H20.4836C20.8707 7.40336 21.0966 7.56458 21.0966 7.88737C21.0966 8.20981 20.8708 8.37099 20.4836 8.37099Z" fill="#2B2B2B"/>
+</g>
+<defs>
+<clipPath id="clip0_11513_8605">
+<rect width="24" height="16" fill="white" transform="translate(0 0.5)"/>
+</clipPath>
+</defs>
+</svg>
+                        <svg width="24" height="17" viewBox="0 0 24 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_11513_8606)">
+<path d="M0 2.5C0 1.39543 0.895431 0.5 2 0.5H22C23.1046 0.5 24 1.39543 24 2.5V14.5C24 15.6046 23.1046 16.5 22 16.5H2C0.89543 16.5 0 15.6046 0 14.5V2.5Z" fill="#FAFAFA"/>
+<mask id="mask0_11513_8606" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="4" width="20" height="9">
+<path d="M22 4.29785H2V12.2783H22V4.29785Z" fill="white"/>
+</mask>
+<g mask="url(#mask0_11513_8606)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3.31136 11.5907C3.06401 11.5907 2.938 11.4689 2.938 11.2687C2.938 10.8953 3.35429 10.7698 4.1136 10.6891C4.1136 11.1865 3.77711 11.5907 3.30902 11.5907H3.31136ZM3.63804 8.79288C3.09528 8.79288 2.47131 9.04817 2.1325 9.31838L2.44191 9.97175C2.71353 9.723 3.15268 9.51019 3.5489 9.51019C3.92552 9.51019 4.13366 9.6362 4.13366 9.89008C4.13366 10.0604 3.99599 10.1468 3.73558 10.1808C2.76206 10.3068 1.99902 10.5756 1.99902 11.3256C1.99902 11.9202 2.42231 12.28 3.08361 12.28C3.5559 12.28 3.97592 12.0177 4.17567 11.6733V12.1867H5.05584V10.0357C5.05584 9.14898 4.44028 8.79102 3.63851 8.79102L3.63804 8.79288Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.4717 8.88935V12.1823H13.4135V10.5956C13.4135 9.84186 13.8699 9.62018 14.1877 9.62018C14.3308 9.61906 14.4709 9.6605 14.5905 9.73919L14.7627 8.86882C14.6292 8.8154 14.4863 8.78952 14.3426 8.79275C13.8587 8.79275 13.5544 9.00695 13.3537 9.44284V8.88935H12.4717Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.1274 8.79297C18.6294 8.79297 18.257 9.08699 18.0633 9.37074C17.8836 9.00439 17.5033 8.79297 17.0459 8.79297C16.5484 8.79297 16.2036 9.06926 16.0444 9.38754V8.88957H15.1362V12.1825H16.0789V10.4871C16.0789 9.88037 16.3977 9.58682 16.695 9.58682C16.9643 9.58682 17.2116 9.76089 17.2116 10.2103V12.1825H18.1524V10.4871C18.1524 9.8715 18.4633 9.58682 18.7745 9.58682C19.0238 9.58682 19.2879 9.76789 19.2879 10.2038V12.1825H20.2288V9.90603C20.2288 9.16633 19.7308 8.79297 19.1292 8.79297" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.1801 8.88967H9.32699V8.55505C9.32699 8.11916 9.57573 7.99502 9.78995 7.99502C9.93621 7.99693 10.08 8.03288 10.21 8.10003L10.5002 7.43593C10.5002 7.43593 10.2058 7.24365 9.67047 7.24365C9.06891 7.24365 8.38428 7.58294 8.38428 8.64746V8.88967H6.95854V8.55505C6.95854 8.11916 7.20682 7.99502 7.42149 7.99502C7.56799 7.99501 7.71224 8.03108 7.84151 8.10003L8.1318 7.43593C7.95865 7.33466 7.68004 7.24365 7.30249 7.24365C6.70092 7.24365 6.01629 7.58294 6.01629 8.64746V8.88967H5.47119V9.61583H6.01769V12.1826H6.95854V9.61583H8.38614V12.1826H9.32699V9.61583H10.1801V8.88967Z" fill="black"/>
+<path d="M11.6821 8.88965H10.7422V12.1812H11.6821V8.88965Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.7769 8.3301H11.6976C12.2348 6.64114 14.0572 5.1566 16.2245 5.1566C18.8604 5.1566 21.1383 7.16337 21.1383 10.2874C21.1463 10.9286 21.0582 11.5675 20.877 12.1826H21.7707L21.7795 12.1518C21.9301 11.5428 22.0044 10.9175 22.0008 10.2902C22.0008 6.80635 19.462 4.29883 16.2264 4.29883C13.6848 4.29883 11.4195 6.06292 10.7773 8.33103L10.7769 8.3301Z" fill="#4A4AF4"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_11513_8606">
+<rect width="24" height="16" fill="white" transform="translate(0 0.5)"/>
+</clipPath>
+</defs>
+</svg>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-content-bottom-right">
+                <div class="footer-content-copyright">
+                    Copyright ©2025 - Metaflow LTD. - All rights reserved.                </div>
+            </div>
+        </div>
+            </div>
+</footer>
+
+<script>
+    let popup_data = JSON.parse('{\u0022max_show_count\u0022:1,\u0022wait_time\u0022:10,\u0022redirect_time\u0022:3,\u0022is_url_included\u0022:false,\u0022popup_id\u0022:0,\u0022scrolling_trigger\u0022:\u0022\u0022,\u0022floating_widget_show\u0022:false,\u0022floating_widget_text\u0022:\u0022\u0022}');
+    let page_settings_data = JSON.parse('{\u0022show_chat\u0022:false}');
+
+    const initChat = () => {
+        if (page_settings_data.show_chat) {
+            console.log('Intercom executed!');
+            window.intercomSettings = {
+                api_base: "https://api-iam.intercom.io",
+                app_id: "pbrl98x1",
+                
+                
+            };
+            (function () {
+                var w = window;
+                var ic = w.Intercom;
+                if (typeof ic === "function") {
+                    ic('reattach_activator');
+                    ic('update', w.intercomSettings);
+                } else {
+                    var d = document;
+                    var i = function () {
+                        i.c(arguments);
+                    };
+                    i.q = [];
+                    i.c = function (args) {
+                        i.q.push(args);
+                    };
+                    w.Intercom = i;
+                    var l = function () {
+                        var s = d.createElement('script');
+                        s.type = 'text/javascript';
+                        s.async = true;
+                        s.src = 'https://widget.intercom.io/widget/pbrl98x1';
+                        var x = d.getElementsByTagName('script')[0];
+                        x.parentNode.insertBefore(s, x);
+                    };
+                    if (document.readyState === 'complete') {
+                        l();
+                    } else if (w.attachEvent) {
+                        w.attachEvent('onload', l);
+                    } else {
+                        w.addEventListener('load', l, false);
+                    }
+                }
+            })();
+            Intercom('hide');
+        }
+    }
+
+    const controlChat = () => {
+        initChat();
+    }
+
+    const forceShowPopup = () => {
+        showPopup(popup_data.popup_id, popup_data.is_url_included, popup_data.max_show_count, true);
+    }
+
+    const controlPopupIntersectionBased = () => {
+        // opener and closer observer control show/hiding of popup when scrolling
+        const openerObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && !Alpine.store('xPopup').alreadyClosed) {
+                    if (Alpine.store('xPopup').alreadyDisplayed) {
+                        Alpine.store('xPopup').showPopup = true;
+                    } else {
+                        showPopup(popup_data.popup_id, popup_data.is_url_included, popup_data.max_show_count);
+                    }
+                }
+            });
+        });
+
+        const closerObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    if (Alpine.store('xPopup').showPopup && window.innerWidth < 768) {
+                        Alpine.store('xPopup').showPopup = false;
+                    }
+                }
+            });
+        });
+
+        if (popup_data.scrolling_trigger !== '') {
+            const trigger_element = document.getElementById(popup_data.scrolling_trigger);
+            if (trigger_element !== null) {
+                openerObserver.observe(trigger_element);
+            }
+            const closer_trigger_element = document.getElementById('pricing-1');
+
+            if (closer_trigger_element !== null) {
+                closerObserver.observe(closer_trigger_element);
+            }
+        }
+    }
+
+    const debounce = (method, delay) => {
+        clearTimeout(method._tId);
+        method._tId = setTimeout(function() {
+            method();
+        }, delay);
+    }
+
+    const controlPopupScrollDepthBased = () => {
+        const checkScrollDepth = () => {
+            if (Alpine.store('xPopup').showPopup) {
+                return;
+            }
+
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+            if (scrollTop >= parseInt(popup_data.scrolling_trigger)) {
+                if (!Alpine.store('xPopup').alreadyClosed) {
+                    if (Alpine.store('xPopup').alreadyDisplayed) {
+                        Alpine.store('xPopup').showPopup = true;
+                    } else {
+                        showPopup(popup_data.popup_id, popup_data.is_url_included, popup_data.max_show_count);
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('scroll', ()=>debounce(checkScrollDepth, 100));
+    }
+
+    const controlPopup = () => {
+        if (popup_data.popup_id === 3) {
+            controlPopupScrollDepthBased();
+        } else {
+            controlPopupIntersectionBased();
+        }
+    }
+
+    const showPopup = function (popup_id, is_url_included, max_show_count, force_show = false) {
+        if (!is_url_included) {
+            return null;
+        }
+
+        const matchContactInfo = document.cookie.match('contact_info=(?<contact_info>[^;]+)');
+        const has_contact_info = matchContactInfo ? matchContactInfo.groups.contact_info : null;
+
+        if (has_contact_info === "1" && !force_show) {
+            return null;
+        }
+
+        const matchPopupShown = document.cookie.match('popup_shown_count_' + popup_id +'=(?<popup_shown_count>[^;]+)');
+        let popup_shown_count = matchPopupShown ? parseInt(matchPopupShown.groups.popup_shown_count) : NaN;
+
+        const one_year_of_milliseconds = 365 * 24 * 60 * 60 * 1000;
+
+        if (isNaN(popup_shown_count)) {
+            const d = new Date();
+            d.setTime(d.getTime() + one_year_of_milliseconds);
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = "popup_shown_count_" + popup_id + "=0;" + expires + ";path=/";
+
+            popup_shown_count = 0;
+        }
+
+        if (popup_shown_count >= max_show_count && !force_show) {
+            return null;
+        }
+
+        fetch('/popup/' + popup_id, {
+            method: 'GET',
+            credentials: 'same-origin',
+        })
+            .then(r => {
+                const popupDiv = document.getElementById("popup");
+                r.text().then((text) => {
+                    popupDiv.innerHTML = text;
+                    popupDiv.style.display = "block";
+                    const d = new Date();
+                    d.setTime(d.getTime() + one_year_of_milliseconds);
+                    let expires = "expires=" + d.toUTCString();
+                    popup_shown_count++;
+                    document.cookie = "popup_shown_count_" + popup_id + "=" + popup_shown_count + ";" + expires + ";path=/";
+
+                    setTimeout(function () {
+                        Alpine.store('xPopup').showPopup = true;
+                        Alpine.store('xPopup').alreadyDisplayed = true;
+                    }, 100);
+
+                    Lumen.ga4('popup_view', {
+                        section : 'popup' + popup_data.popup_id,
+                    });
+                });
+
+                return r.body;
+            })
+
+    }
+    const popupData = (content) => {
+        return {
+            selectedAnswer: '',
+            email: '',
+            answerInsight: '',
+            answerIncentive: '',
+            countDownNum: popup_data.redirect_time,
+            isSubmit: false,
+            errEmail: false,
+            errAnswer: false,
+            emailErrorMessage: '',
+            popupTab: 'goals',
+            alreadyDisplayed: false,
+            updateInsight() {
+                const answers = content['answers'];
+                const selectedOption = answers.find(option => option['answer_value'] === this.selectedAnswer);
+                if (selectedOption) {
+                    this.answerInsight = selectedOption['answer_insight'];
+                    this.answerIncentive = selectedOption['incentive_text'];
+
+                }
+                Lumen.ga4('popup_click', {
+                    'click-type' : 'select',
+                    element_id : 'popup_select',
+                    section : 'popup' + popup_data.popup_id,
+                    answer : this.selectedAnswer
+                });
+            },
+            submit(e) {
+                e.preventDefault();
+
+                if (this.validated()) {
+                    this.popupTab = 'thankyou';
+                    this.isSubmit = true;
+
+                    const bodyData = {
+                        "email": this.email,
+                        "health_goal": this.selectedAnswer,
+                        "popup_id": popup_data.popup_id,
+                    }
+                    fetch('/createLeadFromPopup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(bodyData)
+                    });
+
+                    Lumen.setCookie('contact_info', 1, 365);
+                    Lumen.ga4('popup_click', {
+                        'click-type' : 'submit_email',
+                        element_id : 'popup_email_submit_button',
+                        section : 'popup' + popup_data.popup_id,
+
+                    });
+
+                    if (typeof _oktrk === 'function') {
+                        _oktrk('send', {
+                            tag: 'email',
+                        });
+                    }
+
+
+                    if (popup_data.popup_id === 2) {
+                        this.countDownRedirect();
+                    }
+                }
+            },
+            countDownRedirect() {
+                const countdownInterval = setInterval(() => {
+                    this.countDownNum--;
+                    if (this.countDownNum === 0) {
+                        clearInterval(countdownInterval);
+                        Alpine.store('xPopup').showPopup = false;
+                        window.location.href = '/shop';
+                    }
+                }, 1000);
+            },
+            validated() {
+                this.errEmail = false;
+                this.errAnswer = false;
+                let isValidated = true;
+
+                // validate email
+                if (!(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(this.email))) {
+                    if(this.email !== ''){
+                        this.emailErrorMessage = 'Please enter a valid email address'
+                    }
+                    this.errEmail = true;
+                    isValidated = false;
+                }
+
+                if (!this.selectedAnswer) {
+                    this.errAnswer = true;
+                    isValidated = false;
+                }
+
+                return isValidated;
+            },
+            reset() {
+                this.selectedAnswer = '';
+                this.email = '';
+                this.answerInsight = '';
+                this.answerIncentive = '';
+                this.countDownNum = popup_data.redirect_time;
+                this.isSubmit = false;
+                this.errEmail = false;
+                this.errAnswer = false;
+            },
+            goBack() {
+                this.selectedAnswer = '';
+                this.popupTab = 'goals';
+            },
+            close() {
+                const answers = content['answers'];
+                const selectedOption = answers.find(option => option['answer_value'] === this.selectedAnswer);
+                Alpine.store('xPopup').alreadyClosed = true;
+                if (selectedOption) {
+                    this.answerInsight = selectedOption['answer_insight'];
+                }
+                let status = "opened";
+                if (this.isSubmit) {
+                    status = "email-submitted";
+                } else if (this.selectedAnswer !== '') {
+                    status = "answer-selected";
+                }
+
+                Lumen.ga4('popup_click', {
+                    'click-type' : 'close',
+                    section : 'popup' + popup_data.popup_id,
+                    status: status
+                });
+            },
+        }
+    }
+
+    const selectData = ({__data: {attributes}}) => {
+        const {items, keyValue, keyText, errorMessage, errorState} = attributes;
+        return {
+            isOpen: false,
+            selectedValue: '',
+            selectedText: '',
+            selectedIncentive: '',
+            errorMessage: errorMessage || '',
+            errorState: errorState  || false,
+            getSelectedText() {
+                const selectedOption = items.find(option => option[keyValue] === this.selectedValue);
+                if (selectedOption) {
+                    this.selectedText = selectedOption[keyText];
+                }
+            }
+        }
+    }
+</script>
+            <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF3JNK2&gtm_auth=a6AgvzJ0SAOcyjADNwrdlQ&gtm_preview=env-1&gtm_cookies_win=x"
+                height="0" width="0" style="display:none;visibility:hidden">
+        </iframe>
+    </noscript>
+    
+</body>
+</html>

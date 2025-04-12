@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CometChat Widget with Sidebar</title>
+    <script
+      defer
+      src="https://widget-js.cometchat.io/v3/cometchatwidget.js"
+    ></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: sans-serif;
+        height: 100vh;
+        display: flex;
+      }
+
+      .sidebar {
+        width: 250px;
+        background-color: #2e2e2e;
+        color: white;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .sidebar h2 {
+        margin-bottom: 20px;
+      }
+
+      .sidebar nav a {
+        color: white;
+        text-decoration: none;
+        margin: 10px 0;
+        display: block;
+        padding: 8px;
+        background: #444;
+        border-radius: 5px;
+        transition: background 0.2s;
+      }
+
+      .sidebar nav a:hover {
+        background: #555;
+      }
+
+      #cometchat {
+        flex: 1;
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="sidebar">
+      <div>
+        <h2>Menu</h2>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="ventin.html">🎤 Vent</a>
+          <a href="find_my_therapist.html">Find Therapist</a>
+          <a href="#"> Saathi Rooms</a>
+          <a href="#">Profile</a>
+        </nav>
+      </div>
+      <div style="font-size: 0.8em; text-align: center; color: #aaa">
+        &copy; 2025 VentApp
+      </div>
+    </div>
+
+    <div id="cometchat"></div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", (event) => {
+        CometChatWidget.init({
+          appID: "273007af6b1dd710",
+          appRegion: "in",
+          authKey: "4f60e0dbc829182a47dd9a35fbd1310899c11b60",
+        }).then(
+          () => {
+            console.log("CometChatWidget initialized");
+
+            CometChatWidget.login({
+              uid: "pearlly",
+            }).then(
+              () => {
+                console.log("User logged in");
+
+                CometChatWidget.launch({
+                  widgetID: "b47a16fa-7e78-49a5-ae1a-95d24da89d1f",
+                  target: "#cometchat",
+                  roundedCorners: true,
+                  height: "100%",
+                  width: "100%",
+                  defaultID: "pearlly",
+                  defaultType: "group",
+                });
+              },
+              (error) => {
+                console.error("Login failed:", error);
+              }
+            );
+          },
+          (error) => {
+            console.error("Initialization failed:", error);
+          }
+        );
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ehsaas - Discover Yourself</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    :root {
+        --purple: #7042f8;
+        --cyan: #45f3ff;
+        --dark-bg: #0d0d23;
+        --neon-pink: #ff00ff;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle at center, #1a0f33, #000);
+        font-family: 'Arial', sans-serif;
+        overflow: hidden;
+    }
+
+    .floating-particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    .particle {
+        position: absolute;
+        background: radial-gradient(circle, var(--cyan) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: float 6s infinite linear;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(0.8); opacity: 0.8; }
+        50% { transform: translate(100px, -100px) scale(1.2); opacity: 0.3; }
+    }
+
+    .auth-container {
+        position: relative;
+        width: 400px;
+        padding: 2px;
+        border-radius: 20px;
+        background: linear-gradient(45deg, var(--purple), var(--cyan));
+        animation: borderGlow 3s linear infinite;
+        box-shadow: 0 0 50px rgba(69, 243, 255, 0.2);
+        overflow: hidden;
+    }
+
+    @keyframes borderGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .auth-content {
+        position: relative;
+        background: var(--dark-bg);
+        padding: 40px;
+        border-radius: 18px;
+        z-index: 1;
+    }
+
+    .auth-title {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.2em;
+        background: linear-gradient(45deg, var(--purple), var(--cyan));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: titleGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes titleGlow {
+        from { text-shadow: 0 0 10px rgba(112, 66, 248, 0.5); }
+        to { text-shadow: 0 0 20px rgba(69, 243, 255, 0.7); }
+    }
+
+    .auth-input {
+        width: 100%;
+        padding: 15px 15px;
+        margin: 15px 0;
+        border: 2px solid rgba(112, 66, 248, 0.3);
+        border-radius: 30px;
+        background: rgba(0, 0, 0, 0.3);
+        color: white;
+        font-size: 1em;
+        transition: all 0.3s ease;
+    }
+
+    .auth-input:focus {
+        border-color: var(--cyan);
+        box-shadow: 0 0 15px rgba(69, 243, 255, 0.3);
+        transform: scale(1.02);
+    }
+
+    .auth-button {
+        width: 100%;
+        padding: 15px;
+        margin: 25px 0;
+        border: none;
+        border-radius: 30px;
+        background: linear-gradient(45deg, var(--purple), var(--cyan));
+        color: white;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(69, 243, 255, 0.4);
+    }
+
+    .auth-button::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, 
+            transparent 20%, 
+            rgba(255,255,255,0.2) 50%, 
+            transparent 80%);
+        animation: buttonShine 3s infinite linear;
+    }
+
+    @keyframes buttonShine {
+        from { transform: translateX(-100%) rotate(45deg); }
+        to { transform: translateX(100%) rotate(45deg); }
+    }
+
+    .auth-link {
+        text-align: center;
+        color: rgba(255,255,255,0.7);
+        margin-top: 20px;
+        animation: fadeIn 1s ease-out;
+    }
+
+    .auth-link a {
+        color: var(--cyan);
+        text-decoration: none;
+        position: relative;
+    }
+
+    .auth-link a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--cyan);
+        transition: width 0.3s ease;
+    }
+
+    .auth-link a:hover::after {
+        width: 100%;
+    }
+
+    .error-message {
+        color: #ff4444;
+        text-align: center;
+        margin: 10px 0;
+        animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(10px); }
+        50% { transform: translateX(-10px); }
+        75% { transform: translateX(5px); }
+    }
+
+    .glossy-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, 
+            rgba(255,255,255,0.05) 0%, 
+            rgba(255,255,255,0.01) 50%, 
+            rgba(255,255,255,0.05) 100%);
+        pointer-events: none;
+        animation: overlayGlow 4s infinite linear;
+    }
+
+    @keyframes overlayGlow {
+        0% { opacity: 0.3; }
+        50% { opacity: 0.1; }
+        100% { opacity: 0.3; }
+    }
+
+    @media (max-width: 480px) {
+        .auth-container {
+            width: 90%;
+            padding: 1px;
+        }
+        .auth-content {
+            padding: 25px;
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-particles" id="particles"></div>
+
+  <div class="auth-container animate__animated animate__fadeIn">
+    <div class="glossy-overlay"></div>
+    <div class="auth-content">
+      <h2 class="auth-title">Discover Yourself</h2>
+      <div class="error-message" id="signupError"></div>
+      <input type="email" class="auth-input" placeholder="Your Email" id="signupEmail" />
+      <input type="text" class="auth-input" placeholder="Choose a Username" id="signupUsername" />
+      <input type="password" class="auth-input" placeholder="Create Password" id="signupPassword" />
+      <button class="auth-button" onclick="handleSignup()">Begin Journey</button>
+      <div class="auth-link">
+        Already connected? <a href="login.html">Return to Gateway</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Particle Generator
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.cssText = `width: ${Math.random() * 10 + 5}px; height: ${Math.random() * 10 + 5}px; left: ${Math.random() * 100}%; top: ${Math.random() * 100}%; animation-delay: ${Math.random() * 6}s;`;
+        container.appendChild(particle);
+      }
+    }
+    createParticles();
+
+    // Firebase Initialization
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzbzw54O_JRDNOfHyteIMvq999R3Aj624",
+      authDomain: "ehsaas-f4c7e.firebaseapp.com",
+      projectId: "ehsaas-f4c7e",
+      storageBucket: "ehsaas-f4c7e.firebasestorage.app",
+      messagingSenderId: "618055369757",
+      appId: "1:618055369757:web:3592bd6978c85df0f432f4",
+      measurementId: "G-JTTDNV43GD"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    async function handleSignup() {
+      const email = document.getElementById('signupEmail').value;
+      const username = document.getElementById('signupUsername').value;
+      const password = document.getElementById('signupPassword').value;
+      const errorMessage = document.getElementById('signupError');
+
+      if (!email || !username || !password) {
+        errorMessage.textContent = 'Please fill in all fields';
+        return;
+      }
+
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        
+        await db.collection('users').doc(user.uid).set({
+          username: username,
+          email: email,
+        });
+
+        window.location.href = "login.html";
+      } catch (error) {
+        errorMessage.textContent = error.message;
+      }
+    }
+  </script>
+</body>
+</html>

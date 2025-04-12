@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Appointment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 400px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px gray;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    #statusMessage {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Book an Appointment</h2>
+    <form id="appointmentForm">
+      <label for="date">Appointment Date:</label>
+      <input type="date" id="date" required />
+
+      <label for="time">Preferred Time:</label>
+      <input type="time" id="time" required />
+
+      <label for="service">Select Service:</label>
+      <select id="service">
+        <option value="General Consultation">General Consultation</option>
+        <option value="Gynecology">Gynecology</option>
+        <option value="Maternity Checkup">Maternity Checkup</option>
+        <option value="Ultrasound">Ultrasound</option>
+      </select>
+
+      <button type="submit">Book Appointment</button>
+    </form>
+    <p id="statusMessage"></p>
+  </div>
+
+  <script src="https://apis.google.com/js/api.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBM14aLNNFjiMPY1Fa-wsP1LydYzpEB2Jc",
+      authDomain: "shecare-f2707.firebaseapp.com",
+      projectId: "shecare-f2707",
+      storageBucket: "shecare-f2707.firebasestorage.app",
+      messagingSenderId: "594871576314",
+      appId: "1:594871576314:web:5a102e6e8d26b9c119cb43",
+      measurementId: "G-7PJV0642PB"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    function initGmailApi() {
+      gapi.client.init({
+        apiKey: "AIzaSyDlk3LpfE0zEmovF3GZGrl9WUYaxnjT46o",
+        clientId: "64390388148-s7udb1nknfn5beid2q6l2hna6s8iv46r.apps.googleusercontent.com",
+        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"],
+        scope: "https://www.googleapis.com/auth/gmail.send"
+      }).then(() => {
+        console.log("Gmail API initialized.");
+      }, (error) => {
+        console.error("Error initializing Gmail API:", error);
+      });
+    }
+    gapi.load("client:auth2", initGmailApi);
+
+    function base64urlEncode(str) {
+      return btoa(str)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+    }
+
+    function sendEmailAppointment(details) {
+      const { userEmail, date, time, service } = details;
+      const emailContent =
+        `From: "SheCare" <${userEmail}>\r\n` +
+        `To: ${userEmail}\r\n` +
+        `Subject: Appointment Confirmation\r\n\r\n` +
+        `Dear User,\n\n` +
+        `Your appointment for ${service} on ${date} at ${time} has been confirmed.\n\n` +
+        `Thank you for choosing SheCare.\n\n` +
+        `Regards,\nSheCare Team`;
+
+      const encodedEmail = base64urlEncode(emailContent);
+
+      const request = gapi.client.gmail.users.messages.send({
+        userId: "me",
+        resource: {
+          raw: encodedEmail
+        }
+      });
+
+      request.execute((response) => {
+        console.log("Email sent:", response);
+      });
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        console.warn("User not logged in.");
+        document.getElementById("statusMessage").innerText = "Please log in to book an appointment.";
+        document.getElementById("statusMessage").style.color = "red";
+        document.getElementById("appointmentForm").style.display = "none";
+      } else {
+        console.log("Logged in as:", user.email);
+      }
+    });
+
+    document.getElementById("appointmentForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const service = document.getElementById("service").value;
+
+      const user = auth.currentUser;
+      if (!user) {
+        alert("User not logged in. Please log in.");
+        return;
+      }
+
+      const appointmentData = {
+        userId: user.uid,
+        userEmail: user.email,
+        date: date,
+        time: time,
+        service: service,
+        createdAt: serverTimestamp()
+      };
+
+      try {
+        await addDoc(collection(db, "appointments"), appointmentData);
+        document.getElementById("statusMessage").innerText = "Appointment booked successfully!";
+        document.getElementById("statusMessage").style.color = "green";
+
+        sendEmailAppointment({
+          userEmail: user.email,
+          date: date,
+          time: time,
+          service: service
+        });
+
+        document.getElementById("appointmentForm").reset();
+      } catch (error) {
+        console.error("Error booking appointment:", error);
+        document.getElementById("statusMessage").innerText = "Failed to book appointment.";
+        document.getElementById("statusMessage").style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

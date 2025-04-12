@@ -1,0 +1,248 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Rainy Mood • #1 Rain Sounds • Sleep & Study</title>
+    <meta name="description" content="Welcome to Rainy Mood, the internet's most popular rain sounds. Millions of people use Rainy Mood while sleeping, studying, and relaxing.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Rain animation container */
+        #rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: url('https://static.vecteezy.com/system/resources/thumbnails/042/195/747/small_2x/ai-generated-rainy-sky-observations-background-free-photo.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Rain drops */
+        .raindrop {
+            position: absolute;
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.7));
+            animation: falling linear infinite;
+        }
+
+        @keyframes falling {
+            0% {
+                transform: translateY(-100px);
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px));
+            }
+        }
+
+        /* Content styling */
+        .center-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 80px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        p {
+            font-size: 20px;
+            margin: 10px 0;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Audio player controls */
+        #audioplayerskin {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        #pButton {
+            height: 130px;
+            width: 130px;
+            border: none;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            outline: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .play {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/727/727245.png');
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .pause {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/2088/2088562.png');
+            border-radius: 50%;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        #volume_control {
+            margin: 20px auto;
+            width: 50%;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 5px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media only screen and (max-width: 550px) {
+            h1 {
+                font-size: 45px;
+            }
+            p {
+                font-size: 18px;
+            }
+            #pButton {
+                height: 100px;
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Rain background container -->
+    <div id="rain-container"></div>
+
+    <!-- Main content -->
+    <div class="center-container">
+        <div id="audioplayerskin">
+            <button id="pButton" class="play" onclick="playAudio();"></button>
+            <div id="volume_control">
+                <input type="range" oninput="setVolume(this.value)" onchange="setVolume(this.value)" 
+                       id="rngVolume" min="0" max="1" step="0.01" value="1">
+            </div>
+        </div>
+        
+        <audio id="audioplayer" loop="loop">
+            <source src="https://media.rainymood.com/0.m4a" type="audio/mp4">
+            <source src="https://media.rainymood.com/0.ogg" type="audio/ogg">
+            <source src="https://media.rainymood.com/0.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <h1>Rainy Mood</h1>
+        <p>Rain makes everything better.</p>
+
+        <footer>
+            <p>©2025 Rainy Mood</p>
+        </footer>
+    </div>
+
+    <script>
+        // Audio player functionality
+        var music = document.getElementById('audioplayer');
+        var pButton = document.getElementById('pButton');
+        
+        function playAudio() {
+            if (music.paused) {
+                music.play();
+                pButton.className = "pause";
+            } else {
+                music.pause();
+                pButton.className = "play";
+            }
+        }
+        
+        function setVolume(volume) {
+            music.volume = volume;
+        }
+
+        // Create rain effect
+        function createRain() {
+            const rainContainer = document.getElementById('rain-container');
+            const rainCount = 100;
+            
+            for (let i = 0; i < rainCount; i++) {
+                const raindrop = document.createElement('div');
+                raindrop.className = 'raindrop';
+                
+                // Random properties for each raindrop
+                const left = Math.random() * 100;
+                const animationDuration = 0.5 + Math.random() * 1.5;
+                const animationDelay = Math.random() * 2;
+                const height = 30 + Math.random() * 50;
+                const opacity = 0.1 + Math.random() * 0.5;
+                
+                raindrop.style.left = `${left}%`;
+                raindrop.style.animationDuration = `${animationDuration}s`;
+                raindrop.style.animationDelay = `${animationDelay}s`;
+                raindrop.style.height = `${height}px`;
+                raindrop.style.opacity = opacity;
+                
+                rainContainer.appendChild(raindrop);
+            }
+        }
+
+        // Initialize when page loads
+        window.onload = function() {
+            createRain();
+            // Start with audio paused
+            music.volume = 1;
+        };
+    </script>
+</body>
+</html>

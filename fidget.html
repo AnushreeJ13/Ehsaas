@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Fidget Spinner</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #2c3e50;
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      touch-action: none;
+    }
+    
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .spinner-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .spinner {
+      position: absolute;
+      width: 270px;
+      height: 270px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.1s linear;
+      cursor: grab;
+      will-change: transform;
+    }
+    
+    .spinner.spinning {
+      cursor: grabbing;
+    }
+    
+    .center-circle {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: radial-gradient(circle at 40% 40%, #ffffff, #cccccc);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 10;
+      pointer-events: none;
+    }
+    
+    .blade {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at 40% 40%, #e74c3c, #c0392b);
+      border-radius: 50%;
+      transform-origin: 135px center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .blade:nth-child(1) {
+      transform: rotate(0deg);
+    }
+    
+    .blade:nth-child(2) {
+      transform: rotate(120deg);
+      background: radial-gradient(circle at 40% 40%, #3498db, #2980b9);
+    }
+    
+    .blade:nth-child(3) {
+      transform: rotate(240deg);
+      background: radial-gradient(circle at 40% 40%, #2ecc71, #27ae60);
+    }
+    
+    .blade::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 25px;
+      height: 25px;
+      background-color: #f1c40f;
+      border-radius: 50%;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .stats {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    
+    .stats div {
+      margin: 10px 0;
+    }
+    
+    .color-selector {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+    }
+    
+    .color-option {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s;
+    }
+    
+    .color-option:hover {
+      transform: scale(1.2);
+    }
+    
+    .color-option.selected {
+      border: 3px solid white;
+      transform: scale(1.2);
+    }
+    
+    .header {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #ecf0f1;
+    }
+    
+    .header p {
+      font-size: 18px;
+      color: #bdc3c7;
+    }
+    
+    @media (max-width: 768px) {
+      .spinner-container {
+        width: 250px;
+        height: 250px;
+      }
+      
+      .spinner {
+        width: 220px;
+        height: 220px;
+      }
+      
+      .blade {
+        width: 80px;
+        height: 80px;
+        transform-origin: 110px center;
+      }
+      
+      .header h1 {
+        font-size: 28px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .spinner-container {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .spinner {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .blade {
+        width: 65px;
+        height: 65px;
+        transform-origin: 90px center;
+      }
+      
+      .center-circle {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .header h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Virtual Fidget Spinner</h1>
+    <p>Click and drag to spin!</p>
+  </div>
+  
+  <div class="container">
+    <div class="spinner-container">
+      <div class="spinner" id="spinner">
+        <div class="blade"></div>
+        <div class="blade"></div>
+        <div class="blade"></div>
+      </div>
+      <div class="center-circle"></div>
+    </div>
+    
+    <div class="stats">
+      <div>Speed: <span id="speedDisplay">0.0</span> RPM</div>
+    </div>
+    
+    <div class="color-selector">
+      <div class="color-option selected" style="background-color: #e74c3c;" data-color="#e74c3c" data-secondary="#c0392b" data-blade="0"></div>
+      <div class="color-option" style="background-color: #3498db;" data-color="#3498db" data-secondary="#2980b9" data-blade="1"></div>
+      <div class="color-option" style="background-color: #2ecc71;" data-color="#2ecc71" data-secondary="#27ae60" data-blade="2"></div>
+      <div class="color-option" style="background-color: #f1c40f;" data-color="#f1c40f" data-secondary="#f39c12" data-blade="0"></div>
+      <div class="color-option" style="background-color: #9b59b6;" data-color="#9b59b6" data-secondary="#8e44ad" data-blade="1"></div>
+      <div class="color-option" style="background-color: #1abc9c;" data-color="#1abc9c" data-secondary="#16a085" data-blade="2"></div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // DOM elements
+      const spinner = document.getElementById('spinner');
+      const speedDisplay = document.getElementById('speedDisplay');
+      const colorOptions = document.querySelectorAll('.color-option');
+      const blades = document.querySelectorAll('.blade');
+      
+      // Variables for spinner physics
+      let angle = 0;
+      let angularVelocity = 0;
+      let lastTimestamp = 0;
+      let isDragging = false;
+      let friction = 0.996; // Slightly less friction for longer spins
+      let isSpinning = false;
+      let animationFrameId = null;
+      
+      // Mouse/touch position tracking
+      let lastMouseX = 0;
+      let lastMouseY = 0;
+      let lastDragTime = 0;
+      let spinnerCenterX = 0;
+      let spinnerCenterY = 0;
+      let dragAngles = [];
+      let dragTimes = [];
+      const dragHistorySize = 5; // Track last 5 drag positions for smoother velocity
+      
+      // Set spinner center coordinates
+      function updateSpinnerCenter() {
+        const spinnerRect = spinner.getBoundingClientRect();
+        spinnerCenterX = spinnerRect.left + spinnerRect.width / 2;
+        spinnerCenterY = spinnerRect.top + spinnerRect.height / 2;
+      }
+      
+      // Calculate angle from center to mouse position
+      function getAngle(x, y) {
+        return Math.atan2(y - spinnerCenterY, x - spinnerCenterX);
+      }
+      
+      // Convert radians to degrees
+      function radToDeg(rad) {
+        return rad * (180 / Math.PI);
+      }
+      
+      // Update spinner rotation
+      function updateSpinner(timestamp) {
+        if (!lastTimestamp) {
+          lastTimestamp = timestamp;
+          animationFrameId = requestAnimationFrame(updateSpinner);
+          return;
+        }
+        
+        const deltaTime = timestamp - lastTimestamp;
+        lastTimestamp = timestamp;
+        
+        if (!isDragging && isSpinning) {
+          // Apply friction to slow down spinner
+          angularVelocity *= friction;
+          
+          // Update angle based on angular velocity
+          angle += angularVelocity * deltaTime;
+          
+          // Update spinner rotation
+          spinner.style.transform = `rotate(${angle}deg)`;
+          
+          // Calculate and display speed in RPM
+          const rpm = Math.abs(angularVelocity) * 60 * 1000 / 360;
+          speedDisplay.textContent = rpm.toFixed(1);
+          
+          // Stop spinning when angular velocity is very low
+          if (Math.abs(angularVelocity) < 0.01) {
+            isSpinning = false;
+            speedDisplay.textContent = '0.0';
+            spinner.classList.remove('spinning');
+          }
+        }
+        
+        if (isSpinning || isDragging) {
+          animationFrameId = requestAnimationFrame(updateSpinner);
+        } else {
+          lastTimestamp = 0;
+        }
+      }
+      
+      // Start manual spinning
+      function startSpinning(e) {
+        e.preventDefault();
+        updateSpinnerCenter();
+        
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        
+        if (clientX && clientY) {
+          isDragging = true;
+          spinner.classList.add('spinning');
+          
+          // Reset drag tracking
+          dragAngles = [];
+          dragTimes = [];
+          lastDragTime = performance.now();
+          
+          // Get initial angle and position
+          const initialAngle = getAngle(clientX, clientY);
+          dragAngles.push(initialAngle);
+          dragTimes.push(lastDragTime);
+          
+          lastMouseX = clientX;
+          lastMouseY = clientY;
+          
+          // Start animation if not already running
+          if (!animationFrameId) {
+            lastTimestamp = 0;
+            animationFrameId = requestAnimationFrame(updateSpinner);
+          }
+        }
+      }
+      
+      // Continue spinning while dragging
+      function continueDragging(e) {
+        e.preventDefault();
+        
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        
+        if (isDragging && clientX && clientY) {
+          const now = performance.now();
+          const currentAngle = getAngle(clientX, clientY);
+          
+          // Record drag history for smoother velocity calculation
+          dragAngles.push(currentAngle);
+          dragTimes.push(now);
+          
+          // Keep only the last few positions
+          if (dragAngles.length > dragHistorySize) {
+            dragAngles.shift();
+            dragTimes.shift();
+          }
+          
+          // Calculate angular delta
+          let previousAngle = dragAngles[dragAngles.length - 2];
+          let deltaAngle = currentAngle - previousAngle;
+          
+          // Handle angle wrapping at -PI/PI boundary
+          if (deltaAngle > Math.PI) deltaAngle -= Math.PI * 2;
+          if (deltaAngle < -Math.PI) deltaAngle += Math.PI * 2;
+          
+          // Update angle for display
+          angle += radToDeg(deltaAngle);
+          spinner.style.transform = `rotate(${angle}deg)`;
+          
+          // Calculate drag speed for velocity
+          const deltaTime = now - lastDragTime;
+          lastDragTime = now;
+          
+          // Calculate average velocity based on history
+          if (dragAngles.length >= 2) {
+            // Calculate instantaneous velocity from the last few position samples
+            let totalDeltaAngle = 0;
+            let totalDeltaTime = 0;
+            
+            for (let i = 1; i < dragAngles.length; i++) {
+              let da = dragAngles[i] - dragAngles[i-1];
+              // Handle angle wrapping
+              if (da > Math.PI) da -= Math.PI * 2;
+              if (da < -Math.PI) da += Math.PI * 2;
+              
+              totalDeltaAngle += da;
+              totalDeltaTime += dragTimes[i] - dragTimes[i-1];
+            }
+            
+            // Angular velocity in radians per millisecond
+            const avgVelocity = totalDeltaTime > 0 ? totalDeltaAngle / totalDeltaTime : 0;
+            
+            // Scale by sensitivity factor - higher means faster spinning
+            const sensitivity = 25;
+            angularVelocity = radToDeg(avgVelocity) * sensitivity;
+            
+            // Calculate and display speed in RPM
+            const rpm = Math.abs(angularVelocity) * 60 * 1000 / 360;
+            speedDisplay.textContent = rpm.toFixed(1);
+          }
+          
+          // Update for next frame
+          lastMouseX = clientX;
+          lastMouseY = clientY;
+        }
+      }
+      
+      // End manual spinning
+      function stopDragging(e) {
+        if (isDragging) {
+          isDragging = false;
+          isSpinning = true;
+          
+          // Calculate velocity based on final drag speed
+          // Final angular velocity is already set during the drag
+          
+          // Set minimum speed to make it more responsive
+          if (Math.abs(angularVelocity) < 0.2) {
+            angularVelocity = 0;
+            isSpinning = false;
+            spinner.classList.remove('spinning');
+            speedDisplay.textContent = '0.0';
+          }
+        }
+      }
+      
+      // Change spinner color
+      function changeColor() {
+        document.querySelectorAll('.color-option.selected').forEach(selected => {
+          selected.classList.remove('selected');
+        });
+        
+        this.classList.add('selected');
+        
+        const primaryColor = this.getAttribute('data-color');
+        const secondaryColor = this.getAttribute('data-secondary');
+        const bladeIndex = parseInt(this.getAttribute('data-blade'));
+        
+        blades[bladeIndex].style.background = `radial-gradient(circle at 40% 40%, ${primaryColor}, ${secondaryColor})`;
+      }
+      
+      // Event listeners
+      spinner.addEventListener('mousedown', startSpinning);
+      spinner.addEventListener('touchstart', startSpinning);
+      
+      document.addEventListener('mousemove', continueDragging);
+      document.addEventListener('touchmove', continueDragging, { passive: false });
+      
+      document.addEventListener('mouseup', stopDragging);
+      document.addEventListener('touchend', stopDragging);
+      
+      colorOptions.forEach(option => {
+        option.addEventListener('click', changeColor);
+      });
+      
+      // Handle window resize
+      window.addEventListener('resize', updateSpinnerCenter);
+      
+      // Initial center calculation
+      updateSpinnerCenter();
+    });
+  </script>
+</body>
+</html>

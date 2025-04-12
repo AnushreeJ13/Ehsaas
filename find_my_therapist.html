@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find My Therapist</title>
+  <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6C5CE7;
+      --secondary: #E6E6FA;
+      --accent: #A98EDA;
+      --dark: #2D2A44;
+      --light: #F9F6FF;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 4rem 0;
+      background: linear-gradient(135deg, var(--primary), #8374E6);
+      color: white;
+      margin-bottom: 2rem;
+      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+      animation: fadeInDown 1s ease;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: -1px;
+      text-shadow: 2px 2px 4px rgba(108, 92, 231, 0.2);
+    }
+
+    #map {
+      height: 500px;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(108, 92, 231, 0.1);
+      margin: 2rem 0;
+      border: 3px solid var(--secondary);
+      animation: scaleUp 0.8s ease;
+    }
+
+    .therapist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem 0;
+    }
+
+    .therapist-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      border-left: 6px solid var(--primary);
+    }
+
+    .therapist-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(108, 92, 231, 0.15);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .card-header i {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-right: 1rem;
+    }
+
+    .therapist-card h3 {
+      margin: 0;
+      color: var(--dark);
+      font-size: 1.3rem;
+    }
+
+    .therapist-card p {
+      margin: 0.5rem 0;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .action-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5849D6;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--dark);
+    }
+
+    .btn-secondary:hover {
+      background: #DCD4FF;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleUp {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    audio {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      opacity: 0.7;
+      width: 200px;
+      transition: opacity 0.3s ease;
+    }
+
+    audio:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .therapist-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="container">
+      <h1>Find My Therapist</h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="map"></div>
+    
+    <div class="therapist-grid" id="list"></div>
+    <div class="loading" id="loading">Searching for nearby therapists...</div>
+
+    <!-- Ambient Sound -->
+    <audio controls autoplay loop>
+      <source src="https://cdn.pixabay.com/download/audio/2022/10/10/audio_3c8b6f6c8a.mp3?filename=calm-nature-sounds-ambient-music-121160.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script>
+    let map;
+    let service;
+    let userLocation;
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 0, lng: 0 },
+        zoom: 13,
+        styles: [
+          {
+            featureType: "poi",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+          }
+        ]
+      });
+
+      service = new google.maps.places.PlacesService(map);
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            userLocation = new google.maps.LatLng(
+              position.coords.latitude,
+              position.coords.longitude
+            );
+            map.setCenter(userLocation);
+            searchNearbyPlaces(userLocation);
+          },
+          (error) => {
+            alert("Please enable location services to find nearby therapists.");
+            console.error(error);
+          }
+        );
+      } else {
+        alert("Geolocation is not supported by your browser.");
+      }
+    }
+
+    function searchNearbyPlaces(location) {
+      const request = {
+        location: location,
+        radius: 6000,
+        keyword: "psychiatrist OR therapist OR mental health center",
+        type: "health",
+      };
+
+      service.nearbySearch(request, (results, status) => {
+        document.getElementById('loading').style.display = 'none';
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+          displayResults(results);
+        } else {
+          document.getElementById('list').innerHTML = `
+            <div class="no-results">
+              <h3>No therapists found in your area</h3>
+              <p>Try expanding your search radius or check online options.</p>
+            </div>
+          `;
+        }
+      });
+    }
+
+    function displayResults(results) {
+      const listElement = document.getElementById('list');
+      listElement.innerHTML = '';
+
+      results.forEach((place) => {
+        const card = document.createElement('div');
+        card.className = 'therapist-card';
+        card.innerHTML = `
+          <div class="card-header">
+            <i class="icon ion-md-heart"></i>
+            <h3>${place.name}</h3>
+          </div>
+          <p>📍 ${place.vicinity}</p>
+          <p>⭐ ${place.rating || 'Not rated yet'}</p>
+          <div class="action-buttons">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${place.geometry.location.lat()},${place.geometry.location.lng()}" 
+               target="_blank" 
+               class="btn btn-primary">
+              <i class="icon ion-md-navigate"></i> Directions
+            </a>
+            <a href="book-appointment.html?therapist=${encodeURIComponent(place.name)}" 
+               class="btn btn-secondary">
+              <i class="icon ion-md-calendar"></i> Book
+            </a>
+          </div>
+        `;
+        listElement.appendChild(card);
+      });
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlk3LpfE0zEmovF3GZGrl9WUYaxnjT46o&libraries=places&callback=initMap" async defer></script>
+</body>
+</html>

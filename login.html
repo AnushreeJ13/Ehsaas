@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ehsaas - Emotional Gateway</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --purple: #7042f8;
+            --cyan: #45f3ff;
+            --dark-bg: #0d0d23;
+            --calm-blue: #8bd3dd;
+            --warm-peach: #ff9a76;
+            --neutral-sage: #a7c4bc;
+        }
+
+        /* Previous base styles remain unchanged */
+        :root {
+            --purple: #7042f8;
+            --cyan: #45f3ff;
+            --dark-bg: #0d0d23;
+            --neon-pink: #ff00ff;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #1a0f33, #000);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, var(--cyan) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(0.8); opacity: 0.8; }
+            50% { transform: translate(100px, -100px) scale(1.2); opacity: 0.3; }
+        }
+
+        .auth-container {
+            position: relative;
+            width: 400px;
+            padding: 2px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, var(--purple), var(--cyan));
+            animation: borderGlow 3s linear infinite;
+            box-shadow: 0 0 50px rgba(69, 243, 255, 0.2);
+            overflow: hidden;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .auth-content {
+            position: relative;
+            background: var(--dark-bg);
+            padding: 40px;
+            border-radius: 18px;
+            z-index: 1;
+        }
+
+        .auth-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            background: linear-gradient(45deg, var(--purple), var(--cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px rgba(112, 66, 248, 0.5); }
+            to { text-shadow: 0 0 20px rgba(69, 243, 255, 0.7); }
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 15px 15px;
+            margin: 15px 0;
+            border: 2px solid rgba(112, 66, 248, 0.3);
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .auth-input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 15px rgba(69, 243, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 15px;
+            margin: 25px 0;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(45deg, var(--purple), var(--cyan));
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(69, 243, 255, 0.4);
+        }
+
+        .auth-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 20%, 
+                rgba(255,255,255,0.2) 50%, 
+                transparent 80%);
+            animation: buttonShine 3s infinite linear;
+        }
+
+        @keyframes buttonShine {
+            from { transform: translateX(-100%) rotate(45deg); }
+            to { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .auth-link {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-top: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .auth-link a {
+            color: var(--cyan);
+            text-decoration: none;
+            position: relative;
+        }
+
+        .auth-link a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cyan);
+            transition: width 0.3s ease;
+        }
+
+        .auth-link a:hover::after {
+            width: 100%;
+        }
+
+        .error-message {
+            color: #ff4444;
+            text-align: center;
+            margin: 10px 0;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(10px); }
+            50% { transform: translateX(-10px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .glossy-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(255,255,255,0.05) 0%, 
+                rgba(255,255,255,0.01) 50%, 
+                rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+            animation: overlayGlow 4s infinite linear;
+        }
+
+        @keyframes overlayGlow {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.1; }
+            100% { opacity: 0.3; }
+        }
+
+        /* Enhanced Emotion Guardian */
+        .guardian-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 25px;
+            cursor: pointer;
+            filter: drop-shadow(0 0 10px rgba(139, 211, 221, 0.6));
+        }
+
+        .guardian {
+            width: 100%;
+            height: 100%;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .guardian-body {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--calm-blue) 30%, var(--warm-peach) 100%);
+            border-radius: 60% 40% 50% 50% / 60% 60% 40% 40%;
+            top: 40px;
+            left: 30px;
+            box-shadow: 
+                0 5px 15px rgba(139, 211, 221, 0.4),
+                inset 0 -10px 20px rgba(255,255,255,0.2);
+        }
+
+        .guardian-eye {
+            position: absolute;
+            width: 24px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            top: 60px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .guardian-eye::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #5a3921;
+            border-radius: 50%;
+            top: 8px;
+            left: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .guardian-eye.left { left: 50px; }
+        .guardian-eye.right { right: 50px; }
+
+        .guardian-mouth {
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            border-bottom: 3px solid #5a3921;
+            border-radius: 0 0 50% 50%;
+            bottom: 45px;
+            left: 70px;
+            transition: all 0.3s ease;
+        }
+
+        .guardian-halo {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 4px solid rgba(255, 215, 0, 0.5);
+            border-top-color: transparent;
+            border-radius: 50%;
+            top: 15px;
+            left: 15px;
+            animation: haloRotate 8s infinite linear;
+        }
+
+        @keyframes haloRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .guardian-accent {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            background: var(--neutral-sage);
+            border-radius: 15px;
+            top: 40px;
+            left: 75px;
+            opacity: 0.7;
+        }
+
+        .guardian-hands {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            top: 100px;
+            animation: handsFloat 3s infinite ease-in-out;
+        }
+
+        .guardian-hand {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: linear-gradient(to bottom, var(--warm-peach) 30%, var(--calm-blue) 100%);
+            border-radius: 15px;
+        }
+
+        .guardian-hand.left {
+            left: 25px;
+            transform: rotate(30deg);
+        }
+
+        .guardian-hand.right {
+            right: 25px;
+            transform: rotate(-30deg);
+        }
+
+        @keyframes handsFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Breathing Animation */
+        .guardian-body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            box-shadow: 0 0 20px rgba(139, 211, 221, 0.6);
+            opacity: 0;
+            animation: breath 4s infinite ease-in-out;
+        }
+
+        @keyframes breath {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        /* Mood Indicator Colors */
+        .mood-indicator {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            bottom: 20px;
+            right: 20px;
+            transition: all 0.5s ease;
+        }
+
+        /* Enhanced Password Toggle */
+        .password-toggle {
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Accessibility Focus Styles */
+        .auth-input:focus-visible {
+            outline: 2px solid var(--cyan);
+            outline-offset: 2px;
+        }
+
+        /* Gender-Neutral Color Scheme */
+        .auth-button {
+            background: linear-gradient(45deg, var(--calm-blue), var(--warm-peach));
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles and container structure remain same -->
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="auth-container animate__animated animate__fadeIn">
+        <div class="glossy-overlay"></div>
+        <div class="auth-content">
+            <h2 class="auth-title">Emotional Gateway</h2>
+            
+            <!-- Emotion Guardian Character -->
+            <div class="guardian-container" id="guardianContainer">
+                <div class="guardian">
+                    <div class="guardian-halo"></div>
+                    <div class="guardian-ears">
+                        <div class="guardian-ear left"></div>
+                        <div class="guardian-ear right"></div>
+                    </div>
+                    <div class="guardian-head"></div>
+                    <div class="guardian-eye left" id="leftEye"></div>
+                    <div class="guardian-eye right" id="rightEye"></div>
+                    <div class="guardian-mouth" id="guardianMouth"></div>
+                    <div class="guardian-heart"></div>
+                </div>
+            </div>
+            
+            <div class="error-message" id="loginError"></div>
+            <input type="email" class="auth-input" placeholder="Your Email" id="loginEmail">
+            
+            <div class="password-container">
+                <input type="password" class="auth-input" placeholder="Your Password" id="loginPassword">
+                <span class="password-toggle" id="togglePassword">👁️</span>
+            </div>
+            
+            <button class="auth-button" onclick="handleLogin()">Connect Emotions</button>
+            <div class="auth-link">
+                New to Ehsaas? <a href="signup.html">Discover Yourself</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particle Generator (same as before)
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.cssText = `
+                    width: ${Math.random() * 10 + 5}px;
+                    height: ${Math.random() * 10 + 5}px;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 6}s;
+                `;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Firebase Initialization and Login Handler (same as before)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzbzw54O_JRDNOfHyteIMvq999R3Aj624",
+            authDomain: "ehsaas-f4c7e.firebaseapp.com",
+            projectId: "ehsaas-f4c7e",
+            storageBucket: "ehsaas-f4c7e.firebasestorage.app",
+            messagingSenderId: "618055369757",
+            appId: "1:618055369757:web:3592bd6978c85df0f432f4",
+            measurementId: "G-JTTDNV43GD"
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        async function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorElement = document.getElementById('loginError');
+
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                await db.collection('users').doc(userCredential.user.uid).set({
+                    lastLogin: new Date(),
+                    emotionalState: 'calm',
+                    streak: firebase.firestore.FieldValue.increment(1)
+                }, { merge: true });
+                
+                window.location.href = './dashboard.html';
+            } catch (error) {
+                errorElement.textContent = "Emotional Connection Failed: " + error.message;
+                errorElement.style.display = 'block';
+                // Guardian reacts to error
+                document.getElementById('guardianMouth').style.borderRadius = "50%";
+                document.getElementById('guardianMouth').style.border = "3px solid #5a3921";
+                document.getElementById('guardianMouth').style.height = "20px";
+                setTimeout(() => {
+                    document.getElementById('guardianMouth').style.borderRadius = "0 0 50% 50%";
+                    document.getElementById('guardianMouth').style.borderBottom = "3px solid #5a3921";
+                    document.getElementById('guardianMouth').style.border = "none";
+                    document.getElementById('guardianMouth').style.height = "15px";
+                }, 1000);
+            }
+        }
+
+        // Ripple Effect (same as before)
+        document.querySelectorAll('.auth-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                let ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    background: rgba(255,255,255,0.4);
+                    transform: translate(-50%, -50%);
+                    pointer-events: none;
+                    border-radius: 50%;
+                    animation: rippleEffect 0.6s linear;
+                `;
+                
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = e.clientX - rect.left - size/2 + 'px';
+                ripple.style.top = e.clientY - rect.top - size/2 + 'px';
+                
+                button.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Guardian Eye Animation
+        const passwordInput = document.getElementById('loginPassword');
+        const leftEye = document.getElementById('leftEye');
+        const rightEye = document.getElementById('rightEye');
+        const togglePassword = document.getElementById('togglePassword');
+        const guardianMouth = document.getElementById('guardianMouth');
+        let isPasswordVisible = false;
+
+        passwordInput.addEventListener('focus', () => {
+            leftEye.style.height = '15px';
+            rightEye.style.height = '15px';
+            leftEye.querySelector('::after').style.top = '3px';
+            rightEye.querySelector('::after').style.top = '3px';
+            guardianMouth.style.borderRadius = "50%";
+            guardianMouth.style.width = "20px";
+            guardianMouth.style.height = "10px";
+            guardianMouth.style.left = "65px";
+            guardianMouth.style.bottom = "25px";
+        });
+
+        passwordInput.addEventListener('blur', () => {
+            if (!passwordInput.value) {
+                leftEye.style.height = '25px';
+                rightEye.style.height = '25px';
+                leftEye.querySelector('::after').style.top = '6px';
+                rightEye.querySelector('::after').style.top = '6px';
+            }
+            guardianMouth.style.borderRadius = "0 0 50% 50%";
+            guardianMouth.style.width = "30px";
+            guardianMouth.style.height = "15px";
+            guardianMouth.style.left = "60px";
+            guardianMouth.style.bottom = "30px";
+        });
+
+        passwordInput.addEventListener('input', () => {
+            if (passwordInput.value) {
+                leftEye.style.height = '20px';
+                rightEye.style.height = '20px';
+                leftEye.querySelector('::after').style.top = '5px';
+                rightEye.querySelector('::after').style.top = '5px';
+                
+                // Smile when typing
+                guardianMouth.style.borderBottom = "3px solid #5a3921";
+                guardianMouth.style.borderRadius = "0 0 50% 50%";
+                guardianMouth.style.width = "40px";
+            } else {
+                leftEye.style.height = '25px';
+                rightEye.style.height = '25px';
+                leftEye.querySelector('::after').style.top = '6px';
+                rightEye.querySelector('::after').style.top = '6px';
+                
+                // Neutral mouth when empty
+                guardianMouth.style.width = "30px";
+            }
+        });
+
+        // Toggle password visibility
+        togglePassword.addEventListener('click', () => {
+            isPasswordVisible = !isPasswordVisible;
+            passwordInput.type = isPasswordVisible ? 'text' : 'password';
+            togglePassword.textContent = isPasswordVisible ? '🙈' : '👁️';
+            
+            if (isPasswordVisible) {
+                leftEye.style.height = '25px';
+                rightEye.style.height = '25px';
+                // Wink when showing password
+                leftEye.style.height = '15px';
+                setTimeout(() => {
+                    leftEye.style.height = '25px';
+                }, 300);
+            } else if (passwordInput.value) {
+                leftEye.style.height = '20px';
+                rightEye.style.height = '20px';
+            }
+        });
+
+        // Guardian container click effect
+        const guardianContainer = document.getElementById('guardianContainer');
+        guardianContainer.addEventListener('click', () => {
+            guardianContainer.classList.add('animate__animated', 'animate__tada');
+            
+            // Heart grows when clicked
+            const heart = document.querySelector('.guardian-heart');
+            heart.style.transform = 'rotate(45deg) scale(1.3)';
+            setTimeout(() => {
+                heart.style.transform = 'rotate(45deg) scale(1)';
+            }, 300);
+            
+            setTimeout(() => {
+                guardianContainer.classList.remove('animate__animated', 'animate__tada');
+            }, 1000);
+        });
+
+        // Make eyes follow cursor
+        document.addEventListener('mousemove', (e) => {
+            const eyes = document.querySelectorAll('.guardian-eye');
+            eyes.forEach(eye => {
+                const eyeRect = eye.getBoundingClientRect();
+                const eyeX = eyeRect.left + eyeRect.width/2;
+                const eyeY = eyeRect.top + eyeRect.height/2;
+                const angle = Math.atan2(e.pageY - eyeY, e.pageX - eyeX);
+                const distance = Math.min(3, 
+                    Math.sqrt(Math.pow(e.pageX - eyeX, 2) + Math.pow(e.pageY - eyeY, 2)) / 30);
+                
+                const pupil = eye.querySelector('::after');
+                if (pupil) {
+                    pupil.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+                }
+            });
+        });
+    </script>
+    <!-- Enhanced Emotion Guardian -->
+    
+    <script>
+        // Enhanced Interactions
+        const moodIndicator = document.getElementById('moodIndicator');
+        const emailInput = document.getElementById('loginEmail');
+        const passwordInput = document.getElementById('loginPassword');
+
+        // Mood changes based on input validity
+        emailInput.addEventListener('input', () => {
+            const isValid = emailInput.checkValidity();
+            moodIndicator.style.background = isValid ? '#a8e6cf' : '#ffaaa5';
+            if(isValid) {
+                document.querySelector('.guardian-body').style.background = 
+                    'linear-gradient(135deg, var(--calm-blue) 30%, #a8e6cf 100%)';
+            }
+        });
+
+        // Breathing guidance when focused
+        passwordInput.addEventListener('focus', () => {
+            guardianMouth.style.border = 'none';
+            guardianMouth.style.borderRadius = '50%';
+            guardianMouth.style.width = '20px';
+            guardianMouth.style.height = '20px';
+            guardianMouth.style.background = '#5a3921';
+            moodIndicator.style.background = '#dcedc1';
+            
+            // Start guided breathing animation
+            const breathCycle = setInterval(() => {
+                guardianMouth.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    guardianMouth.style.transform = 'scale(1.1)';
+                }, 2000);
+            }, 4000);
+            
+            passwordInput.addEventListener('blur', () => {
+                clearInterval(breathCycle);
+            }, { once: true });
+        });
+
+        // Progressive enhancement for eyes
+        let eyeMovementEnabled = true;
+        function updateEyePosition(e) {
+            if(!eyeMovementEnabled) return;
+            
+            const eyes = document.querySelectorAll('.guardian-eye');
+            eyes.forEach(eye => {
+                const rect = eye.getBoundingClientRect();
+                const x = rect.left + rect.width/2;
+                const y = rect.top + rect.height/2;
+                const angle = Math.atan2(e.clientY - y, e.clientX - x);
+                const distance = Math.min(5, 
+                    Math.sqrt(Math.pow(e.clientX - x, 2) + Math.pow(e.clientY - y, 2)) / 20);
+                
+                eye.style.transform = `rotate(${angle}rad)`;
+                eye.querySelector('::after').style.transform = 
+                    `translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px)`;
+            });
+        }
+
+        // Toggle eye movement for users who prefer reduced motion
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (motionQuery.matches) {
+            eyeMovementEnabled = false;
+            document.querySelector('.guardian-halo').style.animation = 'none';
+        }
+
+        // Enhanced click interaction
+        guardianContainer.addEventListener('click', () => {
+            // Celebration animation
+            guardianContainer.classList.add('animate__animated', 'animate__heartBeat');
+            
+            // Mood boost effect
+            moodIndicator.style.background = '#ffaaa5';
+            moodIndicator.style.boxShadow = '0 0 15px #ffaaa5';
+            setTimeout(() => {
+                moodIndicator.style.background = '#dcedc1';
+                moodIndicator.style.boxShadow = 'none';
+            }, 1000);
+            
+            // Hands clap animation
+            const hands = document.querySelectorAll('.guardian-hand');
+            hands[0].style.transform = 'rotate(-10deg)';
+            hands[1].style.transform = 'rotate(10deg)';
+            setTimeout(() => {
+                hands[0].style.transform = 'rotate(30deg)';
+                hands[1].style.transform = 'rotate(-30deg)';
+            }, 300);
+            
+            setTimeout(() => {
+                guardianContainer.classList.remove('animate__animated', 'animate__heartBeat');
+            }, 1000);
+        });
+
+        // Dynamic color scheme based on time of day
+        function updateTimeBasedColors() {
+            const hour = new Date().getHours();
+            if(hour >= 6 && hour < 18) {
+                // Daytime colors
+                document.documentElement.style.setProperty('--calm-blue', '#8bd3dd');
+                document.documentElement.style.setProperty('--warm-peach', '#ff9a76');
+            } else {
+                // Nighttime colors
+                document.documentElement.style.setProperty('--calm-blue', '#6a8bdb');
+                document.documentElement.style.setProperty('--warm-peach', '#d65db1');
+            }
+        }
+        updateTimeBasedColors();
+        setInterval(updateTimeBasedColors, 3600000); // Update hourly
+    </script>
+</body>
+</html>

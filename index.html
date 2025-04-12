@@ -685,41 +685,49 @@
         }
     }
     <style>
-    .saanjh-container {
-      font-family: 'Poppins', sans-serif;
-      max-width: 400px;
-      margin: 20rem auto;
-      padding: 0 2rem;
-    }
-    
-    .saanjh-card {
+        .saanjh-container {
+  font-family: 'Poppins', sans-serif;
+  max-width: 400px;
+  margin: 5rem auto; /* Reduced top and bottom margin for mobile */
+  padding: 0 2rem;
+}
+
+/* Media query for screens smaller than 480px */
+@media (max-width: 480px) {
+  .saanjh-container {
+    margin: 3rem auto;  /* Adjust margin for very small screens */
+    padding: 0 1rem;    /* Slightly reduce horizontal padding */
+  }
+}
+
+.saanjh-card {
       background: linear-gradient(135deg, #12122e 0%, #1c1c3c 100%);
       border-radius: 24px;
-      overflow: hidden;
+  overflow: hidden;
       box-shadow: 0 20px 40px rgba(144, 201, 216, 0.3);
       display: flex;
       flex-direction: column;
-      position: relative;
-    }
-    
-    .saanjh-wave {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+  position: relative;
+}
+
+.saanjh-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
       height: 100%;
       opacity: 0.1;
-    }
-    
-    .saanjh-content {
+}
+
+.saanjh-content {
       display: flex;
       flex-direction: column;
       padding: 3rem 2rem;
-      position: relative;
+  position: relative;
       z-index: 2;
-    }
-    
-    .saanjh-header {
+}
+
+.saanjh-header {
       display: flex;
       align-items: center;
       margin-bottom: 2rem;
@@ -736,25 +744,25 @@
       border-radius: 20px;
       margin-right: 1.5rem;
       box-shadow: 0 8px 16px rgba(112, 66, 248, 0.4);
-    }
-    
-    .saanjh-logo-icon {
+}
+
+.saanjh-logo-icon {
       font-size: 3rem;
       color: white;
-    }
-    
-    .saanjh-title-container h2 {
+}
+
+.saanjh-title-container h2 {
       color: #fff;
       font-size: 2.2rem;
       font-weight: 600;
-      margin: 0;
+  margin: 0;
       background: linear-gradient(135deg, #7042f8 0%, #b28dff 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
-    
-    .saanjh-title-container p {
+}
+
+.saanjh-title-container p {
       color: #bbb;
       font-size: 1.1rem;
       margin: 0.5rem 0 0;
@@ -766,9 +774,9 @@
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
       margin-bottom: 2.5rem;
-    }
-    
-    .saanjh-feature {
+}
+
+.saanjh-feature {
       background: rgba(255, 255, 255, 0.207);
       border-radius: 16px;
       padding: 1.5rem;
@@ -779,21 +787,21 @@
       transform: translateY(-8px);
       background: rgba(255, 255, 255, 0.12);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-    
-    .saanjh-feature-icon {
+}
+
+.saanjh-feature-icon {
       color: #7042f8;
       font-size: 2rem;
       margin-bottom: 1rem;
-    }
-    
-    .saanjh-feature h3 {
+}
+
+.saanjh-feature h3 {
       color: #fff;
       font-size: 1.2rem;
       margin: 0 0 0.8rem;
-    }
-    
-    .saanjh-feature p {
+}
+
+.saanjh-feature p {
       color: #aaa;
       font-size: 0.95rem;
       line-height: 1.5;
@@ -823,10 +831,10 @@
     .saanjh-button:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 25px rgba(112, 66, 248, 0.5);
-    }
-    
-    .saanjh-stats {
-      display: flex;
+}
+
+.saanjh-stats {
+  display: flex;
       justify-content: center;
       margin: 3rem 0 1rem;
       flex-wrap: wrap;
@@ -835,16 +843,16 @@
     .saanjh-stat {
       text-align: center;
       margin: 0 2rem;
-    }
-    
-    .saanjh-stat-number {
+}
+
+.saanjh-stat-number {
       font-size: 2.5rem;
       font-weight: 700;
       color: #7042f8;
       margin-bottom: 0.3rem;
-    }
-    
-    .saanjh-stat-label {
+}
+
+.saanjh-stat-label {
       color: #aaa;
       font-size: 0.9rem;
     }
@@ -853,36 +861,36 @@
       margin-top: 3rem;
       padding-top: 3rem;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
+}
+
     .saanjh-testimonials-title {
-      text-align: center;
+  text-align: center;
       color: #fff;
       font-size: 1.5rem;
       margin-bottom: 2rem;
-    }
-    
+}
+
     @media (max-width: 768px) {
       .saanjh-content {
         padding: 2rem 1.5rem;
-      }
-      
+}
+
       .saanjh-header {
         flex-direction: column;
-        text-align: center;
+  text-align: center;
       }
       
       .saanjh-logo {
         margin: 0 0 1.5rem;
-      }
-      
+}
+
       .saanjh-features {
         grid-template-columns: 1fr;
       }
       
       .saanjh-stat {
         margin: 1rem;
-      }
+}
     }
   </style>
 </style>
@@ -1006,82 +1014,7 @@ x-autoplay-videos
 
         </section>
 
-        <div class="saanjh-container">
-            <div class="saanjh-card">
-              <svg class="saanjh-wave" viewBox="0 0 1440 320" preserveAspectRatio="none">
-                <path fill="#7042f8" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,213.3C672,224,768,224,864,197.3C960,171,1056,117,1152,106.7C1248,96,1344,128,1392,144L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
-              </svg>
-              
-              <div class="saanjh-content">
-                <div class="saanjh-header">
-                  <div class="saanjh-logo">
-                    <div class="saanjh-logo-icon">💜</div>
-                  </div>
-                  <div class="saanjh-title-container">
-                    <h2>Meet Saanjh</h2>
-                    <p>Your compassionate companion for emotional wellbeing</p>
-                  </div>
-                </div>
-                
-                <div class="saanjh-features">
-                  <div class="saanjh-feature">
-                    <div class="saanjh-feature-icon">🧠</div>
-                    <h3>24/7 Support</h3>
-                    <p>Access caring, non-judgmental support whenever you need it. Saanjh is always here to listen and help.</p>
-                  </div>
-                  
-                  <div class="saanjh-feature">
-                    <div class="saanjh-feature-icon">💬</div>
-                    <h3>Personalized Guidance</h3>
-                    <p>Get tailored advice and coping strategies based on your unique emotional needs and circumstances.</p>
-                  </div>
-                  
-                  <div class="saanjh-feature">
-                    <div class="saanjh-feature-icon">🔒</div>
-                    <h3>Private & Secure</h3>
-                    <p>Share your thoughts in a safe space. Your conversations remain private and confidential.</p>
-                  </div>
-                </div>
-                
-                <div class="saanjh-stats">
-                  <div class="saanjh-stat">
-                    <div class="saanjh-stat-number">65M+</div>
-                    <div class="saanjh-stat-label">MINDFUL MOMENTS</div>
-                  </div>
-                  
-                  <div class="saanjh-stat">
-                    <div class="saanjh-stat-number">24/7</div>
-                    <div class="saanjh-stat-label">AVAILABILITY</div>
-                  </div>
-                  
-                  <div class="saanjh-stat">
-                    <div class="saanjh-stat-number">100%</div>
-                    <div class="saanjh-stat-label">CONFIDENTIAL</div>
-                  </div>
-                </div>
-                
-                <div class="saanjh-cta">
-                  <a href="./templates/therapist.html" class="saanjh-button">Start Your Journey</a>
-                </div>
-                
-                <div class="saanjh-testimonials">
-                  <h3 class="saanjh-testimonials-title">What People Are Saying</h3>
-                  <div class="saanjh-features">
-                    <div class="saanjh-feature">
-                      <p>"Saanjh helped me navigate through my anxiety when nothing else worked. It's like having a supportive friend available anytime."</p>
-                      <h3>- Priya K.</h3>
-                    </div>
-                    
-                    <div class="saanjh-feature">
-                      <p>"The personalized approach makes all the difference. I've learned coping strategies that I use every day thanks to these sessions."</p>
-                      <h3>- Rahul M.</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
+       
 <script>
     let popup_data = JSON.parse('{\u0022max_show_count\u0022:1,\u0022wait_time\u0022:10,\u0022redirect_time\u0022:3,\u0022is_url_included\u0022:false,\u0022popup_id\u0022:0,\u0022scrolling_trigger\u0022:\u0022\u0022,\u0022floating_widget_show\u0022:false,\u0022floating_widget_text\u0022:\u0022\u0022}');
     let page_settings_data = JSON.parse('{\u0022show_chat\u0022:false}');
@@ -1809,6 +1742,82 @@ x-autoplay-videos
             </div>
         </div>
     </div>
+    <div class="saanjh-container">
+        <div class="saanjh-card">
+          <svg class="saanjh-wave" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#7042f8" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,213.3C672,224,768,224,864,197.3C960,171,1056,117,1152,106.7C1248,96,1344,128,1392,144L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+          </svg>
+          
+          <div class="saanjh-content">
+            <div class="saanjh-header">
+              <div class="saanjh-logo">
+                <div class="saanjh-logo-icon">💜</div>
+              </div>
+              <div class="saanjh-title-container">
+                <h2>Meet Saanjh</h2>
+                <p>Your compassionate companion for emotional wellbeing</p>
+              </div>
+            </div>
+            
+            <div class="saanjh-features">
+              <div class="saanjh-feature">
+                <div class="saanjh-feature-icon">🧠</div>
+                <h3>24/7 Support</h3>
+                <p>Access caring, non-judgmental support whenever you need it. Saanjh is always here to listen and help.</p>
+              </div>
+              
+              <div class="saanjh-feature">
+                <div class="saanjh-feature-icon">💬</div>
+                <h3>Personalized Guidance</h3>
+                <p>Get tailored advice and coping strategies based on your unique emotional needs and circumstances.</p>
+              </div>
+              
+              <div class="saanjh-feature">
+                <div class="saanjh-feature-icon">🔒</div>
+                <h3>Private & Secure</h3>
+                <p>Share your thoughts in a safe space. Your conversations remain private and confidential.</p>
+              </div>
+            </div>
+            
+            <div class="saanjh-stats">
+              <div class="saanjh-stat">
+                <div class="saanjh-stat-number">65M+</div>
+                <div class="saanjh-stat-label">MINDFUL MOMENTS</div>
+              </div>
+              
+              <div class="saanjh-stat">
+                <div class="saanjh-stat-number">24/7</div>
+                <div class="saanjh-stat-label">AVAILABILITY</div>
+              </div>
+              
+              <div class="saanjh-stat">
+                <div class="saanjh-stat-number">100%</div>
+                <div class="saanjh-stat-label">CONFIDENTIAL</div>
+              </div>
+            </div>
+            
+            <div class="saanjh-cta">
+              <a href="./templates/therapist.html" class="saanjh-button">Start Your Journey</a>
+            </div>
+            
+            <div class="saanjh-testimonials">
+              <h3 class="saanjh-testimonials-title">What People Are Saying</h3>
+              <div class="saanjh-features">
+                <div class="saanjh-feature">
+                  <p>"Saanjh helped me navigate through my anxiety when nothing else worked. It's like having a supportive friend available anytime."</p>
+                  <h3>- Priya K.</h3>
+                </div>
+                
+                <div class="saanjh-feature">
+                  <p>"The personalized approach makes all the difference. I've learned coping strategies that I use every day thanks to these sessions."</p>
+                  <h3>- Rahul M.</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 </body>
 
 <!DOCTYPE html>

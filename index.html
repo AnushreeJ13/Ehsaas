@@ -449,7 +449,6 @@
             <a href="x.html">CHILL ZONE</a>
             <a href="find_my_therapist.html">NEED HELP?</a>
         </div>
-        
         <div class="auth-buttons">
             <button class="nav-btn login-btn" onclick="window.location.href='login.html'">Log in</button>
             <button class="nav-btn signup-btn" onclick="window.location.href='signup.html'">Get Started</button>
@@ -685,6 +684,205 @@
             display: none;
         }
     }
+    <style>
+    .saanjh-container {
+      font-family: 'Poppins', sans-serif;
+      max-width: 400px;
+      margin: 20rem auto;
+      padding: 0 2rem;
+    }
+    
+    .saanjh-card {
+      background: linear-gradient(135deg, #12122e 0%, #1c1c3c 100%);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(144, 201, 216, 0.3);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    
+    .saanjh-wave {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+    }
+    
+    .saanjh-content {
+      display: flex;
+      flex-direction: column;
+      padding: 3rem 2rem;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .saanjh-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .saanjh-logo {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #7042f8 0%, #8c52ff 100%);
+      border-radius: 20px;
+      margin-right: 1.5rem;
+      box-shadow: 0 8px 16px rgba(112, 66, 248, 0.4);
+    }
+    
+    .saanjh-logo-icon {
+      font-size: 3rem;
+      color: white;
+    }
+    
+    .saanjh-title-container h2 {
+      color: #fff;
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin: 0;
+      background: linear-gradient(135deg, #7042f8 0%, #b28dff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .saanjh-title-container p {
+      color: #bbb;
+      font-size: 1.1rem;
+      margin: 0.5rem 0 0;
+    }
+    
+    .saanjh-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+    
+    .saanjh-feature {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .saanjh-feature:hover {
+      transform: translateY(-8px);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .saanjh-feature-icon {
+      color: #7042f8;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .saanjh-feature h3 {
+      color: #fff;
+      font-size: 1.2rem;
+      margin: 0 0 0.8rem;
+    }
+    
+    .saanjh-feature p {
+      color: #aaa;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+    
+    .saanjh-cta {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    
+    .saanjh-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #7042f8 0%, #8c52ff 100%);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 500;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(112, 66, 248, 0.4);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .saanjh-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(112, 66, 248, 0.5);
+    }
+    
+    .saanjh-stats {
+      display: flex;
+      justify-content: center;
+      margin: 3rem 0 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .saanjh-stat {
+      text-align: center;
+      margin: 0 2rem;
+    }
+    
+    .saanjh-stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #7042f8;
+      margin-bottom: 0.3rem;
+    }
+    
+    .saanjh-stat-label {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    
+    .saanjh-testimonials {
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .saanjh-testimonials-title {
+      text-align: center;
+      color: #fff;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .saanjh-content {
+        padding: 2rem 1.5rem;
+      }
+      
+      .saanjh-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .saanjh-logo {
+        margin: 0 0 1.5rem;
+      }
+      
+      .saanjh-features {
+        grid-template-columns: 1fr;
+      }
+      
+      .saanjh-stat {
+        margin: 1rem;
+      }
+    }
+  </style>
 </style>
 
 <script>
@@ -721,7 +919,7 @@
                 <picture class="responsive-image-container static-hero-device" alt="hero-device-and-hand">
             
 </picture>
-<a href="./Therapist_AI.html"></a>
+
 <div
 class="responsive-video-container relative h-full flex justify-end items-start static-hero-app-animation"
 x-data
@@ -760,7 +958,6 @@ x-autoplay-videos
 
 </section>
 
-<a href="./templates/therapist.html";
 
 
 
@@ -773,7 +970,7 @@ x-autoplay-videos
                 <div class="page-section-container">
                     <div class="breath-count-section-content">
                         <div role="heading" aria-level="2" class="breath-count-section-title">
-                            <p><span style="white-space-collapse: preserve;"><span style="color: #c392ff;">65</span> million breaths and counting</span></p>
+                            <p><span style="white-space-collapse: preserve;"><span style="color: #c392ff;">65</span> mindful moments shared</span></p>
                         </div>
                         <div class="breath-count-section-subtitle">
                             <p><span style="white-space-collapse: preserve;">Join the movement toward Peace💌. </span></p>
@@ -796,14 +993,92 @@ x-autoplay-videos
                 </div>
             </div>
             <div class="decorative-curve">
-                <img class="block desktop:hidden" src="https://src.metaflow.co/assets/Pages/home-super/breath-count-divider-medium.svg"
-                    alt="Breath Count Section Divider" />
-                <img class="hidden desktop:block" src="https://src.metaflow.co/assets/Pages/home-super/breath-count-divider-large.svg"
-                    alt="Breath Count Section Divider" />
+              
+                    <img class="block desktop:hidden curve-image" src="https://src.metaflow.co/assets/Pages/home-super/breath-count-divider-medium.svg" 
+                        alt="Breath Count Section Divider" />
+                    <img class="hidden desktop:block curve-image" src="https://src.metaflow.co/assets/Pages/home-super/breath-count-divider-large.svg" 
+                        alt="Breath Count Section Divider" />
+                </a>
             </div>
+            
+
         </section>
 
- 
+        <div class="saanjh-container">
+            <div class="saanjh-card">
+              <svg class="saanjh-wave" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path fill="#7042f8" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,213.3C672,224,768,224,864,197.3C960,171,1056,117,1152,106.7C1248,96,1344,128,1392,144L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+              </svg>
+              
+              <div class="saanjh-content">
+                <div class="saanjh-header">
+                  <div class="saanjh-logo">
+                    <div class="saanjh-logo-icon">💜</div>
+                  </div>
+                  <div class="saanjh-title-container">
+                    <h2>Meet Saanjh</h2>
+                    <p>Your compassionate companion for emotional wellbeing</p>
+                  </div>
+                </div>
+                
+                <div class="saanjh-features">
+                  <div class="saanjh-feature">
+                    <div class="saanjh-feature-icon">🧠</div>
+                    <h3>24/7 Support</h3>
+                    <p>Access caring, non-judgmental support whenever you need it. Saanjh is always here to listen and help.</p>
+                  </div>
+                  
+                  <div class="saanjh-feature">
+                    <div class="saanjh-feature-icon">💬</div>
+                    <h3>Personalized Guidance</h3>
+                    <p>Get tailored advice and coping strategies based on your unique emotional needs and circumstances.</p>
+                  </div>
+                  
+                  <div class="saanjh-feature">
+                    <div class="saanjh-feature-icon">🔒</div>
+                    <h3>Private & Secure</h3>
+                    <p>Share your thoughts in a safe space. Your conversations remain private and confidential.</p>
+                  </div>
+                </div>
+                
+                <div class="saanjh-stats">
+                  <div class="saanjh-stat">
+                    <div class="saanjh-stat-number">65M+</div>
+                    <div class="saanjh-stat-label">MINDFUL MOMENTS</div>
+                  </div>
+                  
+                  <div class="saanjh-stat">
+                    <div class="saanjh-stat-number">24/7</div>
+                    <div class="saanjh-stat-label">AVAILABILITY</div>
+                  </div>
+                  
+                  <div class="saanjh-stat">
+                    <div class="saanjh-stat-number">100%</div>
+                    <div class="saanjh-stat-label">CONFIDENTIAL</div>
+                  </div>
+                </div>
+                
+                <div class="saanjh-cta">
+                  <a href="./Therapist_AI.html" class="saanjh-button">Start Your Journey</a>
+                </div>
+                
+                <div class="saanjh-testimonials">
+                  <h3 class="saanjh-testimonials-title">What People Are Saying</h3>
+                  <div class="saanjh-features">
+                    <div class="saanjh-feature">
+                      <p>"Saanjh helped me navigate through my anxiety when nothing else worked. It's like having a supportive friend available anytime."</p>
+                      <h3>- Priya K.</h3>
+                    </div>
+                    
+                    <div class="saanjh-feature">
+                      <p>"The personalized approach makes all the difference. I've learned coping strategies that I use every day thanks to these sessions."</p>
+                      <h3>- Rahul M.</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
 <script>
     let popup_data = JSON.parse('{\u0022max_show_count\u0022:1,\u0022wait_time\u0022:10,\u0022redirect_time\u0022:3,\u0022is_url_included\u0022:false,\u0022popup_id\u0022:0,\u0022scrolling_trigger\u0022:\u0022\u0022,\u0022floating_widget_show\u0022:false,\u0022floating_widget_text\u0022:\u0022\u0022}');
@@ -1160,13 +1435,6 @@ x-autoplay-videos
     
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ehsaas | Features</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --lumen-purple: #7B5BE4;
@@ -1488,7 +1756,7 @@ x-autoplay-videos
                         </div>
                     </div>
                     
-                    <a href="#try-mood-ai" class="cta-button">Try MOOD AI</a>
+                    <a href="mood.html class="cta-button">Try MOOD AI</a>
                 </div>
             </div>
         </section>
@@ -1500,7 +1768,7 @@ x-autoplay-videos
                 <div class="feature-icon">💤</div>
                 <h3 class="feature-title">Sleep & Healing</h3>
                 <p class="feature-description">Discover effective methods to improve your sleep quality, along with curated podcasts designed to help you relax and find deep, restorative rest.</p>
-                <a href="#" class="learn-more">Learn more</a>
+                <a href="sleep.html" class="learn-more">Learn more</a>
             </div>
             
             <!-- Stress and Anxiety -->
@@ -1508,7 +1776,7 @@ x-autoplay-videos
                 <div class="feature-icon">🧘</div>
                 <h3 class="feature-title">Stress & Anxiety</h3>
                 <p class="feature-description">Learn effective techniques to manage stress and anxiety, with guided exercises and therapeutic podcasts to help you find calm during difficult moments.</p>
-                <a href="#" class="learn-more">Learn more</a>
+                <a href="stress.html" class="learn-more">Learn more</a>
             </div>
             
             <!-- Saathi Rooms -->
@@ -1516,7 +1784,7 @@ x-autoplay-videos
                 <div class="feature-icon">👥</div>
                 <h3 class="feature-title">Saathi Rooms</h3>
                 <p class="feature-description">Connect with others in themed virtual spaces like "Sad but Hopeful" where you can share experiences and find support from people who understand.</p>
-                <a href="#" class="learn-more">Learn more</a>
+                <a href="saathi.html" class="learn-more">Learn more</a>
             </div>
         </div>
         
@@ -1527,7 +1795,7 @@ x-autoplay-videos
                 <div class="feature-icon">🎮</div>
                 <h3 class="feature-title">Chill Zone</h3>
                 <p class="feature-description">Relax and unwind with soothing mini-games designed to reduce stress and help you find moments of peace throughout your day.</p>
-                <a href="#" class="learn-more">Learn more</a>
+                <a href="x.html" class="learn-more">Learn more</a>
             </div>
             
             <!-- Need Help -->
@@ -1535,9 +1803,522 @@ x-autoplay-videos
                 <div class="feature-icon">🆘</div>
                 <h3 class="feature-title">Need Help</h3>
                 <p class="feature-description">Find nearby professional therapists and mental health resources to get the support you need when you need it most.</p>
-                <a href="#" class="learn-more">Learn more</a>
+                <a href="find_my_therapist.html" class="learn-more">Learn more</a>
             </div>
         </div>
     </div>
+</body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ehsaas | Emotional Support Resources</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lumen-purple: #7B5BE4;
+            --lumen-purple-light: #9D8AEE;
+            --lumen-purple-dark: #5A3EC8;
+            --lumen-purple-bg: #F5F2FF;
+            --pastel-mint: #D6F5E9;
+            --pastel-peach: #FFE8D9;
+            --pastel-blue: #D9EDFF;
+            --text-dark: #2E2E48;
+            --text-light: #6D6D80;
+            --white: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: var(--lumen-purple-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--lumen-purple-dark), var(--lumen-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(123, 91, 228, 0.2);
+            padding-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: var(--lumen-purple-dark);
+            font-weight: 600;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1.1rem;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--lumen-purple);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Blogs Grid */
+        .blogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .blog-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(123, 91, 228, 0.05);
+            border: 1px solid rgba(123, 91, 228, 0.1);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(123, 91, 228, 0.1);
+        }
+        
+        .blog-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .blog-content {
+            padding: 1.5rem;
+        }
+        
+        .blog-category {
+            display: inline-block;
+            background: rgba(123, 91, 228, 0.1);
+            color: var(--lumen-purple);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+        
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        .blog-excerpt {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--lumen-purple);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more::after {
+            content: '→';
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .read-more:hover {
+            color: var(--lumen-purple-dark);
+        }
+        
+        .read-more:hover::after {
+            transform: translateX(3px);
+        }
+        
+        /* Videos Grid */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .video-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(123, 91, 228, 0.05);
+            border: 1px solid rgba(123, 91, 228, 0.1);
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(123, 91, 228, 0.1);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            height: 180px;
+            width: 100%;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--lumen-purple);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .video-card:hover .play-button {
+            background: var(--lumen-purple);
+            color: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .video-content {
+            padding: 1.5rem;
+        }
+        
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .video-meta {
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        
+        .video-duration {
+            margin-left: 1rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+        
+        .video-duration::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+        }
+        
+        .video-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Emotional Support Resources</h1>
+            <p class="subtitle">Explore our collection of therapeutic blogs and videos designed to help you navigate your emotions and find peace.</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="openTab('blogs')">Blogs</div>
+            <div class="tab" onclick="openTab('videos')">Videos</div>
+        </div>
+        
+        <!-- Blogs Content -->
+        <div id="blogs" class="tab-content active">
+            <div class="blogs-grid">
+                <!-- Blog 1 -->
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Mindfulness" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">Mindfulness</span>
+                        <h3 class="blog-title">5 Simple Mindfulness Techniques to Reduce Anxiety</h3>
+                        <p class="blog-excerpt">Discover easy-to-practice mindfulness exercises that can help calm your mind and reduce anxiety in just minutes a day...</p>
+                        <a href="#" class="read-more">Read Article</a>
+                    </div>
+                </div>
+                
+                <!-- Blog 2 -->
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Sleep" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">Sleep</span>
+                        <h3 class="blog-title">The Science-Backed Guide to Better Sleep</h3>
+                        <p class="blog-excerpt">Learn how to create the perfect sleep environment and routine based on the latest sleep research for more restful nights...</p>
+                        <a href="#" class="read-more">Read Article</a>
+                    </div>
+                </div>
+                
+                <!-- Blog 3 -->
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Relationships" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">Relationships</span>
+                        <h3 class="blog-title">How to Communicate Your Emotional Needs Effectively</h3>
+                        <p class="blog-excerpt">Practical strategies for expressing your feelings and needs in relationships without conflict or misunderstanding...</p>
+                        <a href="#" class="read-more">Read Article</a>
+                    </div>
+                </div>
+                
+                <!-- Blog 4 -->
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1491841553635-e69b7a055c67?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Self-Care" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">Self-Care</span>
+                        <h3 class="blog-title">Creating a Personalized Self-Care Routine That Works</h3>
+                        <p class="blog-excerpt">Tailor a self-care practice that fits your lifestyle and actually helps you recharge, not just another item on your to-do list...</p>
+                        <a href="#" class="read-more">Read Article</a>
+                    </div>
+                </div>
+                
+                <!-- Blog 5 -->
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Grief" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">Grief</span>
+                        <h3 class="blog-title">Navigating Loss: A Compassionate Guide to Grieving</h3>
+                        <p class="blog-excerpt">Understanding the grieving process and finding healthy ways to cope with loss at your own pace...</p>
+                        <a href="#" class="read-more">Read Article</a>
+                    </div>
+                </div>
+                
+                <!-- Blog 6 -->
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Parenting" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">Parenting</span>
+                        <h3 class="blog-title">Supporting Your Child's Emotional Development</h3>
+                        <p class="blog-excerpt">Evidence-based approaches to help children understand and express their emotions in healthy ways...</p>
+                        <a href="#" class="read-more">Read Article</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Videos Content -->
+        <div id="videos" class="tab-content">
+            <div class="videos-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/z6X5oEIg6Ak/maxresdefault.jpg" alt="Breathing Exercise">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">5-Minute Breathing Exercise for Instant Calm</h3>
+                        <div class="video-meta">
+                            <span>Dr. Sarah Johnson</span>
+                            <span class="video-duration">5:22</span>
+                        </div>
+                        <p class="video-description">A simple yet powerful breathing technique to reduce stress and anxiety in just minutes.</p>
+                    </div>
+                </div>
+                
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/E7G7Xf_3J3c/maxresdefault.jpg" alt="Sleep Meditation">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">Guided Sleep Meditation for Deep Rest</h3>
+                        <div class="video-meta">
+                            <span>Mindful Moments</span>
+                            <span class="video-duration">22:15</span>
+                        </div>
+                        <p class="video-description">Fall asleep faster and sleep more soundly with this calming bedtime meditation.</p>
+                    </div>
+                </div>
+                
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/1ZYbU82GVz4/maxresdefault.jpg" alt="Anxiety Relief">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">Understanding and Managing Anxiety</h3>
+                        <div class="video-meta">
+                            <span>Mental Health Foundation</span>
+                            <span class="video-duration">14:37</span>
+                        </div>
+                        <p class="video-description">Learn what anxiety is and practical strategies to cope with anxious thoughts.</p>
+                    </div>
+                </div>
+                
+                <!-- Video 4 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/4q1dgn_C0AU/maxresdefault.jpg" alt="Gratitude Practice">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">The Science of Gratitude & How to Practice It</h3>
+                        <div class="video-meta">
+                            <span>Psych2Go</span>
+                            <span class="video-duration">8:45</span>
+                        </div>
+                        <p class="video-description">Discover how gratitude rewires your brain and simple ways to incorporate it daily.</p>
+                    </div>
+                </div>
+                
+                <!-- Video 5 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/ND3F5HhkA-0/maxresdefault.jpg" alt="Self-Compassion">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">The Transformative Power of Self-Compassion</h3>
+                        <div class="video-meta">
+                            <span>Dr. Kristin Neff</span>
+                            <span class="video-duration">16:52</span>
+                        </div>
+                        <p class="video-description">Learn how to treat yourself with the same kindness you'd show a good friend.</p>
+                    </div>
+                </div>
+                
+                <!-- Video 6 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/6C6X8QK3Y-4/maxresdefault.jpg" alt="Mindfulness">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">Mindfulness for Beginners: A Step-by-Step Guide</h3>
+                        <div class="video-meta">
+                            <span>Headspace</span>
+                            <span class="video-duration">10:18</span>
+                        </div>
+                        <p class="video-description">Start your mindfulness practice with these simple, effective techniques.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tabs
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Show the selected tab content and mark tab as active
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 </body>
 </html>

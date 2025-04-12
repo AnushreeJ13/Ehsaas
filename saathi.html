@@ -2,11 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>CometChat Widget with Sidebar</title>
+    <title>Saathi Rooms - Ehsaas</title>
     <script
       defer
       src="https://widget-js.cometchat.io/v3/cometchatwidget.js"
     ></script>
+
+    <!-- Lumen Navbar Styles -->
     <style>
       * {
         margin: 0;
@@ -18,219 +20,185 @@
         font-family: sans-serif;
         height: 100vh;
         display: flex;
-      }
-
-      .sidebar {
-        width: 250px;
-        background-color: #2e2e2e;
-        color: white;
-        padding: 20px;
-        display: flex;
         flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .sidebar h2 {
-        margin-bottom: 20px;
-      }
-
-      .sidebar nav a {
-        color: white;
-        text-decoration: none;
-        margin: 10px 0;
-        display: block;
-        padding: 8px;
-        background: #444;
-        border-radius: 5px;
-        transition: background 0.2s;
-      }
-
-      .sidebar nav a:hover {
-        background: #555;
       }
 
       #cometchat {
         flex: 1;
-        height: 100vh;
+        height: calc(100vh - 80px); /* adjust for navbar height */
+        margin-top: 80px;
       }
-      /* Lumen-inspired color scheme */
-:root {
-    --lumen-primary: #5E56E8;
-    --lumen-secondary: #7B73FF;
-    --lumen-accent: #FF6B6B;
-    --lumen-light: #F8F7FF;
-    --lumen-dark: #2E2A5C;
-    --lumen-text: #4A4A4A;
-}
 
-/* Navbar Styles */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 5%;
-    background-color: white;
-    box-shadow: 0 2px 15px rgba(94, 86, 232, 0.1);
-    z-index: 1000;
-    transition: all 0.3s ease;
-}
+      /* Your provided Lumen-inspired navbar CSS */
+      :root {
+        --lumen-primary: #5e56e8;
+        --lumen-secondary: #7b73ff;
+        --lumen-accent: #ff6b6b;
+        --lumen-light: #f8f7ff;
+        --lumen-dark: #2e2a5c;
+        --lumen-text: #4a4a4a;
+      }
 
-.navbar:hover {
-    box-shadow: 0 5px 25px rgba(94, 86, 232, 0.15);
-}
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 5%;
+        background-color: white;
+        box-shadow: 0 2px 15px rgba(94, 86, 232, 0.1);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
 
-.logo {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--lumen-primary);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-}
+      .navbar:hover {
+        box-shadow: 0 5px 25px rgba(94, 86, 232, 0.15);
+      }
 
-.logo span {
-    color: var(--lumen-accent);
-}
+      .logo {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--lumen-primary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
 
-.nav-links {
-    display: flex;
-    gap: 30px;
-}
+      .logo span {
+        color: var(--lumen-accent);
+      }
 
-.nav-links a {
-    position: relative;
-    text-decoration: none;
-    color: var(--lumen-text);
-    font-weight: 500;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    padding: 5px 0;
-}
+      .nav-links {
+        display: flex;
+        gap: 30px;
+      }
 
-/* Unique hover effect */
-.nav-links a::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--lumen-primary);
-    transition: width 0.3s ease;
-}
+      .nav-links a {
+        position: relative;
+        text-decoration: none;
+        color: var(--lumen-text);
+        font-weight: 500;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        padding: 5px 0;
+      }
 
-.nav-links a:hover {
-    color: var(--lumen-primary);
-}
+      .nav-links a::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--lumen-primary);
+        transition: width 0.3s ease;
+      }
 
-.nav-links a:hover::before {
-    width: 100%;
-}
+      .nav-links a:hover {
+        color: var(--lumen-primary);
+      }
 
-/* Button styles */
-.auth-buttons {
-    display: flex;
-    gap: 15px;
-}
+      .nav-links a:hover::before {
+        width: 100%;
+      }
 
-.nav-btn {
-    padding: 10px 22px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+      .auth-buttons {
+        display: flex;
+        gap: 15px;
+      }
 
-.login-btn {
-    background: transparent;
-    border: 1px solid var(--lumen-primary);
-    color: var(--lumen-primary);
-}
+      .nav-btn {
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
 
-.login-btn:hover {
-    background: rgba(94, 86, 232, 0.05);
-}
+      .login-btn {
+        background: transparent;
+        border: 1px solid var(--lumen-primary);
+        color: var(--lumen-primary);
+      }
 
-.signup-btn {
-    background: var(--lumen-primary);
-    border: 1px solid var(--lumen-primary);
-    color: white;
-}
+      .login-btn:hover {
+        background: rgba(94, 86, 232, 0.05);
+      }
 
-.signup-btn:hover {
-    background: var(--lumen-secondary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(94, 86, 232, 0.2);
-}
+      .signup-btn {
+        background: var(--lumen-primary);
+        border: 1px solid var(--lumen-primary);
+        color: white;
+      }
 
-/* Mobile menu (hidden by default) */
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: var(--lumen-primary);
-    cursor: pointer;
-}
+      .signup-btn:hover {
+        background: var(--lumen-secondary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(94, 86, 232, 0.2);
+      }
 
-@media (max-width: 768px) {
-    .nav-links, .auth-buttons {
+      .mobile-menu-btn {
         display: none;
-    }
-    
-    .mobile-menu-btn {
-        display: block;
-    }
-    
-    .navbar {
-        padding: 15px 5%;
-    }
-}
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: var(--lumen-primary);
+        cursor: pointer;
+      }
 
+      @media (max-width: 768px) {
+        .nav-links,
+        .auth-buttons {
+          display: none;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .navbar {
+          padding: 15px 5%;
+        }
+      }
     </style>
   </head>
 
   <body>
+    <!-- Navbar Inserted Here -->
+    <nav class="navbar">
+      <a href="/" class="logo">Ehsaas<span>.</span></a>
 
-        <nav class="navbar">
-        <a href="/" class="logo">Ehsaas<span>.</span></a>
-        
-        <button class="mobile-menu-btn">☰</button>
-        
-        <div class="nav-links">
-            <a href="mood.html">MOOD AI</a>
-            <a href="sleep.html">SLEEP AND HEALING</a>
-            <a href="stress.html">STRESS AND ANXIETY</a>
-            <a href="./saathi.html">SAATHI ROOMS</a>
-            <a href="x.html">CHILL ZONE</a>
-            <a href="find_my_therapist.html">NEED HELP?</a>
-        </div>
-        
-        <div class="auth-buttons">
-            <button class="nav-btn login-btn" onclick="window.location.href='login.html'">Log in</button>
-            <button class="nav-btn signup-btn" onclick="window.location.href='signup.html'">Get Started</button>
-        </div>
+      <button class="mobile-menu-btn">☰</button>
+
+      <div class="nav-links">
+        <a href="mood.html">MOOD AI</a>
+        <a href="sleep.html">SLEEP AND HEALING</a>
+        <a href="stress.html">STRESS AND ANXIETY</a>
+        <a href="./saathi.html">SAATHI ROOMS</a>
+        <a href="x.html">CHILL ZONE</a>
+        <a href="find_my_therapist.html">NEED HELP?</a>
+      </div>
+
+      <div class="auth-buttons">
+        <button
+          class="nav-btn login-btn"
+          onclick="window.location.href='login.html'"
+        >
+          Log in
+        </button>
+        <button
+          class="nav-btn signup-btn"
+          onclick="window.location.href='signup.html'"
+        >
+          Get Started
+        </button>
+      </div>
     </nav>
-    <div class="sidebar">
-      <div>
-        <h2>Menu</h2>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="ventin.html">🎤 Vent</a>
-          <a href="find_my_therapist.html">Find Therapist</a>
-          <a href="#"> Saathi Rooms</a>
-          <a href="#">Profile</a>
-        </nav>
-      </div>
-      <div style="font-size: 0.8em; text-align: center; color: #aaa">
-        &copy; 2025 VentApp
-      </div>
-    </div>
 
+    <!-- CometChat Widget Container -->
     <div id="cometchat"></div>
 
     <script>
@@ -244,7 +212,7 @@
             console.log("CometChatWidget initialized");
 
             CometChatWidget.login({
-              uid: "pearlly",
+              uid: "panda",
             }).then(
               () => {
                 console.log("User logged in");
@@ -255,7 +223,7 @@
                   roundedCorners: true,
                   height: "100%",
                   width: "100%",
-                  defaultID: "pearlly",
+                  defaultID: "panda",
                   defaultType: "group",
                 });
               },

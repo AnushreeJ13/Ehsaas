@@ -53,10 +53,168 @@
         flex: 1;
         height: 100vh;
       }
+      /* Lumen-inspired color scheme */
+:root {
+    --lumen-primary: #5E56E8;
+    --lumen-secondary: #7B73FF;
+    --lumen-accent: #FF6B6B;
+    --lumen-light: #F8F7FF;
+    --lumen-dark: #2E2A5C;
+    --lumen-text: #4A4A4A;
+}
+
+/* Navbar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: white;
+    box-shadow: 0 2px 15px rgba(94, 86, 232, 0.1);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.navbar:hover {
+    box-shadow: 0 5px 25px rgba(94, 86, 232, 0.15);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--lumen-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo span {
+    color: var(--lumen-accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    position: relative;
+    text-decoration: none;
+    color: var(--lumen-text);
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    padding: 5px 0;
+}
+
+/* Unique hover effect */
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--lumen-primary);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--lumen-primary);
+}
+
+.nav-links a:hover::before {
+    width: 100%;
+}
+
+/* Button styles */
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    background: transparent;
+    border: 1px solid var(--lumen-primary);
+    color: var(--lumen-primary);
+}
+
+.login-btn:hover {
+    background: rgba(94, 86, 232, 0.05);
+}
+
+.signup-btn {
+    background: var(--lumen-primary);
+    border: 1px solid var(--lumen-primary);
+    color: white;
+}
+
+.signup-btn:hover {
+    background: var(--lumen-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(94, 86, 232, 0.2);
+}
+
+/* Mobile menu (hidden by default) */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--lumen-primary);
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nav-links, .auth-buttons {
+        display: none;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .navbar {
+        padding: 15px 5%;
+    }
+}
+
     </style>
   </head>
 
   <body>
+
+        <nav class="navbar">
+        <a href="/" class="logo">Ehsaas<span>.</span></a>
+        
+        <button class="mobile-menu-btn">☰</button>
+        
+        <div class="nav-links">
+            <a href="mood.html">MOOD AI</a>
+            <a href="sleep.html">SLEEP AND HEALING</a>
+            <a href="stress.html">STRESS AND ANXIETY</a>
+            <a href="./saathi.html">SAATHI ROOMS</a>
+            <a href="x.html">CHILL ZONE</a>
+            <a href="find_my_therapist.html">NEED HELP?</a>
+        </div>
+        
+        <div class="auth-buttons">
+            <button class="nav-btn login-btn" onclick="window.location.href='login.html'">Log in</button>
+            <button class="nav-btn signup-btn" onclick="window.location.href='signup.html'">Get Started</button>
+        </div>
+    </nav>
     <div class="sidebar">
       <div>
         <h2>Menu</h2>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MOH AIMate | Relationship Advisor</title>
+  <title>Saanjh | Relationship Advisor</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -42,6 +42,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
     
     .logo {
@@ -228,6 +229,20 @@
       cursor: not-allowed;
     }
     
+    #reset-button {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: auto;
+      height: auto;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 0.8rem;
+    }
+    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -247,19 +262,25 @@
       #input-area {
         padding: 0.75rem;
       }
+      
+      #reset-button {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="logo">💜</div>
-    <h1>Saanjh | Your Friend</h1>
+    <h1>Saanjh | Your Relationship Advisor</h1>
+    <button id="reset-button">Reset Chat</button>
   </header>
   
   <div id="chat-container"></div>
   
   <div id="typing-indicator" class="message-row bot">
-    <div class="avatar">AI</div>
+    <div class="avatar">S</div>
     <div class="message">
       <div class="typing-bubble"></div>
       <div class="typing-bubble"></div>
@@ -282,25 +303,27 @@
   </div>
 
   <script>
-    const API_BASE = 'http://localhost:5000';      // <-- point to your Flask server
-    const sessionId = Date.now().toString();       // simple session
-    const username = localStorage.getItem('username') || '';
-
+    // DOM Elements
     const chatContainer = document.getElementById('chat-container');
     const typingIndicator = document.getElementById('typing-indicator');
     const inputEl = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-button');
     const micBtn = document.getElementById('mic-button');
     const langToggle = document.getElementById('lang-toggle');
+    const resetBtn = document.getElementById('reset-button');
 
+    // Session and settings
+    const sessionId = localStorage.getItem('sessionId') || Date.now().toString();
+    localStorage.setItem('sessionId', sessionId);
     let currentLang = localStorage.getItem('preferredLang') || 'en-US';  // default
-
+    
     // Update button text and save preference
     function updateLangUI() {
       langToggle.textContent = currentLang === 'en-US' ? 'EN' : 'HI';
       localStorage.setItem('preferredLang', currentLang);
     }
 
+    // Toggle language
     langToggle.addEventListener('click', () => {
       currentLang = currentLang === 'en-US' ? 'hi-IN' : 'en-US';
       updateLangUI();
@@ -310,6 +333,122 @@
     });
     updateLangUI();
 
+    // Get conversation from localStorage or initialize
+    let conversation = JSON.parse(localStorage.getItem('conversation')) || [];
+    
+    // Pre-defined responses for the standalone version
+    const responses = {
+      greeting: [
+        "Hello! I'm Saanjh, your relationship advisor. How can I help you today?",
+        "Hi there! I'm Saanjh. I'm here to listen and help with any relationship concerns you might have.",
+        "Welcome! I'm Saanjh, your AI relationship advisor. What's on your mind today?"
+      ],
+      
+      relationship_issues: [
+        "It sounds like you're going through a challenging time in your relationship. Could you tell me more about what specifically has been difficult?",
+        "Many couples face similar challenges. Can you share what communication patterns you've noticed between you two?",
+        "I understand this is difficult. Have you tried discussing these feelings directly with your partner? How did that conversation go?"
+      ],
+      
+      breakup: [
+        "I'm sorry to hear you're going through this difficult time. Breakups can be incredibly painful. How have you been coping?",
+        "Healing after a breakup takes time. Have you been able to establish any self-care routines during this period?",
+        "That sounds really tough. It's normal to feel a range of emotions after a breakup. What has been the hardest part for you?"
+      ],
+      
+      dating: [
+        "Dating can certainly be challenging. What aspects of dating have you found most difficult?",
+        "It's common to feel uncertain in the early stages of dating. What kind of relationship are you hoping to build?",
+        "Dating experiences vary greatly. Have you noticed any patterns in your dating life that you'd like to change?"
+      ],
+      
+      communication: [
+        "Effective communication is crucial in relationships. Could you describe a recent conversation where you felt misunderstood?",
+        "Communication challenges are common. Have you tried expressing your feelings using 'I' statements rather than 'you' statements?",
+        "It sounds like there might be some communication barriers. What do you think might be preventing clear understanding between you two?"
+      ],
+      
+      trust: [
+        "Trust is fundamental in relationships. What specific events have affected trust in your relationship?",
+        "Rebuilding trust takes time and consistent actions. Have you discussed what you both need to feel secure again?",
+        "I understand trust issues can be painful. Have you reflected on whether there are past experiences influencing how you trust in this relationship?"
+      ],
+      
+      loneliness: [
+        "Feeling lonely is difficult, even when surrounded by others. Have you been able to share these feelings with anyone close to you?",
+        "Loneliness can feel overwhelming. What activities or connections have helped you feel less lonely in the past?",
+        "I'm sorry you're feeling lonely. Sometimes building meaningful connections starts with small steps. Have you considered joining groups aligned with your interests?"
+      ],
+      
+      general: [
+        "I appreciate you sharing that with me. Could you tell me more about how this situation is affecting you?",
+        "Thank you for opening up. What would be most helpful for you right now in dealing with this?",
+        "I understand. Have you noticed any patterns or recurring themes in this situation?",
+        "That sounds challenging. What strategies have you tried so far?"
+      ],
+      
+      default: [
+        "I'm here to listen and support you. Could you share more about what's on your mind?",
+        "Thank you for sharing. Can you tell me more about how this makes you feel?",
+        "I understand this is important to you. What do you hope might change in this situation?"
+      ],
+      
+      about: [
+        "I am Saanjh, your relationship advisor. How can I help you today?",
+        "I'm Saanjh, designed to provide support and guidance for relationship concerns. What would you like to discuss?"
+      ],
+      
+      creator: [
+        "I was created by Team Heal",
+        "My creator is Anushree Jain,Gauri Aggarwal,Ananya Bajpai, Pearl Vashishtha"
+      ],
+      
+      hindi_responses: {
+        greeting: "नमस्ते! मैं आपकी रिलेशनशिप एडवाइज़र साँझ हूँ। आज मैं आपकी कैसे मदद कर सकती हूँ?",
+        general: "आपने जो बताया उसके लिए धन्यवाद। क्या आप इस बारे में और बता सकते हैं?",
+        default: "मैं आपकी बात सुनने और सहायता करने के लिए यहां हूं। क्या आप अपने मन की बात साझा कर सकते हैं?"
+      }
+    };
+
+    // Simple keyword matching for responses
+    function getAIResponse(userInput) {
+      userInput = userInput.toLowerCase();
+      
+      // Handle Hindi responses
+      if (currentLang === 'hi-IN') {
+        return responses.hindi_responses.greeting || responses.hindi_responses.default;
+      }
+      
+      // Check for specific keywords and return appropriate response
+      if (userInput.includes('hello') || userInput.includes('hi') || userInput.includes('hey')) {
+        return getRandom(responses.greeting);
+      } else if (userInput.includes('who are you') || userInput.includes('your name') || userInput.includes('about you')) {
+        return getRandom(responses.about);
+      } else if (userInput.includes('who made you') || userInput.includes('who created you') || userInput.includes('your creator')) {
+        return getRandom(responses.creator);
+      } else if (userInput.includes('relationship') && (userInput.includes('problem') || userInput.includes('issue') || userInput.includes('trouble'))) {
+        return getRandom(responses.relationship_issues);
+      } else if (userInput.includes('breakup') || userInput.includes('broke up') || userInput.includes('end relationship')) {
+        return getRandom(responses.breakup);
+      } else if (userInput.includes('dating') || userInput.includes('date') || userInput.includes('seeing someone')) {
+        return getRandom(responses.dating);
+      } else if (userInput.includes('communicate') || userInput.includes('talking') || userInput.includes('communication')) {
+        return getRandom(responses.communication);
+      } else if (userInput.includes('trust') || userInput.includes('cheating') || userInput.includes('lied')) {
+        return getRandom(responses.trust);
+      } else if (userInput.includes('lonely') || userInput.includes('alone') || userInput.includes('loneliness')) {
+        return getRandom(responses.loneliness);
+      } else {
+        // If no specific keywords match, use general or default responses
+        return userInput.length > 20 ? getRandom(responses.general) : getRandom(responses.default);
+      }
+    }
+
+    // Get random item from array
+    function getRandom(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
     // Format timestamp
     function getTimeString() {
       const now = new Date();
@@ -317,13 +456,13 @@
     }
 
     // Append a chat bubble
-    function appendMessage(text, sender) {
+    function appendMessage(text, sender, save = true) {
       const row = document.createElement('div');
       row.classList.add('message-row', sender === 'user' ? 'user' : 'bot');
       
       const avatar = document.createElement('div');
       avatar.classList.add('avatar');
-      avatar.textContent = sender === 'user' ? 'YOU' : 'AI';
+      avatar.textContent = sender === 'user' ? 'YOU' : 'S';
       
       const message = document.createElement('div');
       message.classList.add('message');
@@ -340,6 +479,12 @@
       
       chatContainer.appendChild(row);
       chatContainer.scrollTop = chatContainer.scrollHeight;
+      
+      // Save to conversation history if needed
+      if (save) {
+        conversation.push({ role: sender, content: text });
+        localStorage.setItem('conversation', JSON.stringify(conversation));
+      }
     }
 
     // Show typing indicator
@@ -350,7 +495,7 @@
       }
     }
 
-    // Send user message to backend
+    // Send message and get response
     async function sendMessage() {
       const text = inputEl.value.trim();
       if (!text) return;
@@ -367,65 +512,42 @@
         // Show typing indicator
         showTyping(true);
         
-        // Parallel requests: One for typing indicator (allows server delay), one for actual response
-        const typingPromise = fetch(`${API_BASE}/typing`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ message_length: text.length })
-        });
+        // Simulate server delay (0.5-2 seconds)
+        const typingDelay = Math.max(500, Math.min(2000, text.length * 30));
+        await new Promise(resolve => setTimeout(resolve, typingDelay));
         
-        const responsePromise = fetch(`${API_BASE}/therapist`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ 
-            message: text, 
-            session_id: sessionId,
-            username: username
-          })
-        });
+        // Get AI response 
+        const response = getAIResponse(text);
         
-        // Wait for typing indicator to complete first
-        await typingPromise;
-        
-        // Then get the actual response
-        const res = await responsePromise;
-        if (!res.ok) throw new Error(res.statusText);
-        
-        const data = await res.json();
-        
-        // Hide typing indicator before showing message
+        // Hide typing indicator
         showTyping(false);
         
-        // Simulate human typing delay based on message length
-        const typingDelay = Math.min(1500, data.response.length * 20);
+        // Simulate human typing delay
+        const responseDelay = Math.min(1000, response.length * 20);
         setTimeout(() => {
-          appendMessage(data.response, 'bot');
-          speakText(data.response);
-        }, typingDelay);
+          appendMessage(response, 'bot');
+          // Speak the response if speech synthesis is available
+          speakText(response);
+        }, responseDelay);
         
       } catch (err) {
         console.error(err);
         showTyping(false);
-        appendMessage('I seem to be having connection issues. Can we try again?', 'bot');
+        appendMessage('I seem to be having some issues. Can we try again?', 'bot');
       } finally {
         // Re-enable input controls
         setTimeout(() => {
           inputEl.disabled = false;
-          sendBtn.disabled = false;
+          sendBtn.disabled = false; 
           micBtn.disabled = false;
           inputEl.focus();
         }, 500);
       }
     }
 
-    sendBtn.addEventListener('click', sendMessage);
-    inputEl.addEventListener('keydown', e => {
-      if (e.key === 'Enter') sendMessage();
-    });
-
-    // Speech Recognition
-    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    // Initialize speech recognition
     let recognizer;
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
     
     if (SpeechRec) {
       recognizer = new SpeechRec();
@@ -437,11 +559,19 @@
       recognizer.onstart = () => {
         micBtn.style.background = 'var(--primary)';
         micBtn.innerHTML = '⬤';
+        appendMessage("I'm listening...", 'bot', false);
       };
       
       recognizer.onresult = e => {
         const transcript = e.results[0][0].transcript;
         inputEl.value = transcript;
+        
+        // Remove the "listening" message
+        const lastMessage = chatContainer.lastElementChild;
+        if (lastMessage && lastMessage.querySelector('.message').textContent === "I'm listening...") {
+          chatContainer.removeChild(lastMessage);
+        }
+        
         setTimeout(sendMessage, 300); // Small delay to see the transcript
       };
       
@@ -449,6 +579,12 @@
         micBtn.disabled = false;
         micBtn.style.background = 'rgba(255,255,255,0.1)';
         micBtn.innerHTML = '🎤';
+        
+        // Remove the "listening" message if it's still there
+        const lastMessage = chatContainer.lastElementChild;
+        if (lastMessage && lastMessage.querySelector('.message').textContent === "I'm listening...") {
+          chatContainer.removeChild(lastMessage);
+        }
       };
       
       recognizer.onerror = (event) => {
@@ -456,9 +592,18 @@
         micBtn.disabled = false;
         micBtn.style.background = 'rgba(255,255,255,0.1)';
         micBtn.innerHTML = '🎤';
+        
+        // Remove the "listening" message
+        const lastMessage = chatContainer.lastElementChild;
+        if (lastMessage && lastMessage.querySelector('.message').textContent === "I'm listening...") {
+          chatContainer.removeChild(lastMessage);
+        }
+        
+        appendMessage("Sorry, I couldn't hear you. Please try again or type your message.", 'bot');
       };
     }
 
+    // Start speech recognition
     micBtn.addEventListener('click', () => {
       if (!recognizer) {
         return alert('Speech recognition is not supported in your browser.');
@@ -473,7 +618,7 @@
       }
     });
 
-    // Speech Synthesis
+    // Speech synthesis
     function speakText(text) {
       if (!window.speechSynthesis) return;
       
@@ -510,18 +655,44 @@
       }
     }
 
-    // Greet on load
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const greeting = "Hello! I'm Saanjh, your therapist. How can I help you today?";
-        appendMessage(greeting, 'bot');
-        
-        // Speak greeting after a slight delay
-        setTimeout(() => {
-          speakText(greeting);
-        }, 500);
-      }, 800);
+    // Event listeners
+    sendBtn.addEventListener('click', sendMessage);
+    inputEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendMessage();
     });
+    
+    // Reset conversation
+    resetBtn.addEventListener('click', () => {
+      chatContainer.innerHTML = '';
+      conversation = [];
+      localStorage.setItem('conversation', JSON.stringify(conversation));
+      
+      // Show greeting after reset
+      setTimeout(() => {
+        const greeting = "Hello! I'm Saanjh, your relationship advisor. How can I help you today?";
+        appendMessage(greeting, 'bot');
+        speakText(greeting);
+      }, 300);
+    });
+
+    // Load conversation history from localStorage
+    function loadConversation() {
+      if (conversation.length > 0) {
+        conversation.forEach(msg => {
+          appendMessage(msg.content, msg.role, false);
+        });
+      } else {
+        // Show greeting on first load
+        setTimeout(() => {
+          const greeting = "Hello! I'm Saanjh, your relationship advisor. How can I help you today?";
+          appendMessage(greeting, 'bot');
+          speakText(greeting);
+        }, 800);
+      }
+    }
+
+    // Initialize on load
+    window.addEventListener('load', loadConversation);
   </script>
 </body>
 </html>

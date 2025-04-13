@@ -4,52 +4,165 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book Appointment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f4f4f4;
-    }
-    .container {
-      max-width: 400px;
-      background: white;
+      background: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px gray;
-      margin: auto;
     }
+
+    .container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 500px;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(94, 86, 232, 0.1);
+      border: 2px solid rgba(94, 86, 232, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, #5e56e8, transparent);
+      animation: rotate 6s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+
     h2 {
       text-align: center;
-      color: #333;
+      color: #2a2a2a;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
     }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
     label {
       display: block;
-      margin-top: 10px;
-      font-weight: bold;
-      color: #555;
+      margin-bottom: 0.5rem;
+      color: #4a4a4a;
+      font-weight: 500;
+      font-size: 0.9rem;
     }
-    input, select, button {
+
+    input, select {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background: #ffffff;
     }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #5e56e8;
+      box-shadow: 0 0 10px rgba(94, 86, 232, 0.1);
+    }
+
     button {
-      background-color: #28a745;
+      width: 100%;
+      padding: 14px;
+      background: #5e56e8;
       color: white;
-      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rem;
     }
+
     button:hover {
-      background-color: #218838;
+      background: #4a43d1;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(94, 86, 232, 0.2);
     }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        transparent 20%, 
+        rgba(255,255,255,0.2) 50%, 
+        transparent 80%);
+      animation: buttonShine 3s infinite linear;
+    }
+
+    @keyframes buttonShine {
+      from { transform: translateX(-100%) rotate(45deg); }
+      to { transform: translateX(100%) rotate(45deg); }
+    }
+
     #statusMessage {
-      margin-top: 20px;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 10px;
       text-align: center;
-      font-weight: bold;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+    }
+
+    .success {
+      background: #e8f5e9;
+      border: 1px solid #4BB543;
+      color: #2e7d32;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .error {
+      background: #ffebee;
+      border: 1px solid #ff4444;
+      color: #d32f2f;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .processing {
+      background: #e3f2fd;
+      border: 1px solid #2196f3;
+      color: #1976d2;
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -57,142 +170,100 @@
   <div class="container">
     <h2>Book an Appointment</h2>
     <form id="appointmentForm">
-      <label for="date">Appointment Date:</label>
-      <input type="date" id="date" required />
+      <div class="input-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" required />
+      </div>
 
-      <label for="time">Preferred Time:</label>
-      <input type="time" id="time" required />
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" required />
+      </div>
 
-      <label for="service">Select Service:</label>
-      <select id="service">
-        <option value="General Consultation">General Consultation</option>
-        <option value="Gynecology">Gynecology</option>
-        <option value="Maternity Checkup">Maternity Checkup</option>
-        <option value="Ultrasound">Ultrasound</option>
-      </select>
+      <div class="input-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required />
+      </div>
 
-      <button type="submit">Book Appointment</button>
+      <div class="input-group">
+        <label for="date">Appointment Date</label>
+        <input type="date" id="date" required />
+      </div>
+
+      <div class="input-group">
+        <label for="time">Preferred Time</label>
+        <input type="time" id="time" required />
+      </div>
+
+      <div class="input-group">
+        <label for="service">Select Service</label>
+        <select id="service">
+          <option value="General Consultation">General Consultation</option>
+          <option value="Gynecology">Gynecology</option>
+          <option value="Maternity Checkup">Maternity Checkup</option>
+          <option value="Ultrasound">Ultrasound</option>
+        </select>
+      </div>
+
+      <button type="submit">Book Appointment →</button>
+      <div id="statusMessage"></div>
     </form>
-    <p id="statusMessage"></p>
   </div>
 
-  <script src="https://apis.google.com/js/api.js"></script>
-
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyBM14aLNNFjiMPY1Fa-wsP1LydYzpEB2Jc",
-      authDomain: "shecare-f2707.firebaseapp.com",
-      projectId: "shecare-f2707",
-      storageBucket: "shecare-f2707.firebasestorage.app",
-      messagingSenderId: "594871576314",
-      appId: "1:594871576314:web:5a102e6e8d26b9c119cb43",
-      measurementId: "G-7PJV0642PB"
+      apiKey: "AIzaSyCHK5Sx4G1RhHLT-IiZ4inOmun2mw7771w",
+      authDomain: "ventapp-e3df4.firebaseapp.com",
+      projectId: "ventapp-e3df4",
+      storageBucket: "ventapp-e3df4.firebasestorage.app",
+      messagingSenderId: "327855378991",
+      appId: "1:327855378991:web:29e7c757dbab0495e1ecda",
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getFirestore(app);
-
-    function initGmailApi() {
-      gapi.client.init({
-        apiKey: "AIzaSyDlk3LpfE0zEmovF3GZGrl9WUYaxnjT46o",
-        clientId: "64390388148-s7udb1nknfn5beid2q6l2hna6s8iv46r.apps.googleusercontent.com",
-        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"],
-        scope: "https://www.googleapis.com/auth/gmail.send"
-      }).then(() => {
-        console.log("Gmail API initialized.");
-      }, (error) => {
-        console.error("Error initializing Gmail API:", error);
-      });
-    }
-    gapi.load("client:auth2", initGmailApi);
-
-    function base64urlEncode(str) {
-      return btoa(str)
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+$/, '');
-    }
-
-    function sendEmailAppointment(details) {
-      const { userEmail, date, time, service } = details;
-      const emailContent =
-        `From: "SheCare" <${userEmail}>\r\n` +
-        `To: ${userEmail}\r\n` +
-        `Subject: Appointment Confirmation\r\n\r\n` +
-        `Dear User,\n\n` +
-        `Your appointment for ${service} on ${date} at ${time} has been confirmed.\n\n` +
-        `Thank you for choosing SheCare.\n\n` +
-        `Regards,\nSheCare Team`;
-
-      const encodedEmail = base64urlEncode(emailContent);
-
-      const request = gapi.client.gmail.users.messages.send({
-        userId: "me",
-        resource: {
-          raw: encodedEmail
-        }
-      });
-
-      request.execute((response) => {
-        console.log("Email sent:", response);
-      });
-    }
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        console.warn("User not logged in.");
-        document.getElementById("statusMessage").innerText = "Please log in to book an appointment.";
-        document.getElementById("statusMessage").style.color = "red";
-        document.getElementById("appointmentForm").style.display = "none";
-      } else {
-        console.log("Logged in as:", user.email);
-      }
-    });
 
     document.getElementById("appointmentForm").addEventListener("submit", async function(event) {
       event.preventDefault();
-
+      
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
       const date = document.getElementById("date").value;
       const time = document.getElementById("time").value;
       const service = document.getElementById("service").value;
 
-      const user = auth.currentUser;
-      if (!user) {
-        alert("User not logged in. Please log in.");
-        return;
-      }
-
-      const appointmentData = {
-        userId: user.uid,
-        userEmail: user.email,
-        date: date,
-        time: time,
-        service: service,
-        createdAt: serverTimestamp()
-      };
+      const statusMessage = document.getElementById("statusMessage");
+      statusMessage.textContent = "Processing your appointment...";
+      statusMessage.className = "processing";
 
       try {
-        await addDoc(collection(db, "appointments"), appointmentData);
-        document.getElementById("statusMessage").innerText = "Appointment booked successfully!";
-        document.getElementById("statusMessage").style.color = "green";
-
-        sendEmailAppointment({
-          userEmail: user.email,
+        const docRef = await addDoc(collection(db, "appointments"), {
+          name: name,
+          email: email,
+          phone: phone,
           date: date,
           time: time,
-          service: service
+          service: service,
+          createdAt: serverTimestamp()
         });
 
+        statusMessage.textContent = "Appointment booked successfully!";
+        statusMessage.className = "success";
         document.getElementById("appointmentForm").reset();
+
+        setTimeout(() => {
+          statusMessage.className = "";
+          statusMessage.textContent = "";
+        }, 3000);
+
       } catch (error) {
-        console.error("Error booking appointment:", error);
-        document.getElementById("statusMessage").innerText = "Failed to book appointment.";
-        document.getElementById("statusMessage").style.color = "red";
+        console.error("Error booking appointment: ", error);
+        statusMessage.textContent = " Failed to book appointment. Please try again.";
+        statusMessage.className = "error";
       }
     });
   </script>

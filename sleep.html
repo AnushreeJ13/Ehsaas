@@ -702,8 +702,8 @@
                   }
                   
                   .breath-circle {
-                      width: 220px;
-                      height: 220px;
+                      width: 300px;
+                      height: 300px;
                   }
                   
                   .tool-title {
@@ -764,20 +764,13 @@
                       
                       <div class="breath-circle">
                           <div class="circle-fill"></div>
-                          <div class="breath-text">Ready</div>
+                          <div class="breath-text"></div>
                       </div>
-                      
-                    
-                      
-                      <div class="controls">
-                         
-                          
-                          <button class="main-btn" id="start-btn">Start Breathing</button>
+                      <div class="controls"> 
                       </div>
                   </div>
               </section>
           </div>
-      
           <script>
               const breathCircle = document.querySelector('.breath-circle');
               const breathText = document.querySelector('.breath-text');
@@ -785,26 +778,22 @@
               const startBtn = document.getElementById('start-btn');
               const durationBtns = document.querySelectorAll('.duration-btn');
               const cycleCount = document.getElementById('cycle-count');
-              
               let isRunning = false;
               let animationInterval;
               let currentDuration = 4; // Default 4-4-4 pattern
               let cycles = 0;
-              
               // Duration selection
               durationBtns.forEach(btn => {
                   btn.addEventListener('click', () => {
                       durationBtns.forEach(b => b.classList.remove('active'));
                       btn.classList.add('active');
                       currentDuration = parseInt(btn.dataset.duration);
-                      
                       if (isRunning) {
                           resetAnimation();
                           startAnimation();
                       }
                   });
               });
-              
               // Start/Stop button
               startBtn.addEventListener('click', () => {
                   if (isRunning) {
@@ -814,10 +803,8 @@
                       startAnimation();
                       startBtn.textContent = 'Stop';
                   }
-                  
                   isRunning = !isRunning;
               });
-              
               function startAnimation() {
                   let phase = 'inhale';
                   let timeLeft = currentDuration;
@@ -1006,37 +993,23 @@
             <p>
               In just 10 minutes a day, you'll learn how to manage your stress and anxiety symptoms. Choose from many popular courses, like 7 Days of Calming Anxiety and 7 Days of Managing Stress.
             </p>
-            <div class="image-content">
-               
-                <div class="image-caption">
-                  <span class="title">SOS Breath Work</span>
-                  <span class="subtitle">A breathing practice to help relieve stress</span>
-                </div>
-              </div>
             <div class="audio-player">
-                <audio controls preload="none" controlslist="nodownload">
-                    <source src="https://archive.org/download/WinnieThePoohAudiobook/01-ChapterOne.mp3" type="audio/mpeg">
-                    
-                  </audio>
+              <audio controls preload="none" controlslist="nodownload" src="https://archive.org/download/WinnieThePoohAudiobook/01-ChapterOne.mp3"></audio>
             </div>
-            <iframe 
-  width="560" 
-  height="315" 
-  src="https://www.youtube.com/embed/nBUZz7kBCfY?rel=0&autoplay=0&controls=1" 
-  title="Winnie the Pooh - Audiobook" 
-  frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-  allowfullscreen>
-</iframe>
-
-            
-            <span class="podcast-name">Winnie The Pooh</span>
-            
+            <span class="podcast-name">Podcast: Winnie the Pooh</span>
+            <span class="narrator">Narrated by Tom Hiddleston</span>
           </div>
           <div class="image-content">
-            
+            <div class="image-container">
+              <img alt="App image for Breath Work" src="https://i.pinimg.com/564x/23/46/57/234657c13b09154211f9f356bda3fcb6.jpg">
+            </div>
+            <div class="image-caption">
+              <span class="title">Winnie the Pooh</span>
+              <span class="subtitle">Drift off to sleep while Tom Hiddleston reads you a classic story</span>
+            </div>
           </div>
-        </div>
+        </div>   
+            
       </div>
       
     </div>
@@ -1370,4 +1343,3 @@
 </html>
 
   
-

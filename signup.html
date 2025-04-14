@@ -4,251 +4,569 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ehsaas - Discover Yourself</title>
+  <!-- Using compat libraries for consistency -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script type="text/javascript" src="https://unpkg.com/@cometchat/chat-sdk-javascript/CometChat.js"></script>
+  <!-- Your styles here -->
   <style>
-    :root {
-        --purple: #7042f8;
-        --cyan: #45f3ff;
-        --dark-bg: #0d0d23;
-        --neon-pink: #ff00ff;
+       :root { 
+      --purple: #b9a9e9; 
+      --deep-purple: #162c9f;
+      --cyan: #374546; 
+      --dark-bg: #0d0d23; 
+      --neon-pink: #ade5eb;
+      --glow-color: rgba(69, 243, 255, 0.7);
+    }
+    
+    body { 
+      margin: 0; 
+      height: 100vh; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      background-image: url("./mental-health.jpg");
+background-repeat: no-repeat;
+background-size: 2000px auto; /* Decrease width to 50%, height auto */
+background-position: right; /* Optional: center it */
+
+      font-family: 'Poppins', 'Arial', sans-serif; 
+      overflow: hidden;
+      color: white;
+      position: relative;
+    }
+    
+    .cosmic-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(191, 176, 238, 0.81) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(69, 243, 255, 0.05) 0%, transparent 30%);
+      z-index: -2;
+    }
+    
+    .floating-particles { 
+      position: absolute; 
+      width: 100%; 
+      height: 100vh; 
+      pointer-events: none;
+      z-index: -1; 
+    }
+    
+    .particle { 
+      position: absolute; 
+      background: radial-gradient(circle, var(--cyan) 0%, transparent 70%); 
+      border-radius: 50%; 
+      animation: float 15s infinite linear; 
+    }
+    
+    .cosmic-star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle 4s infinite ease-in-out;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.5); }
+    }
+    
+    @keyframes float { 
+      0% { transform: translate(0, 0) scale(0.8); opacity: 0.8; } 
+      25% { transform: translate(50px, -50px) scale(1.2); opacity: 0.4; } 
+      50% { transform: translate(100px, 0) scale(0.9); opacity: 0.6; } 
+      75% { transform: translate(50px, 50px) scale(1.1); opacity: 0.3; } 
+      100% { transform: translate(0, 0) scale(0.8); opacity: 0.8; } 
+    }
+    
+    .auth-container { 
+        margin-left: auto;
+        margin-right: 20px; /* optional extra spacing from the edge */
+        
+      width: 400px; 
+      padding: 3px; 
+      border-radius: 24px; 
+      background: linear-gradient(45deg, var(--purple), var(--cyan), var(--neon-pink), var(--purple)); 
+      background-size: 400% 400%;
+      animation: borderGlow 8s linear infinite; 
+      box-shadow: 
+        0 0 30px rgba(112, 66, 248, 0.3),
+        0 0 60px rgba(69, 243, 255, 0.084); 
+      overflow: hidden;
+      transform: translateY(0);
+      transition: transform 0.5s ease;
+    }
+    
+    .auth-container:hover {
+      transform: translateY(-5px);
+    }
+    
+    @keyframes borderGlow { 
+      0% { background-position: 0% 50%; } 
+      50% { background-position: 100% 50%; } 
+      100% { background-position: 0% 50%; } 
+    }
+    
+    .auth-content { 
+      position: relative; 
+      background: var(--dark-bg); 
+      padding: 40px; 
+      border-radius: 21px; 
+      z-index: 1;
+      backdrop-filter: blur(10px);
+    }
+    
+    .auth-title { 
+      text-align: center; 
+      margin-bottom: 30px; 
+      font-size: 2.4em;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--purple), var(--cyan), var(--neon-pink)); 
+      background-size: 300% 300%;
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      color: transparent; 
+      animation: titleGlow 6s ease-in-out infinite;
+      letter-spacing: 1px;
+    }
+    
+    @keyframes titleGlow { 
+      0% { background-position: 0% 50%; text-shadow: 0 0 10px rgba(112, 66, 248, 0.5); } 
+      50% { background-position: 100% 50%; text-shadow: 0 0 20px rgba(69, 243, 255, 0.7); } 
+      100% { background-position: 0% 50%; text-shadow: 0 0 10px rgba(112, 66, 248, 0.5); } 
+    }
+    
+    .input-group {
+      position: relative;
+      margin: 24px 0;
+    }
+    
+    .auth-input { 
+      width: 100%; 
+      padding: 16px 20px; 
+      border: 2px solid rgba(112, 66, 248, 0.3); 
+      border-radius: 30px; 
+      background: rgba(13, 13, 35, 0.6); 
+      color: white; 
+      font-size: 1em; 
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+    
+    .auth-input:focus { 
+      border-color: var(--cyan); 
+      box-shadow: 0 0 15px rgba(69, 243, 255, 0.3); 
+      transform: scale(1.02); 
+      outline: none;
+    }
+    
+    .input-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.2em;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    
+    .auth-input:focus + .input-icon {
+      color: var(--cyan);
+    }
+    
+    .auth-button { 
+      width: 100%; 
+      padding: 16px; 
+      margin: 30px 0 20px; 
+      border: none; 
+      border-radius: 30px; 
+      background: linear-gradient(45deg, var(--deep-purple), var(--purple), var(--cyan)); 
+      background-size: 200% 200%;
+      color: white; 
+      font-size: 1.2em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer; 
+      transition: all 0.3s ease; 
+      position: relative; 
+      overflow: hidden;
+      animation: buttonGradient 4s ease infinite;
+    }
+    
+    @keyframes buttonGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .auth-button:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 7px 20px rgba(69, 243, 255, 0.4); 
+    }
+    
+    .auth-button:active {
+      transform: translateY(1px);
+    }
+    
+    .auth-button::after { 
+      content: ''; 
+      position: absolute; 
+      top: -50%; 
+      left: -50%; 
+      width: 200%; 
+      height: 200%; 
+      background: linear-gradient(45deg, transparent 20%, rgba(255,255,255,0.3) 50%, transparent 80%); 
+      animation: buttonShine 3s infinite linear; 
+    }
+    
+    @keyframes buttonShine { 
+      from { transform: translateX(-100%) rotate(45deg); } 
+      to { transform: translateX(100%) rotate(45deg); } 
+    }
+    
+    .auth-link { 
+      text-align: center; 
+      color: rgba(255,255,255,0.8); 
+      margin-top: 24px; 
+      animation: fadeIn 1s ease-out;
+      font-size: 1em;
+    }
+    
+    .auth-link a { 
+      color: var(--cyan); 
+      text-decoration: none; 
+      position: relative;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .auth-link a::after { 
+      content: ''; 
+      position: absolute; 
+      bottom: -2px; 
+      left: 0; 
+      width: 0; 
+      height: 2px; 
+      background: var(--cyan); 
+      transition: width 0.3s ease; 
+    }
+    
+    .auth-link a:hover { 
+      text-shadow: 0 0 8px var(--glow-color);
+    }
+    
+    .auth-link a:hover::after { 
+      width: 100%; 
+    }
+    
+    .error-message { 
+      color: #ff4444; 
+      text-align: center; 
+      margin: 10px 0; 
+      animation: shake 0.5s ease; 
+      font-size: 0.9em;
+    }
+    
+    @keyframes shake { 
+      0%, 100% { transform: translateX(0); } 
+      25% { transform: translateX(10px); } 
+      50% { transform: translateX(-10px); } 
+      75% { transform: translateX(5px); } 
+    }
+    
+    .success-message {
+      color: #4caf50;
+      text-align: center;
+      margin: 10px 0;
+      animation: fadeIn 0.5s ease;
+      font-size: 0.9em;
+    }
+    
+    .glossy-overlay { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      background: linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.05) 100%); 
+      pointer-events: none; 
+      animation: overlayGlow 4s infinite linear; 
+    }
+    
+    @keyframes overlayGlow { 
+      0% { opacity: 0.3; } 
+      50% { opacity: 0.1; } 
+      100% { opacity: 0.3; } 
     }
 
-    body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: radial-gradient(circle at center, #1a0f33, #000);
-        font-family: 'Arial', sans-serif;
-        overflow: hidden;
+    .logo {
+      display: block;
+      margin: 0 auto 24px;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--purple), var(--cyan), var(--neon-pink));
+      background-size: 300% 300%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 0 20px rgba(175, 221, 224, 0.3),
+        0 0 40px rgba(180, 172, 203, 0.2);
+      animation: logoPulse 4s infinite ease-in-out, logoGradient 6s infinite linear;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    @keyframes logoPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    @keyframes logoGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .logo::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: rotate(45deg);
+      animation: logoShine 6s infinite linear;
+    }
+    
+    @keyframes logoShine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
     }
 
-    .floating-particles {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
+    .logo-text {
+      font-size: 2.5em;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      z-index: 1;
+      animation: textPulse 2s infinite ease-in-out;
+    }
+    
+    @keyframes textPulse {
+      0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+      50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
     }
 
-    .particle {
-        position: absolute;
-        background: radial-gradient(circle, var(--cyan) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 6s infinite linear;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .tagline {
+      text-align: center;
+      font-size: 1.1em;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 30px;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Icon styles for inputs */
+    .input-icon-email::before {
+      content: '✉️';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+    
+    .input-icon-user::before {
+      content: '👤';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+    
+    .input-icon-password::before {
+      content: '🔒';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+    
+    .auth-input:focus + .input-icon::before {
+      color: var(--cyan);
+    }
+    
+    @media (max-width: 480px) { 
+      .auth-container { 
+        width: 90%; 
+        padding: 2px; 
+      } 
+      
+      .auth-content { 
+        padding: 30px 25px; 
+      } 
+      
+      .auth-title {
+        font-size: 2em;
+      }
+      
+      .logo {
+        width: 90px;
+        height: 90px;
+      }
     }
 
-    @keyframes float {
-        0%, 100% { transform: translate(0, 0) scale(0.8); opacity: 0.8; }
-        50% { transform: translate(100px, -100px) scale(1.2); opacity: 0.3; }
-    }
 
-    .auth-container {
-        position: relative;
-        width: 400px;
-        padding: 2px;
-        border-radius: 20px;
-        background: linear-gradient(45deg, var(--purple), var(--cyan));
-        animation: borderGlow 3s linear infinite;
-        box-shadow: 0 0 50px rgba(69, 243, 255, 0.2);
-        overflow: hidden;
-    }
-
-    @keyframes borderGlow {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    .auth-content {
-        position: relative;
-        background: var(--dark-bg);
-        padding: 40px;
-        border-radius: 18px;
-        z-index: 1;
-    }
-
-    .auth-title {
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 2.2em;
-        background: linear-gradient(45deg, var(--purple), var(--cyan));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        animation: titleGlow 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes titleGlow {
-        from { text-shadow: 0 0 10px rgba(112, 66, 248, 0.5); }
-        to { text-shadow: 0 0 20px rgba(69, 243, 255, 0.7); }
-    }
-
-    .auth-input {
-        width: 100%;
-        padding: 15px 15px;
-        margin: 15px 0;
-        border: 2px solid rgba(112, 66, 248, 0.3);
-        border-radius: 30px;
-        background: rgba(0, 0, 0, 0.3);
-        color: white;
-        font-size: 1em;
-        transition: all 0.3s ease;
-    }
-
-    .auth-input:focus {
-        border-color: var(--cyan);
-        box-shadow: 0 0 15px rgba(69, 243, 255, 0.3);
-        transform: scale(1.02);
-    }
-
-    .auth-button {
-        width: 100%;
-        padding: 15px;
-        margin: 25px 0;
-        border: none;
-        border-radius: 30px;
-        background: linear-gradient(45deg, var(--purple), var(--cyan));
-        color: white;
-        font-size: 1.1em;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .auth-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 20px rgba(69, 243, 255, 0.4);
-    }
-
-    .auth-button::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg, 
-            transparent 20%, 
-            rgba(255,255,255,0.2) 50%, 
-            transparent 80%);
-        animation: buttonShine 3s infinite linear;
-    }
-
-    @keyframes buttonShine {
-        from { transform: translateX(-100%) rotate(45deg); }
-        to { transform: translateX(100%) rotate(45deg); }
-    }
-
-    .auth-link {
-        text-align: center;
-        color: rgba(255,255,255,0.7);
-        margin-top: 20px;
-        animation: fadeIn 1s ease-out;
-    }
-
-    .auth-link a {
-        color: var(--cyan);
-        text-decoration: none;
-        position: relative;
-    }
-
-    .auth-link a::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: var(--cyan);
-        transition: width 0.3s ease;
-    }
-
-    .auth-link a:hover::after {
-        width: 100%;
-    }
-
-    .error-message {
-        color: #ff4444;
-        text-align: center;
-        margin: 10px 0;
-        animation: shake 0.5s ease;
-    }
-
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(10px); }
-        50% { transform: translateX(-10px); }
-        75% { transform: translateX(5px); }
-    }
-
-    .glossy-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, 
-            rgba(255,255,255,0.05) 0%, 
-            rgba(255,255,255,0.01) 50%, 
-            rgba(255,255,255,0.05) 100%);
-        pointer-events: none;
-        animation: overlayGlow 4s infinite linear;
-    }
-
-    @keyframes overlayGlow {
-        0% { opacity: 0.3; }
-        50% { opacity: 0.1; }
-        100% { opacity: 0.3; }
-    }
-
-    @media (max-width: 480px) {
-        .auth-container {
-            width: 90%;
-            padding: 1px;
+        @keyframes breath {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
         }
-        .auth-content {
-            padding: 25px;
+
+        /* Mood Indicator Colors */
+        .mood-indicator {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            bottom: 20px;
+            right: 20px;
+            transition: all 0.5s ease;
         }
-    }
+
+        /* Enhanced Password Toggle */
+        .password-toggle {
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Accessibility Focus Styles */
+        .auth-input:focus-visible {
+            outline: 2px solid var(--cyan);
+            outline-offset: 2px;
+        }
+
+        /* Gender-Neutral Color Scheme */
+        .auth-button {
+            background: linear-gradient(45deg, var(--calm-blue), var(--warm-peach));
+        }
   </style>
 </head>
 <body>
+  <div class="cosmic-background"></div>
   <div class="floating-particles" id="particles"></div>
-
-  <div class="auth-container animate__animated animate__fadeIn">
+  <div id="stars-container"></div>
+  
+  <div class="auth-container animate__animated animate__fadeIn animate__slower">
     <div class="glossy-overlay"></div>
     <div class="auth-content">
-      <h2 class="auth-title">Discover Yourself</h2>
+      <div class="logo animate__animated animate__zoomIn">
+        <div class="logo-text">E</div>
+      </div>
+      <h2 class="auth-title animate__animated animate__fadeIn animate__delay-1s">Ehsaas</h2>
+      <p class="tagline animate__animated animate__fadeIn animate__delay-1s">Begin your journey of self-discovery</p>
+      
       <div class="error-message" id="signupError"></div>
-      <input type="email" class="auth-input" placeholder="Your Email" id="signupEmail" />
-      <input type="text" class="auth-input" placeholder="Choose a Username" id="signupUsername" />
-      <input type="password" class="auth-input" placeholder="Create Password" id="signupPassword" />
-      <button class="auth-button" onclick="handleSignup()">Begin Journey</button>
-      <div class="auth-link">
+      <div class="success-message" id="signupSuccess"></div>
+      
+      <div class="input-group animate__animated animate__fadeInUp animate__delay-1s">
+        <input type="email" class="auth-input" placeholder="Your Email" id="signupEmail" autocomplete="email" />
+        <div class="input-icon-email"></div>
+      </div>
+      
+      <div class="input-group animate__animated animate__fadeInUp animate__delay-1s">
+        <input type="text" class="auth-input" placeholder="Choose a Username" id="signupUsername" autocomplete="username" />
+        <div class="input-icon-user"></div>
+      </div>
+      
+      <div class="input-group animate__animated animate__fadeInUp animate__delay-1s">
+        <input type="password" class="auth-input" placeholder="Create Password" id="signupPassword" autocomplete="new-password" />
+        <div class="input-icon-password"></div>
+      </div>
+      
+      <button class="auth-button animate__animated animate__fadeInUp animate__delay-2s" onclick="handleSignup()">
+        Begin Your Journey
+      </button>
+      
+      <div class="auth-link animate__animated animate__fadeIn animate__delay-2s">
         Already connected? <a href="login.html">Return to Gateway</a>
       </div>
     </div>
   </div>
 
   <script>
+    // Create cosmic stars
+    function createStars() {
+      const container = document.getElementById('stars-container');
+      for (let i = 0; i < 200; i++) {
+        const star = document.createElement('div');
+        star.className = 'cosmic-star';
+        const size = Math.random() * 2 + 1;
+        star.style.cssText = `
+          width: ${size}px; 
+          height: ${size}px; 
+          left: ${Math.random() * 100}vw; 
+          top: ${Math.random() * 100}vh; 
+          opacity: ${Math.random() * 0.8};
+          animation-delay: ${Math.random() * 4}s;
+        `;
+        container.appendChild(star);
+      }
+    }
+    
     // Particle Generator
     function createParticles() {
       const container = document.getElementById('particles');
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 30; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
-        particle.style.cssText = `width: ${Math.random() * 10 + 5}px; height: ${Math.random() * 10 + 5}px; left: ${Math.random() * 100}%; top: ${Math.random() * 100}%; animation-delay: ${Math.random() * 6}s;`;
+        const size = Math.random() * 15 + 5;
+        const hue = Math.random() > 0.5 ? '240deg' : '180deg';
+        particle.style.cssText = `
+          width: ${size}px; 
+          height: ${size}px; 
+          left: ${Math.random() * 100}vw; 
+          top: ${Math.random() * 100}vh; 
+          background: radial-gradient(circle, hsla(${hue}, 100%, 70%, 0.8) 0%, transparent 70%);
+          animation-duration: ${Math.random() * 10 + 10}s;
+          animation-delay: ${Math.random() * 5}s;
+        `;
         container.appendChild(particle);
       }
     }
+    
+    // Initialize visual elements
+    createStars();
     createParticles();
 
-    // Firebase Initialization
+    // Firebase configuration and initialization
     const firebaseConfig = {
       apiKey: "AIzaSyAzbzw54O_JRDNOfHyteIMvq999R3Aj624",
       authDomain: "ehsaas-f4c7e.firebaseapp.com",
@@ -256,37 +574,147 @@
       storageBucket: "ehsaas-f4c7e.firebasestorage.app",
       messagingSenderId: "618055369757",
       appId: "1:618055369757:web:3592bd6978c85df0f432f4",
-      measurementId: "G-JTTDNV43GD"
+      measurementId: "G-JTTDNV43GD",
+      databaseURL: "https://ehsaas-f4c7e-default-rtdb.firebaseio.com"
     };
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const rtdb = firebase.database();
 
+    // Input focus effects
+    const inputs = document.querySelectorAll('.auth-input');
+    inputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        input.parentElement.classList.add('focused');
+      });
+      input.addEventListener('blur', () => {
+        if (!input.value) {
+          input.parentElement.classList.remove('focused');
+        }
+      });
+    });
+
+    // Sign-up handler
     async function handleSignup() {
       const email = document.getElementById('signupEmail').value;
       const username = document.getElementById('signupUsername').value;
       const password = document.getElementById('signupPassword').value;
       const errorMessage = document.getElementById('signupError');
+      const successMessage = document.getElementById('signupSuccess');
+      
+      // Clear previous messages
+      errorMessage.textContent = '';
+      successMessage.textContent = '';
 
       if (!email || !username || !password) {
         errorMessage.textContent = 'Please fill in all fields';
         return;
       }
 
+      // Disable the button during signup process
+      const signupButton = document.querySelector('.auth-button');
+      signupButton.disabled = true;
+      signupButton.textContent = 'Creating Account...';
+      signupButton.style.opacity = '0.7';
+
       try {
+        // Create the user
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
+        localStorage.setItem("userEmail", email);
         
+        // Update the user's profile with the username
+        await user.updateProfile({
+          displayName: username
+        });
+
+        // Save user info in Firestore
         await db.collection('users').doc(user.uid).set({
           username: username,
           email: email,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          streak: {
+            current: 1,
+            lastLogin: new Date().toISOString().split('T')[0]
+          }
+        });
+        
+        // CometChat initialization
+        let appID = "273007af6b1dd710";
+        let region = "in";
+        let appSetting = new CometChat.AppSettingsBuilder()
+          .subscribePresenceForAllUsers()
+          .setRegion(region)
+          .autoEstablishSocketConnection(true)
+          .build();
+          
+        CometChat.init(appID, appSetting).then(
+          () => {
+            console.log("Initialization completed successfully");
+            let authKey = "4f60e0dbc829182a47dd9a35fbd1310899c11b60";
+            var UID = email.replace(/[@.]/g, "_").toLowerCase() + "_ehsaas_user";
+            const name = email.split("@")[0];
+            
+            var userNew = new CometChat.User(UID);
+            userNew.setName(name);
+            
+            CometChat.createUser(userNew, authKey).then(
+              (userNew) => {
+                console.log("user created", userNew);
+              },
+              (error) => {
+                console.log("error", error);
+              }
+            );
+          },
+          (error) => {
+            console.log("Initialization failed with error:", error);
+          }
+        );
+
+        // Set up presence system in Realtime Database
+        const userStatusRef = rtdb.ref(`/status/${user.uid}`);
+        
+        // Set initial online status
+        userStatusRef.set({
+          state: 'online',
+          last_changed: firebase.database.ServerValue.TIMESTAMP
+        });
+        
+        // When user disconnects, update status to offline
+        userStatusRef.onDisconnect().set({
+          state: 'offline',
+          last_changed: firebase.database.ServerValue.TIMESTAMP
         });
 
-        window.location.href = "login.html";
+        // Show success message with animation
+        successMessage.textContent = 'Account created successfully! Redirecting...';
+        successMessage.classList.add('animate__animated', 'animate__fadeIn');
+        
+        // Add success animation to container
+        document.querySelector('.auth-container').classList.add('animate__animated', 'animate__pulse');
+        
+        // Redirect to dashboard after short delay
+        setTimeout(() => {
+          window.location.href = "welcome_board.html";
+        }, 1800);
       } catch (error) {
         errorMessage.textContent = error.message;
+        errorMessage.classList.add('animate__animated', 'animate__shakeX');
+        // Re-enable the button
+        signupButton.disabled = false;
+        signupButton.textContent = 'Begin Your Journey';
+        signupButton.style.opacity = '1';
       }
     }
+
+    // Enable press Enter to submit
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        handleSignup();
+      }
+    });
   </script>
 </body>
 </html>

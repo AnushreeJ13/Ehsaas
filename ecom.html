@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ehsaas - MindMarket</title>
+    <style>
+        :root {
+            --primary: #f1c2d2;
+            --secondary: #dbb1cd;
+            --accent: #a6c5e0;
+            --text: #4c4c4c;
+            --light: #f8f5f7;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .mood-quiz {
+            background-color: #fefbfe;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--shadow);
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .mood-quiz h2 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .quiz-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .question h3 {
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .option {
+            background-color: var(--light);
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .option:hover, .option.selected {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .submit-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .products-section {
+            padding: 20px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--secondary);
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .product-review {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-style: italic;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .product-review:before {
+            content: '"';
+            font-size: 30px;
+            color: var(--primary);
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            opacity: 0.5;
+        }
+
+        .review-author {
+            text-align: right;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--secondary);
+        }
+
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px var(--shadow);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .floating-cart:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-icon {
+            color: var(--secondary);
+            font-size: 24px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--accent);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .cart-preview {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background-color: white;
+            width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 20px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+
+        .floating-cart:hover .cart-preview {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            margin-right: 15px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 13px;
+            color: var(--secondary);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .checkout-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        .recommendation-message {
+            background-color: var(--accent);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Animation keyframes */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Lumen-inspired color scheme */
+:root {
+    --lumen-primary: #5E56E8;
+    --lumen-secondary: #7B73FF;
+    --lumen-accent: #FF6B6B;
+    --lumen-light: #F8F7FF;
+    --lumen-dark: #2E2A5C;
+    --lumen-text: #4A4A4A;
+}
+
+/* Navbar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: white;
+    box-shadow: 0 2px 15px rgba(94, 86, 232, 0.1);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.navbar:hover {
+    box-shadow: 0 5px 25px rgba(94, 86, 232, 0.15);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--lumen-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo span {
+    color: var(--lumen-accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    position: relative;
+    text-decoration: none;
+    color: var(--lumen-text);
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    padding: 5px 0;
+}
+
+/* Unique hover effect */
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--lumen-primary);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--lumen-primary);
+}
+
+.nav-links a:hover::before {
+    width: 100%;
+}
+
+/* Button styles */
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    background: transparent;
+    border: 1px solid var(--lumen-primary);
+    color: var(--lumen-primary);
+}
+
+.login-btn:hover {
+    background: rgba(94, 86, 232, 0.05);
+}
+
+.signup-btn {
+    background: var(--lumen-primary);
+    border: 1px solid var(--lumen-primary);
+    color: white;
+}
+
+.signup-btn:hover {
+    background: var(--lumen-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(94, 86, 232, 0.2);
+}
+
+/* Mobile menu (hidden by default) */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--lumen-primary);
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nav-links, .auth-buttons {
+        display: none;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .navbar {
+        padding: 15px 5%;
+    }
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <header>
+       <nav class="navbar">
+        <a href="/" class="logo">Ehsaas<span>.</span></a>
+        
+        <button class="mobile-menu-btn">☰</button>
+        
+        <div class="nav-links">
+            <a href="mood.html">MOOD AI</a>
+            <a href="sleep.html">SLEEP AND HEALING</a>
+            <a href="stress.html">STRESS AND ANXIETY</a>
+            <a href="./saathi.html">SAATHI ROOMS</a>
+            <a href="x.html">CHILL ZONE</a>
+            <a href="find_my_therapist.html">NEED HELP?</a>
+        </div>
+        
+                    <!-- Added id "authButtons" to allow JS targeting -->
+    <div class="auth-buttons" id="authButtons">
+        <button class="nav-btn login-btn" id="loginBtn" onclick="window.location.href='login.html'">Log in</button>
+        <button class="nav-btn signup-btn" id="signupBtn" onclick="window.location.href='signup.html'">Get Started</button>
+        <a href="welcome_board.html"><button class="nav-btn signup-btn" id="dashboard">Dashboard</button></a>
+        <button class="nav-btn login-btn " id="logoutBtn" onclick="window.location.href='logout.html'">Log out</button>
+
+    </div>
+    
+    <script>
+      // Function to update the navbar based on user auth status
+      const user = localStorage.getItem("userCredential");
+      const authButtons = document.getElementById("authButtons");
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+        document.addEventListener('DOMContentLoaded', function () {
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const dashboard = document.getElementById('dashboard');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function checkAuth() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      const storedEmail = sessionStorage.getItem('userEmail');
+
+      if (isLoggedIn) {
+        loginBtn.style.display = 'none';
+        signupBtn.style.display = 'none';
+        dashboard.style.display = 'inline-block';  // Make sure dashboard button is visible
+        logoutBtn.style.display = 'inline-block';  // Make sure logout button is visible
+      } else {
+        logoutBtn.style.display = 'none';
+        dashboard.style.display = 'none';
+        loginBtn.style.display = 'inline-block';
+        signupBtn.style.display = 'inlink-block';
+      }
+    }
+
+    checkAuth();  // Call checkAuth to update button visibility
+    
+    logoutBtn.addEventListener('click', function () {
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userEmail');
+      checkAuth();
+      window.location.reload();
+    });
+   });   
+   </script>
+    </nav>
+    </header>
+    <br><br>
+<!-- MindMarket Header Section - Place this below your existing navbar -->
+<div class="mindmarket-header">
+  <div class="header-video-container">
+    <video autoplay muted loop class="header-video">
+      <!-- Replace with your actual video source -->
+      <source src="/Ehsaas_main/ecom_v.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+  </div>
+  
+  <div class="mindmarket-header-content">
+    <div class="header-text">
+      <h1>Mind<span>Mart</span></h1>
+      <p>A curated wellness marketplace for your emotional journey</p>
+      <button class="start-journey-btn">Start Your Journey</button>
+    </div>
+  </div>
+</div>
+
+<!-- CSS Styles for the MindMarket Header -->
+<style>
+  .mindmarket-header {
+    position: relative;
+    height: 50vh;
+    min-height: 400px;
+    max-height: 600px;
+    overflow: hidden;
+    color: white;
+  }
+
+  .header-video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .header-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, 
+      rgba(59, 7, 100, 0.95) 0%, 
+      rgba(59, 7, 100, 0.85) 50%, 
+      rgba(88, 28, 135, 0.8) 100%);
+    z-index: 2;
+  }
+
+  .mindmarket-header-content {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
+
+  .header-text {
+    max-width: 600px;
+  }
+
+  .header-text h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #fff;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .header-text h1 span {
+    color: #d8b4fe;
+  }
+
+  .header-text p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    opacity: 0.9;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .start-journey-btn {
+    background-color: #d8b4fe;
+    color: #3b0764;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .start-journey-btn:hover {
+    background-color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .mindmarket-header {
+      height: 40vh;
+    }
+
+    .header-text h1 {
+      font-size: 2.5rem;
+    }
+  }
+</style>
+
+<!-- Optional: JavaScript for smooth scrolling when "Start Your Journey" is clicked -->
+<script>
+  document.querySelector('.start-journey-btn').addEventListener('click', function() {
+    // Scroll to the mood quiz section
+    document.querySelector('.mood-quiz').scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
+    <div class="container">
+        <div class="mood-quiz">
+            <h2>How are you feeling today?</h2>
+            <p>Take our quick mood quiz to get personalized wellness recommendations</p>
+            <form class="quiz-form" id="moodQuiz">
+                <div class="question">
+                    <h3>1. Which of these best describes your current mood?</h3>
+                    <div class="options">
+                        <div class="option" data-value="anxious">Anxious</div>
+                        <div class="option" data-value="sad">Sad</div>
+                        <div class="option" data-value="stressed">Stressed</div>
+                        <div class="option" data-value="overwhelmed">Overwhelmed</div>
+                        <div class="option" data-value="calm">Calm</div>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>2. What's your current stress level?</h3>
+                    <div class="options">
+                        <div class="option" data-value="low">Low</div>
+                        <div class="option" data-value="moderate">Moderate</div>
+                        <div class="option" data-value="high">High</div>
+                        <div class="option" data-value="extreme">Extreme</div>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>3. What are your wellness goals right now?</h3>
+                    <div class="options">
+                        <div class="option" data-value="relaxation">Relaxation</div>
+                        <div class="option" data-value="focus">Improved Focus</div>
+                        <div class="option" data-value="sleep">Better Sleep</div>
+                        <div class="option" data-value="mood">Mood Enhancement</div>
+                        <div class="option" data-value="growth">Personal Growth</div>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Get Recommendations</button>
+            </form>
+        </div>
+
+        <div id="recommendationMessage" class="recommendation-message hidden"></div>
+
+        <div class="products-section">
+            <h2 class="section-title">Our Wellness Products</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-cart" id="floatingCart">
+        <div class="cart-icon">
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+        <div class="cart-count" id="cartCount">0</div>
+        <div class="cart-preview" id="cartPreview">
+            <div id="cartItems">
+                <!-- Cart items will be added here -->
+            </div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">₹0.00</span>
+            </div>
+            <div class="checkout-btn">Checkout</div>
+        </div>
+    </div>
+
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "Mindfulness Journal",
+                description: "A guided journal to help you practice mindfulness daily",
+                price: 499,
+                image: "https://ecd-catalog-media.s3.us-west-2.amazonaws.com/Inspiration_Center_Media/How_to_Start_Mindfulness_Journaling/How_to_Start_Mindfulness_Journaling_-_header.jpg",
+                category: ["anxious", "stressed", "overwhelmed"],
+                review: "This journal helped me find calm during my most stressful days at work. I use it every morning now.",
+                reviewer: "Sarah K."
+            },
+            {
+                id: 2,
+                name: "Anxiety Relief Essential Oil Blend",
+                description: "A calming blend of lavender, chamomile, and bergamot",
+                price: 449,
+                image: "https://m.media-amazon.com/images/I/81wxbl-+qlL.jpg",
+                category: ["anxious", "stressed", "overwhelmed"],
+                review: "I was skeptical at first, but this oil blend has become part of my daily anxiety management routine.",
+                reviewer: "Michael T."
+            },
+            {
+                id: 3,
+                name: "Healing Through Art Course",
+                description: "A 4-week online course exploring art therapy techniques",
+                price: 999,
+                image: "https://cdn.i-scmp.com/sites/default/files/d8/images/methode/2021/06/17/5f32c64c-cf49-11eb-9df2-a2e8f9e635cd_image_hires_171234.jpg",
+                category: ["sad", "growth", "mood"],
+                review: "This course unlocked creative parts of me I didn't know existed. It's been truly healing.",
+                reviewer: "Emma L."
+            },
+            {
+                id: 4,
+                name: "Sleep Sound Machine",
+                description: "10 soothing natural sounds to help you fall asleep",
+                price: 1249,
+                image: "https://djd1xqjx2kdnv.cloudfront.net/photos/34/50/466544_19257_XL.jpg",
+                category: ["sleep", "anxious", "stressed"],
+                review: "I've struggled with insomnia for years. This sound machine has helped me establish a much better sleep routine.",
+                reviewer: "David R."
+            },
+            {
+                id: 5,
+                name: "Focus & Clarity Tea Blend",
+                description: "Organic herbs to enhance mental clarity and focus",
+                price: 699,
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT72PwE6vSq2LwYVquWbzVp_Nl6KhjVxCVVog&s",
+                category: ["focus", "overwhelmed"],
+                review: "I drink this tea during my workday and notice a significant difference in my concentration.",
+                reviewer: "Priya M."
+            },
+            {
+                id: 6,
+                name: "Self-Compassion Workbook",
+                description: "Exercises to develop kindness toward yourself",
+                price: 299,
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShLNVDH0KQnEMjRLycsWIMZJjcErHXjlOq-w&s",
+                category: ["sad", "growth", "mood"],
+                review: "This workbook has changed how I talk to myself. The self-compassion practices are simple but powerful.",
+                reviewer: "Thomas J."
+            },
+            {
+                id: 7,
+                name: "Meditation Cushion Set",
+                description: "Comfortable cushion and mat for your meditation practice",
+                price: 999,
+                image: "https://m.media-amazon.com/images/I/61pmSVY95dS._AC_UF894,1000_QL80_.jpg",
+                category: ["relaxation", "anxious", "stressed"],
+                review: "Having a dedicated meditation space with this cushion set has helped me make meditation a daily habit.",
+                reviewer: "Leila A."
+            },
+            {
+                id: 8,
+                name: "Digital Detox Guide",
+                description: "A 30-day plan to reset your relationship with technology",
+                price: 199,
+                image: "https://m.media-amazon.com/images/I/61arvkkAu9L._AC_UF1000,1000_QL80_.jpg",
+                category: ["overwhelmed", "focus", "stressed"],
+                review: "This guide helped me break my phone addiction and reclaim hours of my day. Highly recommended!",
+                reviewer: "Jason K."
+            }
+        ];
+
+        let cart = [];
+        let recommendedCategories = [];
+
+        // Function to display all products
+        function displayProducts(filteredProducts = null) {
+            const productsToDisplay = filteredProducts || products;
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+
+            productsToDisplay.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card fade-in';
+                
+                productCard.innerHTML = `
+                    <div class="product-image" style="background-image: url('${product.image}')"></div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-review">
+                            ${product.review}
+                            <div class="review-author">- ${product.reviewer}</div>
+                        </div>
+                        <div class="product-price">₹${product.price.toFixed(2)}</div>
+                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+
+            // Add event listeners to Add to Cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    addToCart(productId);
+                    
+                    // Add pulse animation to cart icon
+                    const cartIcon = document.querySelector('.floating-cart');
+                    cartIcon.classList.add('pulse');
+                    setTimeout(() => {
+                        cartIcon.classList.remove('pulse');
+                    }, 1000);
+                });
+            });
+        }
+
+        // Function to add product to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const existingItem = cart.find(item => item.id === productId);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({...product, quantity: 1});
+                }
+                
+                updateCart();
+            }
+        }
+
+        // Function to update cart display
+        function updateCart() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            // Update cart count
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Update cart items
+            cartItems.innerHTML = '';
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p>Your cart is empty</p>';
+            } else {
+                cart.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-img" style="background-image: url('${item.image}')"></div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">₹${item.price.toFixed(2)} x ${item.quantity}</div>
+                        </div>
+                    `;
+                    cartItems.appendChild(cartItem);
+                });
+            }
+            
+            // Update cart total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = `₹${total.toFixed(2)}`;
+        }
+
+        // Function to handle mood quiz submission
+        function handleMoodQuizSubmit(event) {
+            event.preventDefault();
+            
+            // Get selected options
+            const mood = document.querySelector('.question:nth-child(1) .option.selected')?.getAttribute('data-value');
+            const stress = document.querySelector('.question:nth-child(2) .option.selected')?.getAttribute('data-value');
+            const goal = document.querySelector('.question:nth-child(3) .option.selected')?.getAttribute('data-value');
+            
+            if (!mood || !stress || !goal) {
+                alert('Please answer all questions to get personalized recommendations.');
+                return;
+            }
+            
+            // Simple algorithm to determine recommended categories based on selections
+            recommendedCategories = [mood, goal];
+            
+            if (stress === 'high' || stress === 'extreme') {
+                recommendedCategories.push('stressed');
+            }
+            
+            // Filter products based on categories
+            const recommendedProducts = products.filter(product => {
+                return product.category.some(cat => recommendedCategories.includes(cat));
+            });
+            
+            // Display recommendation message
+            const recommendationMessage = document.getElementById('recommendationMessage');
+            recommendationMessage.innerHTML = `Based on how you're feeling, we've curated some products to support your <strong>${goal}</strong> journey.`;
+            recommendationMessage.classList.remove('hidden');
+            
+            // Display recommended products
+            displayProducts(recommendedProducts);
+            
+            // Scroll to products
+            document.querySelector('.products-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Function to handle option selection in quiz
+        function handleOptionSelection() {
+            // Remove selected class from siblings
+            const siblings = Array.from(this.parentNode.children);
+            siblings.forEach(sibling => sibling.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            this.classList.add('selected');
+        }
+
+        // Initialize the page
+        function init() {
+            // Display all products initially
+            displayProducts();
+            
+            // Add event listeners to quiz options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', handleOptionSelection);
+            });
+            
+            // Add event listener to quiz form
+            document.getElementById('moodQuiz').addEventListener('submit', handleMoodQuizSubmit);
+            
+            // Initialize empty cart
+            updateCart();
+        }
+
+        // Run initialization when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Personal Journal | Ehsaas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #5e56e8;
+      --secondary-color: #3ad1ca;
+      --text-color: #333;
+      --light-grey: #f7f7f7;
+      --grey: #eaeaea;
+      --dark-grey: #888;
+      --white: #fff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --border-radius: 10px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-grey);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .journal-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .page-header h1 {
+      color: var(--primary-color);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .page-header p {
+      color: var(--dark-grey);
+      font-size: 16px;
+    }
+    
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      background-color: var(--grey);
+      border-radius: 50px;
+      padding: 5px;
+      max-width: 400px;
+      margin: 0 auto 30px;
+    }
+    
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 20px;
+      cursor: pointer;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .tab.active {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+    
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border: 1px solid var(--grey);
+      border-radius: var(--border-radius);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      transition: border 0.3s ease;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+    
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+    
+    .mood-selector {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .mood-option {
+      text-align: center;
+      cursor: pointer;
+      padding: 15px 10px;
+      border-radius: var(--border-radius);
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 85px;
+      margin: 5px;
+      border: 1px solid var(--grey);
+    }
+    
+    .mood-option:hover {
+      background-color: rgba(94, 86, 232, 0.05);
+    }
+    
+    .mood-option.selected {
+      background-color: rgba(94, 86, 232, 0.1);
+      border: 1px solid var(--primary-color);
+    }
+    
+    .mood-emoji {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    
+    .btn {
+      background-color: var(--primary-color);
+      color: var(--white);
+      border: none;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+    }
+    
+    .btn:hover {
+      background-color: #4a45c0;
+      transform: translateY(-2px);
+    }
+    
+    .entry-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+      border-left: 5px solid var(--primary-color);
+    }
+    
+    .entry-card:hover {
+      transform: translateY(-3px);
+    }
+    
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--grey);
+    }
+    
+    .entry-date {
+      color: var(--dark-grey);
+      font-size: 14px;
+    }
+    
+    .entry-mood {
+      font-size: 24px;
+    }
+    
+    .entry-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .entry-content {
+      white-space: pre-wrap;
+      line-height: 1.5;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+    
+    .entry-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .action-btn {
+      padding: 8px 15px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    
+    .edit-btn {
+      background-color: rgba(58, 209, 202, 0.15);
+      color: var(--secondary-color);
+    }
+    
+    .edit-btn:hover {
+      background-color: rgba(58, 209, 202, 0.3);
+    }
+    
+    .delete-btn {
+      background-color: rgba(255, 99, 99, 0.15);
+      color: #ff6363;
+    }
+    
+    .delete-btn:hover {
+      background-color: rgba(255, 99, 99, 0.3);
+    }
+    
+    #statusMessage {
+      text-align: center;
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .status-success {
+      background-color: rgba(46, 213, 115, 0.15);
+      color: #2ed573;
+    }
+    
+    .status-error {
+      background-color: rgba(255, 71, 87, 0.15);
+      color: #ff4757;
+    }
+    
+    .status-info {
+      background-color: rgba(54, 156, 244, 0.15);
+      color: #369cf4;
+    }
+    
+    .no-entries {
+      text-align: center;
+      color: var(--dark-grey);
+      padding: 40px 0;
+    }
+    
+    .no-entries-icon {
+      font-size: 50px;
+      margin-bottom: 10px;
+      opacity: 0.5;
+    }
+    
+    @media (max-width: 768px) {
+      .mood-selector {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .mood-option {
+        margin: 5px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
+        margin: 20px auto;
+      }
+      
+      .journal-card {
+        padding: 20px;
+      }
+      
+      .mood-selector {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1>My Journal</h1>
+      <p>Record your thoughts, feelings, and experiences</p>
+    </div>
+    
+    <div class="tabs">
+      <div class="tab active" data-tab="write">Write Entry</div>
+      <div class="tab" data-tab="view">View Entries</div>
+    </div>
+    
+    <div id="writeTab" class="tab-content active">
+      <div class="journal-card">
+        <form id="journalForm">
+          <label for="journalTitle">Entry Title</label>
+          <input type="text" id="journalTitle" placeholder="Give your journal entry a title..." required>
+          
+          <label>How are you feeling today?</label>
+          <div class="mood-selector">
+            <div class="mood-option" data-mood="😊 Happy">
+              <div class="mood-emoji">😊</div>
+              <div>Happy</div>
+            </div>
+            <div class="mood-option" data-mood="😌 Calm">
+              <div class="mood-emoji">😌</div>
+              <div>Calm</div>
+            </div>
+            <div class="mood-option" data-mood="😐 Neutral">
+              <div class="mood-emoji">😐</div>
+              <div>Neutral</div>
+            </div>
+            <div class="mood-option" data-mood="😔 Sad">
+              <div class="mood-emoji">😔</div>
+              <div>Sad</div>
+            </div>
+            <div class="mood-option" data-mood="😠 Angry">
+              <div class="mood-emoji">😠</div>
+              <div>Angry</div>
+            </div>
+          </div>
+          
+          <label for="journalContent">Your thoughts</label>
+          <textarea id="journalContent" placeholder="Write what's on your mind..." required></textarea>
+          
+          <input type="hidden" id="selectedMood" value="">
+          <input type="hidden" id="entryId" value="">
+          
+          <button type="submit" id="saveButton" class="btn">Save Entry</button>
+        </form>
+        <div id="statusMessage"></div>
+      </div>
+    </div>
+    
+    <div id="viewTab" class="tab-content">
+      <div id="entriesContainer">
+        <div class="no-entries">
+          <div class="no-entries-icon">📝</div>
+          <h3>No journal entries yet</h3>
+          <p>Your journal entries will appear here once you create them</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      getDocs, 
+      doc, 
+      updateDoc, 
+      deleteDoc, 
+      serverTimestamp, 
+      query, 
+      orderBy 
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCHK5Sx4G1RhHLT-IiZ4inOmun2mw7771w",
+      authDomain: "ventapp-e3df4.firebaseapp.com",
+      projectId: "ventapp-e3df4",
+      storageBucket: "ventapp-e3df4.firebasestorage.app",
+      messagingSenderId: "327855378991",
+      appId: "1:327855378991:web:29e7c757dbab0495e1ecda",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // DOM Elements
+    const journalForm = document.getElementById("journalForm");
+    const journalTitle = document.getElementById("journalTitle");
+    const journalContent = document.getElementById("journalContent");
+    const selectedMood = document.getElementById("selectedMood");
+    const entryId = document.getElementById("entryId");
+    const statusMessage = document.getElementById("statusMessage");
+    const entriesContainer = document.getElementById("entriesContainer");
+    const saveButton = document.getElementById("saveButton");
+    const moodOptions = document.querySelectorAll(".mood-option");
+    const tabs = document.querySelectorAll(".tab");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    // Tab switching
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        // Set active tab
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        
+        // Show corresponding content
+        tabContents.forEach(content => content.classList.remove("active"));
+        const tabName = tab.getAttribute("data-tab");
+        
+        if (tabName === "write") {
+          document.getElementById("writeTab").classList.add("active");
+        } else if (tabName === "view") {
+          document.getElementById("viewTab").classList.add("active");
+          loadJournalEntries();
+        }
+      });
+    });
+
+    // Select mood
+    moodOptions.forEach(option => {
+      option.addEventListener("click", () => {
+        moodOptions.forEach(opt => opt.classList.remove("selected"));
+        option.classList.add("selected");
+        selectedMood.value = option.getAttribute("data-mood");
+      });
+    });
+
+    // Handle form submission
+    journalForm.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      
+      // Validate form
+      if (!journalTitle.value || !journalContent.value || !selectedMood.value) {
+        showStatusMessage("Please fill out all fields and select a mood.", "error");
+        return;
+      }
+      
+      // Prepare journal data
+      const journalData = {
+        title: journalTitle.value,
+        content: journalContent.value,
+        mood: selectedMood.value,
+        timestamp: serverTimestamp()
+      };
+      
+      // Update status message
+      showStatusMessage("Saving your journal entry...", "info");
+      
+      try {
+        if (entryId.value) {
+          // Update existing entry
+          await updateDoc(doc(db, "journalEntries", entryId.value), journalData);
+          showStatusMessage("Journal entry updated successfully!", "success");
+        } else {
+          // Create new entry
+          await addDoc(collection(db, "journalEntries"), journalData);
+          showStatusMessage("Journal entry saved successfully!", "success");
+        }
+        
+        // Reset form
+        journalForm.reset();
+        moodOptions.forEach(opt => opt.classList.remove("selected"));
+        entryId.value = "";
+        saveButton.innerText = "Save Entry";
+        
+        // Load entries if on view tab
+        if (document.getElementById("viewTab").classList.contains("active")) {
+          loadJournalEntries();
+        }
+      } catch (error) {
+        console.error("Error saving journal entry: ", error);
+        showStatusMessage("Failed to save journal entry. Please try again.", "error");
+      }
+    });
+    
+    // Show status message
+    function showStatusMessage(message, type) {
+      statusMessage.innerText = message;
+      statusMessage.className = "";
+      statusMessage.classList.add("status-" + type);
+      
+      // Auto hide success messages after 3 seconds
+      if (type === "success") {
+        setTimeout(() => {
+          statusMessage.innerText = "";
+          statusMessage.className = "";
+        }, 3000);
+      }
+    }
+
+    // Load journal entries
+    async function loadJournalEntries() {
+      entriesContainer.innerHTML = '<div class="no-entries"><div class="no-entries-icon">⌛</div><h3>Loading entries...</h3></div>';
+      
+      try {
+        const journalQuery = query(collection(db, "journalEntries"), orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(journalQuery);
+        
+        if (querySnapshot.empty) {
+          entriesContainer.innerHTML = `
+            <div class="no-entries">
+              <div class="no-entries-icon">📝</div>
+              <h3>No journal entries yet</h3>
+              <p>Your journal entries will appear here once you create them</p>
+            </div>
+          `;
+          return;
+        }
+        
+        entriesContainer.innerHTML = '';
+        
+        querySnapshot.forEach((doc) => {
+          const entry = doc.data();
+          const entryId = doc.id;
+          
+          // Convert timestamp to readable date
+          const timestamp = entry.timestamp ? new Date(entry.timestamp.seconds * 1000) : new Date();
+          const date = timestamp.toLocaleDateString("en-US", {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          // Create entry HTML
+          const entryElement = document.createElement("div");
+          entryElement.className = "entry-card";
+          entryElement.innerHTML = `
+            <div class="entry-header">
+              <div class="entry-date">${date}</div>
+              <div class="entry-mood">${entry.mood.split(" ")[0]}</div>
+            </div>
+            <div class="entry-title">${entry.title}</div>
+            <div class="entry-content">${entry.content}</div>
+            <div class="entry-actions">
+              <button class="action-btn edit-btn" data-id="${entryId}">Edit</button>
+              <button class="action-btn delete-btn" data-id="${entryId}">Delete</button>
+            </div>
+          `;
+          
+          entriesContainer.appendChild(entryElement);
+        });
+        
+        // Add event listeners to edit/delete buttons
+        document.querySelectorAll(".edit-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => editEntry(e.target.getAttribute("data-id")));
+        });
+        
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => deleteEntry(e.target.getAttribute("data-id")));
+        });
+        
+      } catch (error) {
+        console.error("Error loading journal entries: ", error);
+        entriesContainer.innerHTML = '<div class="no-entries status-error"><div class="no-entries-icon">❌</div><h3>Error loading entries</h3><p>Please try again later</p></div>';
+      }
+    }
+
+    // Edit journal entry
+    async function editEntry(id) {
+      try {
+        const docSnap = await getDocs(collection(db, "journalEntries"));
+        
+        docSnap.forEach((doc) => {
+          if (doc.id === id) {
+            const entry = doc.data();
+            
+            // Switch to write tab
+            tabs.forEach(t => t.classList.remove("active"));
+            document.querySelector('[data-tab="write"]').classList.add("active");
+            
+            tabContents.forEach(content => content.classList.remove("active"));
+            document.getElementById("writeTab").classList.add("active");
+            
+            // Fill form with entry data
+            journalTitle.value = entry.title;
+            journalContent.value = entry.content;
+            selectedMood.value = entry.mood;
+            entryId.value = id;
+            
+            // Select mood visually
+            moodOptions.forEach(opt => {
+              if (opt.getAttribute("data-mood") === entry.mood) {
+                opt.classList.add("selected");
+              } else {
+                opt.classList.remove("selected");
+              }
+            });
+            
+            // Change button text
+            saveButton.innerText = "Update Entry";
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+          }
+        });
+      } catch (error) {
+        console.error("Error editing entry: ", error);
+        showStatusMessage("Error editing entry. Please try again.", "error");
+      }
+    }
+
+    // Delete journal entry
+    async function deleteEntry(id) {
+      if (confirm("Are you sure you want to delete this journal entry? This cannot be undone.")) {
+        try {
+          await deleteDoc(doc(db, "journalEntries", id));
+          loadJournalEntries();
+          showStatusMessage("Journal entry deleted successfully.", "success");
+        } catch (error) {
+          console.error("Error deleting entry: ", error);
+          showStatusMessage("Error deleting entry. Please try again.", "error");
+        }
+      }
+    }
+
+    // Initial load of journal entries
+    if (document.getElementById("viewTab").classList.contains("active")) {
+      loadJournalEntries();
+    }
+  </script>
+</body>
+</html>

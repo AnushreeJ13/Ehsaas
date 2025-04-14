@@ -182,6 +182,43 @@
       opacity: 1;
     }
 
+    /* Info window styling */
+    .gm-style .gm-style-iw-c {
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .map-info-window {
+      padding: 5px;
+      max-width: 250px;
+    }
+
+    .map-info-window h4 {
+      margin: 0 0 5px 0;
+      color: var(--primary);
+    }
+
+    .map-info-window p {
+      margin: 5px 0;
+      font-size: 0.9rem;
+    }
+
+    .map-info-button {
+      margin-top: 8px;
+      display: inline-block;
+      padding: 5px 10px;
+      background: var(--primary);
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .map-info-button:hover {
+      background: #5849D6;
+    }
+
     @media (max-width: 768px) {
       h1 {
         font-size: 2rem;
@@ -342,24 +379,70 @@
 </head>
 <body>
 
-        <nav class="navbar">
+    <nav class="navbar">
         <a href="./index.html" class="logo">Ehsaas<span>.</span></a>
         
         <button class="mobile-menu-btn">☰</button>
         
-        <div class="nav-links">
-            <a href="mood.html">MOOD AI</a>
-            <a href="sleep.html">SLEEP AND HEALING</a>
-            <a href="stress.html">STRESS AND ANXIETY</a>
-            <a href="./saathi.html">SAATHI ROOMS</a>
-            <a href="x.html">CHILL ZONE</a>
-            <a href="find_my_therapist.html">NEED HELP?</a>
-        </div>
-        
-        <div class="auth-buttons">
-            <button class="nav-btn login-btn" onclick="window.location.href='login.html'">Log in</button>
-            <button class="nav-btn signup-btn" onclick="window.location.href='signup.html'">Get Started</button>
-        </div>
+        <div class="nav-links" id="navLinks">
+        <a href="mood.html">MOOD AI</a>
+        <a href="sleep.html">SLEEP WELL</a>
+        <a href="stress.html">DESTRESS</a>
+        <a href="./saathi.html">SAATHI ROOMS</a>
+        <a href="x.html">CHILL ZONE</a>
+        <a href="find_my_therapist.html">NEED HELP?</a>
+        <a href="ecom.html">MIND MART</a>
+        <a href="sleeptrack.html">SLEEP TRACK</a>
+    </div>
+    
+    <!-- Added id "authButtons" to allow JS targeting -->
+    <div class="auth-buttons" id="authButtons">
+        <button class="nav-btn login-btn" id="loginBtn" onclick="window.location.href='login.html'">Log in</button>
+        <button class="nav-btn signup-btn" id="signupBtn" onclick="window.location.href='signup.html'">Get Started</button>
+        <a href="welcome_board.html"><button class="nav-btn signup-btn" id="dashboard">Dashboard</button></a>
+        <button class="nav-btn login-btn " id="logoutBtn" onclick="window.location.href='logout.html'">Log out</button>
+
+    </div>
+    
+    <script>
+      // Function to update the navbar based on user auth status
+      const user = localStorage.getItem("userCredential");
+      const authButtons = document.getElementById("authButtons");
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+        document.addEventListener('DOMContentLoaded', function () {
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const dashboard = document.getElementById('dashboard');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function checkAuth() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      const storedEmail = sessionStorage.getItem('userEmail');
+
+      if (isLoggedIn) {
+        loginBtn.style.display = 'none';
+        signupBtn.style.display = 'none';
+        dashboard.style.display = 'inline-block';  // Make sure dashboard button is visible
+        logoutBtn.style.display = 'inline-block';  // Make sure logout button is visible
+      } else {
+        logoutBtn.style.display = 'none';
+        dashboard.style.display = 'none';
+        loginBtn.style.display = 'inline-block';
+        signupBtn.style.display = 'inlink-block';
+      }
+    }
+
+    checkAuth();  // Call checkAuth to update button visibility
+    
+    logoutBtn.addEventListener('click', function () {
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userEmail');
+      checkAuth();
+      window.location.reload();
+    });
+   });   
+      
+    </script>
     </nav>
     <br>
     <br>
@@ -388,6 +471,7 @@
     let map;
     let service;
     let userLocation;
+    let markers = []; // Array to store all the markers
 
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
@@ -411,6 +495,23 @@
               position.coords.latitude,
               position.coords.longitude
             );
+            
+            // Add a marker for user's location
+            new google.maps.Marker({
+              position: userLocation,
+              map: map,
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: "#4285F4", // Google Maps blue
+                fillOpacity: 0.8,
+                strokeWeight: 2,
+                strokeColor: "#FFFFFF"
+              },
+              title: "Your Location",
+              zIndex: 1000 // Ensure user location is always on top
+            });
+            
             map.setCenter(userLocation);
             searchNearbyPlaces(userLocation);
           },
@@ -437,6 +538,7 @@
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
           displayResults(results);
+          addMarkersToMap(results);
         } else {
           document.getElementById('list').innerHTML = `
             <div class="no-results">
@@ -448,17 +550,97 @@
       });
     }
 
+    function addMarkersToMap(places) {
+      // Clear any existing markers
+      markers.forEach(marker => marker.setMap(null));
+      markers = [];
+      
+      // Info window for showing place details
+      const infoWindow = new google.maps.InfoWindow();
+      
+      // Create bright red pin marker (like GPS)
+      const redMarkerIcon = {
+        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+        scaledSize: new google.maps.Size(42, 42), // Slightly larger
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(21, 42)
+      };
+      
+      // Add a marker for each place
+      places.forEach((place, i) => {
+        const marker = new google.maps.Marker({
+          position: place.geometry.location,
+          map: map,
+          title: place.name,
+          animation: google.maps.Animation.DROP,
+          icon: redMarkerIcon,
+          zIndex: places.length - i, // Higher rated places have higher z-index
+          label: {
+            text: (i + 1).toString(),
+            color: 'white',
+            fontSize: '12px',
+            fontWeight: 'bold'
+          }
+        });
+        
+        markers.push(marker);
+        
+        // Create info window content
+        const content = `
+          <div class="map-info-window">
+            <h4>${place.name}</h4>
+            <p>📍 ${place.vicinity}</p>
+            <p>⭐ ${place.rating || 'Not rated yet'}</p>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${place.geometry.location.lat()},${place.geometry.location.lng()}" 
+               target="_blank" 
+               class="map-info-button">Get Directions</a>
+          </div>
+        `;
+        
+        // Add click event to marker
+        marker.addListener("click", () => {
+          infoWindow.setContent(content);
+          infoWindow.open(map, marker);
+          
+          // Animate marker when clicked
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          setTimeout(() => {
+            marker.setAnimation(null);
+          }, 750);
+        });
+      });
+      
+      // Adjust map bounds to fit all markers
+      if (markers.length > 0) {
+        const bounds = new google.maps.LatLngBounds();
+        bounds.extend(userLocation); // Include user location in bounds
+        
+        markers.forEach(marker => {
+          bounds.extend(marker.getPosition());
+        });
+        
+        map.fitBounds(bounds);
+        
+        // Don't zoom in too far
+        google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+          if (map.getZoom() > 15) {
+            map.setZoom(15);
+          }
+        });
+      }
+    }
+
     function displayResults(results) {
       const listElement = document.getElementById('list');
       listElement.innerHTML = '';
 
-      results.forEach((place) => {
+      results.forEach((place, index) => {
         const card = document.createElement('div');
         card.className = 'therapist-card';
         card.innerHTML = `
           <div class="card-header">
             <i class="icon ion-md-heart"></i>
-            <h3>${place.name}</h3>
+            <h3><span style="background:#e53935; color:white; border-radius:50%; display:inline-block; width:24px; height:24px; text-align:center; margin-right:8px;">${index + 1}</span> ${place.name}</h3>
           </div>
           <p>📍 ${place.vicinity}</p>
           <p>⭐ ${place.rating || 'Not rated yet'}</p>
@@ -474,6 +656,25 @@
             </a>
           </div>
         `;
+        
+        // Add card click event to highlight corresponding marker
+        card.addEventListener('click', () => {
+          // First close any open info windows
+          google.maps.event.trigger(map, 'click');
+          
+          // Center map on this location
+          map.setCenter(place.geometry.location);
+          map.setZoom(15);
+          
+          // Trigger the marker click
+          google.maps.event.trigger(markers[index], 'click');
+          
+          // Smooth scroll to map if on mobile
+          if (window.innerWidth < 768) {
+            document.getElementById('map').scrollIntoView({behavior: 'smooth'});
+          }
+        });
+        
         listElement.appendChild(card);
       });
     }

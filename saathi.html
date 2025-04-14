@@ -3,10 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>Saathi Rooms - Ehsaas</title>
-    <script
-      defer
-      src="https://widget-js.cometchat.io/v3/cometchatwidget.js"
-    ></script>
 
     <!-- Lumen Navbar Styles -->
     <style>
@@ -173,67 +169,203 @@
 
       <button class="mobile-menu-btn">☰</button>
 
-      <div class="nav-links">
+      <div class="nav-links" id="navLinks">
         <a href="mood.html">MOOD AI</a>
-        <a href="sleep.html">SLEEP AND HEALING</a>
-        <a href="stress.html">STRESS AND ANXIETY</a>
+        <a href="sleep.html">SLEEP WELL</a>
+        <a href="stress.html">DESTRESS</a>
         <a href="./saathi.html">SAATHI ROOMS</a>
         <a href="x.html">CHILL ZONE</a>
         <a href="find_my_therapist.html">NEED HELP?</a>
-      </div>
+        <a href="ecom.html">MIND MART</a>
+        <a href="sleeptrack.html">TRACK SLEEP</a>
+    </div>
 
-      <div class="auth-buttons">
-        <button
-          class="nav-btn login-btn"
-          onclick="window.location.href='login.html'"
-        >
-          Log in
-        </button>
-        <button
-          class="nav-btn signup-btn"
-          onclick="window.location.href='signup.html'"
-        >
-          Get Started
-        </button>
-      </div>
+                  <!-- Added id "authButtons" to allow JS targeting -->
+    <div class="auth-buttons" id="authButtons">
+        <button class="nav-btn login-btn" id="loginBtn" onclick="window.location.href='login.html'">Log in</button>
+        <button class="nav-btn signup-btn" id="signupBtn" onclick="window.location.href='signup.html'">Get Started</button>
+        <a href="welcome_board.html"><button class="nav-btn signup-btn" id="dashboard">Dashboard</button></a>
+        <button class="nav-btn login-btn " id="logoutBtn" onclick="window.location.href='logout.html'">Log out</button>
+
+    </div>
+    
+    <script>
+      // Function to update the navbar based on user auth status
+      const user = localStorage.getItem("userCredential");
+      const authButtons = document.getElementById("authButtons");
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+        document.addEventListener('DOMContentLoaded', function () {
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const dashboard = document.getElementById('dashboard');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function checkAuth() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      const storedEmail = sessionStorage.getItem('userEmail');
+
+      if (isLoggedIn) {
+        loginBtn.style.display = 'none';
+        signupBtn.style.display = 'none';
+        dashboard.style.display = 'inline-block';  // Make sure dashboard button is visible
+        logoutBtn.style.display = 'inline-block';  // Make sure logout button is visible
+      } else {
+        logoutBtn.style.display = 'none';
+        dashboard.style.display = 'none';
+        loginBtn.style.display = 'inline-block';
+        signupBtn.style.display = 'inlink-block';
+      }
+    }
+
+    checkAuth();  // Call checkAuth to update button visibility
+    
+    logoutBtn.addEventListener('click', function () {
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userEmail');
+      checkAuth();
+      window.location.reload();
+    });
+   });   
+   </script>
     </nav>
 
     <!-- CometChat Widget Container -->
     <div id="cometchat"></div>
 
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/@cometchat/chat-sdk-javascript/CometChat.js"
+    ></script>
+    <script
+      defer
+      src="https://widget-js.cometchat.io/v3/cometchatwidget.js"
+    ></script>
     <script>
       window.addEventListener("DOMContentLoaded", (event) => {
-        CometChatWidget.init({
-          appID: "273007af6b1dd710",
-          appRegion: "in",
-          authKey: "4f60e0dbc829182a47dd9a35fbd1310899c11b60",
-        }).then(
+        let appID = "273007af6b1dd710";
+        let region = "in";
+        let appSetting = new CometChat.AppSettingsBuilder()
+          .subscribePresenceForAllUsers()
+          .setRegion(region)
+          .autoEstablishSocketConnection(true)
+          .build();
+        CometChat.init(appID, appSetting).then(
           () => {
-            console.log("CometChatWidget initialized");
+            console.log("Initialization completed successfully");
+            const email = localStorage.getItem("userEmail");
+            // 🔐 Check if user is not logged in
+            if (!email) {
+              alert("You must be logged in to access Saathi Rooms.");
+              window.location.href = "login.html";
+              return;
+            }
+            let authKey = "4f60e0dbc829182a47dd9a35fbd1310899c11b60";
 
-            CometChatWidget.login({
-              uid: "panda",
-            }).then(
-              () => {
-                console.log("User logged in");
+            var UID =
+              email.replace(/[@.]/g, "_").toLowerCase() + "_ehsaas_user";
 
-                CometChatWidget.launch({
-                  widgetID: "b47a16fa-7e78-49a5-ae1a-95d24da89d1f",
-                  target: "#cometchat",
-                  roundedCorners: true,
-                  height: "100%",
-                  width: "100%",
-                  defaultID: "panda",
-                  defaultType: "group",
-                });
+            const name = email.split("@")[0];
+
+            var user = new CometChat.User(UID);
+
+            user.setName(name);
+
+            CometChat.getLoggedinUser().then(
+              (user) => {
+                if (!user) {
+                  CometChat.login(UID, authKey).then(
+                    (user) => {
+                      console.log("Login Successful:", { user });
+
+                      //COMET CHAT WIDGET INITITALIZED
+                      CometChatWidget.init({
+                        appID: "273007af6b1dd710",
+                        appRegion: "in",
+                        authKey: "4f60e0dbc829182a47dd9a35fbd1310899c11b60",
+                      }).then(
+                        () => {
+                          console.log("CometChatWidget initialized");
+
+                          CometChatWidget.login({
+                            uid: UID,
+                          }).then(
+                            () => {
+                              console.log("User logged in");
+
+                              CometChatWidget.launch({
+                                widgetID:
+                                  "b47a16fa-7e78-49a5-ae1a-95d24da89d1f",
+                                target: "#cometchat",
+                                roundedCorners: true,
+                                height: "100%",
+                                width: "100%",
+                                defaultID: UID,
+                                defaultType: "group",
+                              });
+                            },
+                            (error) => {
+                              console.error("Login failed:", error);
+                            }
+                          );
+                        },
+                        (error) => {
+                          console.error("Initialization failed:", error);
+                        }
+                      );
+
+                      //COMET CHAT WIDGET INITIALIZED
+                    },
+                    (error) => {
+                      console.log("Login failed with exception:", { error });
+                    }
+                  );
+                } else {
+                  console.log("Already logged in : ", { user });
+
+                  //COMET CHAT INITIALIZING
+                  CometChatWidget.init({
+                    appID: "273007af6b1dd710",
+                    appRegion: "in",
+                    authKey: "4f60e0dbc829182a47dd9a35fbd1310899c11b60",
+                  }).then(
+                    () => {
+                      console.log("CometChatWidget initialized");
+
+                      CometChatWidget.login({
+                        uid: UID,
+                      }).then(
+                        () => {
+                          console.log("User logged in");
+
+                          CometChatWidget.launch({
+                            widgetID: "b47a16fa-7e78-49a5-ae1a-95d24da89d1f",
+                            target: "#cometchat",
+                            roundedCorners: true,
+                            height: "100%",
+                            width: "100%",
+                            defaultID: UID,
+                            defaultType: "group",
+                          });
+                        },
+                        (error) => {
+                          console.error("Login failed:", error);
+                        }
+                      );
+                    },
+                    (error) => {
+                      console.error("Initialization failed:", error);
+                    }
+                  );
+                  //COMET CHAT INITIALIZED
+                }
               },
               (error) => {
-                console.error("Login failed:", error);
+                console.log("Some Error Occured", { error });
               }
             );
           },
           (error) => {
-            console.error("Initialization failed:", error);
+            console.log("Initialization failed with error:", error);
           }
         );
       });

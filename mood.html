@@ -384,19 +384,64 @@
         
         <button class="mobile-menu-btn">☰</button>
         
-        <div class="nav-links">
-            <a href="mood.html">MOOD AI</a>
-            <a href="sleep.html">SLEEP AND HEALING</a>
-            <a href="stress.html">STRESS AND ANXIETY</a>
-            <a href="./saathi.html">SAATHI ROOMS</a>
-            <a href="x.html">CHILL ZONE</a>
-            <a href="find_my_therapist.html">NEED HELP?</a>
-        </div>
+        <div class="nav-links" id="navLinks">
+        <a href="mood.html">MOOD AI</a>
+        <a href="sleep.html">SLEEP WELL</a>
+        <a href="stress.html">DESTRESS</a>
+        <a href="./saathi.html">SAATHI ROOMS</a>
+        <a href="x.html">CHILL ZONE</a>
+        <a href="find_my_therapist.html">NEED HELP?</a>
+        <a href="ecom.html">MIND MART</a>
+        <a href="sleeptrack.html">TRACK SLEEP</a>
+    </div>
         
-        <div class="auth-buttons">
-            <button class="nav-btn login-btn" onclick="window.location.href='login.html'">Log in</button>
-            <button class="nav-btn signup-btn" onclick="window.location.href='signup.html'">Get Started</button>
-        </div>
+                    <!-- Added id "authButtons" to allow JS targeting -->
+    <div class="auth-buttons" id="authButtons">
+        <button class="nav-btn login-btn" id="loginBtn" onclick="window.location.href='login.html'">Log in</button>
+        <button class="nav-btn signup-btn" id="signupBtn" onclick="window.location.href='signup.html'">Get Started</button>
+        <a href="welcome_board.html"><button class="nav-btn signup-btn" id="dashboard">Dashboard</button></a>
+        <button class="nav-btn login-btn " id="logoutBtn" onclick="window.location.href='logout.html'">Log out</button>
+
+    </div>
+    
+    <script>
+      // Function to update the navbar based on user auth status
+      const user = localStorage.getItem("userCredential");
+      const authButtons = document.getElementById("authButtons");
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+        document.addEventListener('DOMContentLoaded', function () {
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const dashboard = document.getElementById('dashboard');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function checkAuth() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      const storedEmail = sessionStorage.getItem('userEmail');
+
+      if (isLoggedIn) {
+        loginBtn.style.display = 'none';
+        signupBtn.style.display = 'none';
+        dashboard.style.display = 'inline-block';  // Make sure dashboard button is visible
+        logoutBtn.style.display = 'inline-block';  // Make sure logout button is visible
+      } else {
+        logoutBtn.style.display = 'none';
+        dashboard.style.display = 'none';
+        loginBtn.style.display = 'inline-block';
+        signupBtn.style.display = 'inlink-block';
+      }
+    }
+
+    checkAuth();  // Call checkAuth to update button visibility
+    
+    logoutBtn.addEventListener('click', function () {
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userEmail');
+      checkAuth();
+      window.location.reload();
+    });
+   });   
+   </script>
     </nav>
 
     <header>
@@ -417,9 +462,6 @@
                 </div>
                 <div class="tab" onclick="switchTab('speech-tab')">
                     <i class="fas fa-microphone"></i> Speech
-                </div>
-                <div class="tab" onclick="switchTab('activities-tab')">
-                    <i class="fas fa-heart"></i> Activities
                 </div>
             </div>
             
@@ -446,7 +488,7 @@
                     </div>
                     
                     <div class="suggestion-card">
-                        <h4><i class="fas fa-lightbulb"></i> Suggested Activity</h4>
+                        <h4><i class="fas fa-heart"></i> Daily Affirmations</h4>
                         <p id="textSuggestion"></p>
                     </div>
                 </div>
@@ -476,21 +518,13 @@
                     </div>
                     
                     <div class="suggestion-card">
-                        <h4><i class="fas fa-lightbulb"></i> Suggested Activity</h4>
+                        <h4><i class="fas fa-heart"></i> Daily Affirmations</h4>
                         <p id="speechSuggestion"></p>
                     </div>
                 </div>
             </div>
             
-            <!-- Activities Tab -->
-            <div id="activities-tab" class="tab-content">
-                <h3>Therapeutic Activities</h3>
-                <p>Choose an activity based on your current mood or explore different options.</p>
-                
-                <div class="activity-grid" id="activity-grid">
-                    <!-- Activities will be loaded here by JavaScript -->
-                </div>
-            </div>
+            
         </div>
     </div>
 
@@ -513,13 +547,15 @@
     }
 
     function suggestActivity(mood) {
+        
         const suggestions = {
-            anger: "🧘‍♂️ Try deep breathing or meditation",
-            sadness: "🎶 Listen to music or talk to a friend",
-            fear: "📖 Read something comforting or do grounding exercises",
-            joy: "🎉 Celebrate your happiness, share with others!",
-            disgust: "🌿 Take a walk in nature or journal your thoughts",
-            surprise: "📝 Write down your feelings or express creativity"
+            anger: "My feelings are valid, and I choose to express them constructively. I release anger with love and return to peace. I respond to challenges with patience and understanding. I allow myself to feel, then I let go.",
+    sadness: "This feeling is temporary. I will feel joy again. I honor my sadness as part of being human. I am allowed to take all the time I need to heal. Even in sadness, I am growing stronger.",
+    fear:  "I am safe in this moment. I have survived difficult times before, and I will again. Courage doesn't mean absence of fear, but moving forward anyway. I release what I cannot control and focus on what I can.",
+    joy: "I deserve this happiness and more. I welcome joy into my life with open arms. My happiness inspires others. I celebrate this good feeling!",
+    disgust: "I release what no longer serves me. I set healthy boundaries with love. I cleanse my mind and space of negativity. I choose to focus on what nourishes me.",
+    surprise: "I embrace life's unexpected moments. I am flexible and adapt to change. New experiences help me grow. I stay open to life's surprises.",
+    neutral: "Peace is a beautiful state to be in. I appreciate this moment of calm. I am exactly where I need to be. Balance is my natural state."
         };
         return suggestions[mood.toLowerCase()] || "💬 Join our community for support";
     }
@@ -1113,7 +1149,6 @@
                 id: 1,
                 title: "Guided Meditation",
                 description: "10-minute stress relief meditation to calm your mind and body.",
-                duration: 10,
                 emoji: "🧘‍♀️",
                 category: ["calm", "anxious", "tired"],
                 instructions: `
@@ -1123,13 +1158,14 @@
                     <p>If your mind wanders, that's okay. Gently bring your focus back to your breath.</p>
                     <p>Continue this practice for the duration. When the timer ends, slowly open your eyes and take a moment to notice how you feel.</p>
                 `,
-                colorClass: "calm"
+                colorClass: "calm",
+                hasTimer: false,
+                link: "https://pixelthoughtss.vercel.app/"
             },
             {
                 id: 2,
                 title: "Breathing Exercise",
                 description: "4-7-8 technique to reduce anxiety and promote relaxation.",
-                duration: 5,
                 emoji: "🌬️",
                 category: ["anxious", "angry", "calm"],
                 instructions: `
@@ -1143,13 +1179,14 @@
                     <p>This completes one breath. Repeat this cycle for the duration of the exercise.</p>
                     <p>Try to keep the ratio consistent, even if you need to adjust the speed to your comfort level.</p>
                 `,
-                colorClass: "calm"
+                colorClass: "calm",
+                hasTimer: false,
+                link: "stress.html"
             },
             {
                 id: 3,
                 title: "Gratitude Journal",
                 description: "Write down 3 things you're grateful for to shift your perspective.",
-                duration: 5,
                 emoji: "📝",
                 category: ["sad", "happy", "tired"],
                 instructions: `
@@ -1163,7 +1200,9 @@
                     <p>Try to be specific. Instead of "I'm grateful for my family," try "I'm grateful for how my sister made me laugh yesterday."</p>
                     <p>You can write in a journal, notes app, or even say them aloud.</p>
                 `,
-                colorClass: "happy"
+                colorClass: "happy",
+                hasTimer: false,
+                link: "journal.html"
             },
             {
                 id: 4,
@@ -1183,13 +1222,13 @@
                     </ol>
                     <p>Finish with 3 deep breaths, inhaling through your nose and exhaling through your mouth.</p>
                 `,
-                colorClass: "angry"
+                colorClass: "angry",
+                hasTimer: true
             },
             {
                 id: 5,
                 title: "Mood Tracker",
                 description: "Record your mood throughout the day to build self-awareness.",
-                duration: 2,
                 emoji: "📊",
                 category: ["happy", "sad", "angry", "anxious", "tired", "calm"],
                 instructions: `
@@ -1203,13 +1242,14 @@
                     </ul>
                     <p>Try checking in 3 times today (morning, afternoon, evening) to see how your mood changes.</p>
                 `,
-                colorClass: "calm"
+                colorClass: "calm",
+                hasTimer: false,
+                link: "journal.html"
             },
             {
                 id: 6,
                 title: "Positive Affirmations",
                 description: "Repeat uplifting statements to cultivate self-compassion.",
-                duration: 3,
                 emoji: "💖",
                 category: ["sad", "anxious", "tired"],
                 instructions: `
@@ -1225,7 +1265,9 @@
                     <p>Say them aloud with conviction, even if you don't fully believe them yet. Repeat each one 3-5 times.</p>
                     <p>For extra impact, say them while looking in a mirror.</p>
                 `,
-                colorClass: "happy"
+                colorClass: "happy",
+                hasTimer: false,
+                link: "affirmations.html"
             },
             {
                 id: 7,
@@ -1246,13 +1288,13 @@
                     </ul>
                     <p>Walk slowly, breathing deeply. If you can't go outside, look out a window or visualize a peaceful natural setting.</p>
                 `,
-                colorClass: "calm"
+                colorClass: "calm",
+                hasTimer: true
             },
             {
                 id: 8,
                 title: "Art Therapy",
                 description: "Express your emotions through simple, intuitive drawing.",
-                duration: 10,
                 emoji: "🎨",
                 category: ["sad", "angry", "happy"],
                 instructions: `
@@ -1267,8 +1309,74 @@
                     <p>Remember: This isn't about creating "good" art. Focus on the process, not the product.</p>
                     <p>When finished, reflect on how the experience felt.</p>
                 `,
-                colorClass: "happy"
-            }
+                colorClass: "happy",
+                hasTimer: false,
+                link: "paint.html"
+            },
+            {
+    id: 9,
+    title: "Mood-Boosting Music",
+    description: "Listen to curated playlists designed to match or shift your mood.",
+    emoji: "🎵",
+    category: ["happy", "sad", "angry", "anxious", "tired", "calm"],
+    instructions: `
+        <p>Music has powerful effects on our emotions. Choose a playlist based on what you need:</p>
+        <ul>
+            <li><strong>To calm down:</strong> Soft instrumental, classical, or ambient music</li>
+            <li><strong>To energize:</strong> Upbeat pop, dance, or motivational songs</li>
+            <li><strong>To process sadness:</strong> Gentle, melancholic music that validates feelings</li>
+            <li><strong>To release anger:</strong> Intense, cathartic music with strong beats</li>
+        </ul>
+        <p>Put on headphones, close your eyes, and let the music move through you. Notice how your body and emotions respond.</p>
+    `,
+    colorClass: "happy",
+    hasTimer: false,
+    link: "music.html"
+},
+{
+    id: 10,
+    title: "Muscle Relaxation",
+    description: "Systematically tense and relax muscle groups to release physical tension.",
+    duration: 8,
+    emoji: "💆‍♀️",
+    category: ["anxious", "angry", "tired"],
+    instructions: `
+        <p>Progressive muscle relaxation helps relieve physical tension that accompanies stress.</p>
+        <ol>
+            <li>Start with your feet - curl your toes tightly for 5 seconds, then release</li>
+            <li>Tighten your calf muscles, hold, then release</li>
+            <li>Move up to your thighs - squeeze muscles, hold, release</li>
+            <li>Clench your buttocks, hold, then relax</li>
+            <li>Tighten your stomach muscles, hold, release</li>
+            <li>Make fists with your hands, hold, then relax</li>
+            <li>Raise your shoulders to your ears, hold, then drop them</li>
+            <li>Scrunch your facial muscles, hold, then relax</li>
+        </ol>
+        <p>Finish by taking 3 deep breaths, noticing how your body feels more relaxed.</p>
+    `,
+    colorClass: "calm",
+    hasTimer: true
+},
+{
+    id: 12,
+    title: "Laughter Exercise",
+    description: "Fake it till you make it - laughter releases endorphins!",
+    duration: 3,
+    emoji: "😂",
+    category: ["sad", "tired"],
+    instructions: `
+        <p>Even forced laughter provides benefits. Try this:</p>
+        <ol>
+            <li>Start with a fake smile, then turn it into a chuckle</li>
+            <li>Let the chuckle grow into full laughter</li>
+            <li>If it feels awkward, that's okay! Keep going</li>
+            <li>Try different laughs: silent laugh, belly laugh, squeaky laugh</li>
+        </ol>
+        <p>After a minute or two, notice if the laughter becomes more genuine. Even if not, your body still gets the stress-relief benefits.</p>
+    `,
+    colorClass: "happy",
+    hasTimer: true
+}
         ];
 
         // DOM elements
@@ -1312,10 +1420,10 @@
                     <div class="activity-content">
                         <h3 class="activity-title">${activity.title}</h3>
                         <p class="activity-desc">${activity.description}</p>
-                        <div class="activity-meta">
-                            <span class="activity-duration">⏱️ ${activity.duration} min</span>
-                            <button class="btn btn-primary" data-id="${activity.id}">Start</button>
-                        </div>
+<div class="activity-meta">
+    ${activity.hasTimer ? `<span class="activity-duration">⏱️ ${activity.duration} min</span>` : ''}
+    <button class="btn btn-primary" data-id="${activity.id}">Start</button>
+</div>
                     </div>
                 `;
                 activitiesGrid.appendChild(activityCard);
@@ -1380,24 +1488,50 @@
 
         // Open activity modal
         function openActivityModal(activity) {
-            modalTitle.textContent = activity.title;
-            guidedText.innerHTML = activity.instructions;
-            timeLeft = activity.duration * 60; // Convert to seconds
-            updateTimerDisplay();
-            progressBar.style.width = '0%';
-            
-            activityModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Reset timer state
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-            isPaused = false;
-            startBtn.style.display = 'inline-block';
-            pauseBtn.style.display = 'none';
+    modalTitle.textContent = activity.title;
+    guidedText.innerHTML = activity.instructions;
+    
+    // Select the timer-related elements
+    const timerElements = document.querySelectorAll('.progress-container, .timer, #pauseBtn, #resetBtn');
+    
+    // Check if the activity includes a link (non-timer activity)
+    if (activity.link) {
+        // Hide the timer elements since they're not needed
+        timerElements.forEach(el => el.style.display = 'none');
+        
+        // Set up the button for a linked activity
+        startBtn.textContent = 'Begin Activity';
+        startBtn.style.display = 'inline-block';
+        startBtn.onclick = function() {
+            window.location.href = activity.link;
+        };
+    } else if (activity.hasTimer) {
+        // If the activity uses a timer, reset and show timer elements
+        timerElements.forEach(el => el.style.display = ''); // reset display property
+        
+        // Set up the timer-based activity button
+        startBtn.textContent = 'Start Timer';
+        startBtn.style.display = 'inline-block';
+        startBtn.onclick = startTimer;
+        
+        // Reset timer state
+        timeLeft = activity.duration * 60;
+        updateTimerDisplay();
+        progressBar.style.width = '0%';
+        
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
         }
+        isPaused = false;
+        pauseBtn.style.display = 'none';
+    }
+    
+    // Open the modal and disable page scrolling
+    activityModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
 
         // Close activity modal
         function closeActivityModal() {

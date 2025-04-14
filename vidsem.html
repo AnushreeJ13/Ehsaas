@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Audio & Video Diary | Ehsaas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ---------------- Journal/General CSS with White/Purple Palette ---------------- */
+    :root {
+      --primary-color: #5e56e8;
+      --secondary-color: #3ad1ca;
+      --text-color: #333;
+      --light-grey: #f7f7f7;
+      --grey: #eaeaea;
+      --dark-grey: #888;
+      --white: #fff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --border-radius: 10px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-grey);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .page-header h1 {
+      color: var(--primary-color);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .page-header p {
+      color: var(--dark-grey);
+      font-size: 16px;
+    }
+    
+    /* Diary Entry (Journal Card) Styles */
+    .entry-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+      border-left: 5px solid var(--primary-color);
+    }
+    
+    .entry-card:hover {
+      transform: translateY(-3px);
+    }
+    
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--grey);
+    }
+    
+    .entry-date {
+      color: var(--dark-grey);
+      font-size: 14px;
+    }
+    
+    .entry-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .entry-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .action-btn {
+      padding: 8px 15px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    
+    .edit-btn {
+      background-color: rgba(58, 209, 202, 0.15);
+      color: var(--secondary-color);
+    }
+    
+    .edit-btn:hover {
+      background-color: rgba(58, 209, 202, 0.3);
+    }
+    
+    .delete-btn {
+      background-color: rgba(255, 99, 99, 0.15);
+      color: #ff6363;
+    }
+    
+    .delete-btn:hover {
+      background-color: rgba(255, 99, 99, 0.3);
+    }
+    
+    /* ---------------- Audio & Video Diary Specific Styles ---------------- */
+    .diary-section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .section-title {
+      font-size: 22px;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      text-align: center;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 5px;
+    }
+    
+    .record-controls {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .record-btn, .stop-btn {
+      background-color: var(--primary-color);
+      color: var(--white);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0 10px;
+    }
+    
+    .record-btn:hover, .stop-btn:hover {
+      background-color: #4a45c0;
+      transform: translateY(-2px);
+    }
+    
+    .record-btn:disabled, .stop-btn:disabled {
+      background-color: var(--grey);
+      cursor: not-allowed;
+    }
+    
+    .media-preview {
+      background-color: #000;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .media-preview video, .media-preview audio {
+      width: 100%;
+      display: block;
+    }
+    
+    .media-preview .preview-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    /* Entries Grid Styles */
+    .entries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h1>Audio & Video Diary</h1>
+      <p>Record and revisit your personal moments</p>
+    </div>
+
+    <!-- Video Diary Section -->
+    <div class="diary-section" id="videoSection">
+      <div class="section-title">Video Diary</div>
+      <div class="media-preview" id="videoPreview" style="height: 300px;">
+        <div class="preview-text">Video Preview</div>
+        <video autoplay muted playsinline style="display: none;"></video>
+      </div>
+      <div class="record-controls">
+        <button id="startVideoBtn" class="record-btn">Record Video</button>
+        <button id="stopVideoBtn" class="stop-btn" disabled>Stop Recording</button>
+      </div>
+      <div class="entries-grid" id="videoEntries"></div>
+    </div>
+
+    <!-- Audio Diary Section -->
+    <div class="diary-section" id="audioSection">
+      <div class="section-title">Audio Diary</div>
+      <div class="media-preview" id="audioPreview" style="height: 120px; background-color: #333;">
+        <div class="preview-text">Audio Preview</div>
+      </div>
+      <div class="record-controls">
+        <button id="startAudioBtn" class="record-btn">Record Audio</button>
+        <button id="stopAudioBtn" class="stop-btn" disabled>Stop Recording</button>
+      </div>
+      <div class="entries-grid" id="audioEntries"></div>
+    </div>
+  </div>
+
+  <script>
+    // ---------------- Video Diary Functionality ----------------
+    const videoPreviewContainer = document.getElementById('videoPreview');
+    const videoElement = videoPreviewContainer.querySelector('video');
+    const startVideoBtn = document.getElementById('startVideoBtn');
+    const stopVideoBtn = document.getElementById('stopVideoBtn');
+    const videoEntriesContainer = document.getElementById('videoEntries');
+    let videoStream, videoRecorder;
+    let videoChunks = [];
+
+    startVideoBtn.addEventListener('click', async () => {
+      try {
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        // Hide preview text and show the video element
+        videoPreviewContainer.querySelector('.preview-text').style.display = 'none';
+        videoElement.style.display = 'block';
+        videoElement.srcObject = videoStream;
+        
+        videoRecorder = new MediaRecorder(videoStream);
+        videoRecorder.ondataavailable = e => {
+          if (e.data.size > 0) videoChunks.push(e.data);
+        };
+        videoRecorder.onstop = () => {
+          const blob = new Blob(videoChunks, { type: 'video/webm' });
+          videoChunks = [];
+          const videoURL = URL.createObjectURL(blob);
+          // Create a video entry card using the journal entry style
+          const now = new Date();
+          const dateString = now.toLocaleDateString("en-US", {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          const entryCard = document.createElement('div');
+          entryCard.className = 'entry-card';
+          entryCard.innerHTML = `
+            <div class="entry-header">
+              <div class="entry-date">${dateString}</div>
+            </div>
+            <div class="entry-title">Video Diary Entry</div>
+            <video controls src="${videoURL}" style="width:100%; max-width:500px; margin-top: 10px;"></video>
+            <div class="entry-actions">
+              <a href="${videoURL}" download="video_diary_${now.getTime()}.webm" class="action-btn">Download Video</a>
+            </div>
+          `;
+          // Prepend the new entry to the video entries container
+          videoEntriesContainer.prepend(entryCard);
+          // Reset preview area
+          videoElement.srcObject = null;
+          videoElement.style.display = 'none';
+          videoPreviewContainer.querySelector('.preview-text').style.display = 'block';
+          videoStream.getTracks().forEach(track => track.stop());
+        };
+
+        videoRecorder.start();
+        startVideoBtn.disabled = true;
+        stopVideoBtn.disabled = false;
+      } catch (error) {
+        console.error("Error accessing video devices:", error);
+      }
+    });
+
+    stopVideoBtn.addEventListener('click', () => {
+      if (videoRecorder && videoRecorder.state !== 'inactive') {
+        videoRecorder.stop();
+        startVideoBtn.disabled = false;
+        stopVideoBtn.disabled = true;
+      }
+    });
+
+    // ---------------- Audio Diary Functionality ----------------
+    const audioPreviewContainer = document.getElementById('audioPreview');
+    const startAudioBtn = document.getElementById('startAudioBtn');
+    const stopAudioBtn = document.getElementById('stopAudioBtn');
+    const audioEntriesContainer = document.getElementById('audioEntries');
+    let audioStream, audioRecorder;
+    let audioChunks = [];
+
+    startAudioBtn.addEventListener('click', async () => {
+      try {
+        audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        // Indicate recording status in preview
+        audioPreviewContainer.querySelector('.preview-text').innerText = 'Recording Audio...';
+        
+        audioRecorder = new MediaRecorder(audioStream);
+        audioRecorder.ondataavailable = e => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+        audioRecorder.onstop = () => {
+          const blob = new Blob(audioChunks, { type: 'audio/webm' });
+          audioChunks = [];
+          const audioURL = URL.createObjectURL(blob);
+          const now = new Date();
+          const dateString = now.toLocaleDateString("en-US", {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          const entryCard = document.createElement('div');
+          entryCard.className = 'entry-card';
+          entryCard.innerHTML = `
+            <div class="entry-header">
+              <div class="entry-date">${dateString}</div>
+            </div>
+            <div class="entry-title">Audio Diary Entry</div>
+            <audio controls src="${audioURL}" style="width:100%; max-width:500px; margin-top: 10px;"></audio>
+            <div class="entry-actions">
+              <a href="${audioURL}" download="audio_diary_${now.getTime()}.webm" class="action-btn">Download Audio</a>
+            </div>
+          `;
+          // Prepend the new audio entry
+          audioEntriesContainer.prepend(entryCard);
+          // Reset preview text
+          audioPreviewContainer.querySelector('.preview-text').innerText = 'Audio Preview';
+          audioStream.getTracks().forEach(track => track.stop());
+        };
+
+        audioRecorder.start();
+        startAudioBtn.disabled = true;
+        stopAudioBtn.disabled = false;
+      } catch (error) {
+        console.error("Error accessing audio devices:", error);
+      }
+    });
+
+    stopAudioBtn.addEventListener('click', () => {
+      if (audioRecorder && audioRecorder.state !== 'inactive') {
+        audioRecorder.stop();
+        startAudioBtn.disabled = false;
+        stopAudioBtn.disabled = true;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -354,19 +354,64 @@
         
         <button class="mobile-menu-btn">☰</button>
         
-        <div class="nav-links">
-            <a href="mood.html">MOOD AI</a>
-            <a href="sleep.html">SLEEP AND HEALING</a>
-            <a href="stress.html">STRESS AND ANXIETY</a>
-            <a href="./saathi.html">SAATHI ROOMS</a>
-            <a href="x.html">CHILL ZONE</a>
-            <a href="find_my_therapist.html">NEED HELP?</a>
-        </div>
+        <div class="nav-links" id="navLinks">
+        <a href="mood.html">MOOD AI</a>
+        <a href="sleep.html">SLEEP WELL</a>
+        <a href="stress.html">DESTRESS</a>
+        <a href="./saathi.html">SAATHI ROOMS</a>
+        <a href="x.html">CHILL ZONE</a>
+        <a href="find_my_therapist.html">NEED HELP?</a>
+        <a href="ecom.html">MIND MART</a>
+        <a href="sleeptrack.html">TRACK SLEEP</a>
+    </div>
         
-        <div class="auth-buttons">
-            <button class="nav-btn login-btn" onclick="window.location.href='login.html'">Log in</button>
-            <button class="nav-btn signup-btn" onclick="window.location.href='signup.html'">Get Started</button>
-        </div>
+                    <!-- Added id "authButtons" to allow JS targeting -->
+    <div class="auth-buttons" id="authButtons">
+        <button class="nav-btn login-btn" id="loginBtn" onclick="window.location.href='login.html'">Log in</button>
+        <button class="nav-btn signup-btn" id="signupBtn" onclick="window.location.href='signup.html'">Get Started</button>
+        <a href="welcome_board.html"><button class="nav-btn signup-btn" id="dashboard">Dashboard</button></a>
+        <button class="nav-btn login-btn " id="logoutBtn" onclick="window.location.href='logout.html'">Log out</button>
+
+    </div>
+    
+    <script>
+      // Function to update the navbar based on user auth status
+      const user = localStorage.getItem("userCredential");
+      const authButtons = document.getElementById("authButtons");
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+        document.addEventListener('DOMContentLoaded', function () {
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const dashboard = document.getElementById('dashboard');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function checkAuth() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      const storedEmail = sessionStorage.getItem('userEmail');
+
+      if (isLoggedIn) {
+        loginBtn.style.display = 'none';
+        signupBtn.style.display = 'none';
+        dashboard.style.display = 'inline-block';  // Make sure dashboard button is visible
+        logoutBtn.style.display = 'inline-block';  // Make sure logout button is visible
+      } else {
+        logoutBtn.style.display = 'none';
+        dashboard.style.display = 'none';
+        loginBtn.style.display = 'inline-block';
+        signupBtn.style.display = 'inlink-block';
+      }
+    }
+
+    checkAuth();  // Call checkAuth to update button visibility
+    
+    logoutBtn.addEventListener('click', function () {
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userEmail');
+      checkAuth();
+      window.location.reload();
+    });
+   });   
+   </script>
     </nav>
 <body>
 <style>

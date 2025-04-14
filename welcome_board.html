@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ehsaas | My Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Using Firebase compat libraries for consistency -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
-  <script
-  type="text/javascript"
-  src="https://unpkg.com/@cometchat/chat-sdk-javascript/CometChat.js"
-></script>
-  <script  src="sessionTracker.js"></script>
-  <link rel="stylesheet" href="welcome_board.css" />
-  <!-- Custom CSS -->
-  
-</head>
-<body>
-  <!-- Dashboard Container -->
-  <div class="dashboard-container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">
-          <span class="logo-icon">💜</span>
-          <span>Ehsaas</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ehsaas | My Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Using Firebase compat libraries for consistency -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/@cometchat/chat-sdk-javascript/CometChat.js"
+    ></script>
+    <script src="sessionTracker.js"></script>
+    <link rel="stylesheet" href="welcome_board.css" />
+    <!-- Custom CSS -->
+  </head>
+  <body>
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <span class="logo-icon">💜</span>
+            <span>Ehsaas</span>
+          </div>
+          <button class="menu-toggle">≡</button>
         </div>
-        <button class="menu-toggle">≡</button>
-      </div>
-      
-      <!-- User Profile Section -->
+
+        <!-- User Profile Section -->
         <div class="user-profile">
           <img
             src="./profilePic.jpg"
@@ -48,8 +50,8 @@
             Edit Profile
           </button>
         </div>
-      
-      <!-- Navigation Menu -->
+
+        <!-- Navigation Menu -->
         <ul class="nav-menu">
           <li class="nav-item">
             <a href="#" class="nav-link active">
@@ -88,714 +90,567 @@
             </a>
           </li>
         </ul>
-      
-      <!-- Logout Button -->
-      <div class="logout">
-        <button class="logout-btn" onclick="handleLogout()">
-          <span class="logout-icon">🚪</span>
-          <span class="logout-text">Sign Out</span>
-        </button>
-      </div>
-    </aside>
-    
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <div class="header">
-        <h1>My Dashboard</h1>
-        <div class="header-actions">
-          <button class="notification-btn">🔔</button>
-          <button class="settings-btn">⚙️</button>
-        </div>
-      </div>
-      
-      <!-- Stats Cards Section -->
-      <div class="cards-container">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Mood Tracker</h3>
-            <div class="card-icon">😊</div>
-          </div>
-          <div class="card-content">
-            <div class="card-stats">76%</div>
-            <p class="card-description">Overall positive mood this month</p>
-          </div>
-          <div class="card-footer">
-            <span>Last 30 days</span>
-            <div class="card-trend trend-up">↗ 12%</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Mindful Minutes</h3>
-            <div class="card-icon">🧘</div>
-          </div>
-          <div class="card-content">
-            <div class="card-stats">124</div>
-            <p class="card-description">Minutes spent on mindfulness</p>
-          </div>
-          <div class="card-footer">
-            <span>Last 30 days</span>
-            <div class="card-trend trend-up">↗ 8%</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Memories</h3>
-            <div class="card-icon">📷</div>
-          </div>
-          <div class="card-content">
-            <div class="card-stats">18</div>
-            <p class="card-description">Captured moments to cherish</p>
-          </div>
-          <div class="card-footer">
-            <span>This month</span>
-            <div class="card-trend trend-up">↗ 4 new</div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Gallery Section (Realtime Memories) -->
-      <section class="gallery-section">
-        <div class="section-header">
-          <h2 class="section-title">Family Memories</h2>
-          <button class="add-btn" id="add-memory-btn">
-            <span class="add-icon">+</span>
-            <span>Add Memory</span>
+
+        <!-- Logout Button -->
+        <div class="logout">
+          <button class="logout-btn" onclick="handleLogout()">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Sign Out</span>
           </button>
         </div>
-        <div class="gallery-grid" id="memoriesGrid">
-          <!-- Memories will be loaded here in realtime -->
-        </div>
-      </section>
-      
-      <!-- Video Diary Section -->
-      <section class="diary-section">
-        <div class="section-header">
-          <h2 class="section-title">Video Diary</h2>
-          <button class="add-btn" id="add-video-btn">
-            <span class="add-icon">+</span>
-            <span>Record Entry</span>
-          </button>
-        </div>
-        <div class="diary-grid" id="diaryGrid">
-          <!-- Video diary entries will be added here -->
-          <!-- Example static card (will be replaced by realtime loaded content) -->
-          <div class="diary-card" style="width:300px; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-            <div class="diary-thumbnail" style="position:relative;">
-                <img src="${memory.photoURL || '/api/placeholder/500/300'}" alt="Reflecting on Progress" class="diary-img" style="width:100%;">
+      </aside>
 
-              <div class="play-icon" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2rem;">▶</div>
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <div class="header">
+          <h1>My Dashboard</h1>
+          <div class="header-actions">
+            <button class="notification-btn">🔔</button>
+            <button class="settings-btn">⚙️</button>
+          </div>
+        </div>
+
+        <!-- Stats Cards Section -->
+        <div class="cards-container">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Mood Tracker</h3>
+              <div class="card-icon">😊</div>
             </div>
-            <div class="diary-content" style="padding:1rem;">
-              <h3 class="diary-title">Reflecting on Progress</h3>
-              <div class="diary-meta" style="font-size:0.9rem; color:#666;">
-                <span>April 12, 2025</span>
-                <span>2:34</span>
-              </div>
+            <div class="card-content">
+              <div class="card-stats">76%</div>
+              <p class="card-description">Overall positive mood this month</p>
+            </div>
+            <div class="card-footer">
+              <span>Last 30 days</span>
+              <div class="card-trend trend-up">↗ 12%</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Mindful Minutes</h3>
+              <div class="card-icon">🧘</div>
+            </div>
+            <div class="card-content">
+              <div class="card-stats">124</div>
+              <p class="card-description">Minutes spent on mindfulness</p>
+            </div>
+            <div class="card-footer">
+              <span>Last 30 days</span>
+              <div class="card-trend trend-up">↗ 8%</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Memories</h3>
+              <div class="card-icon">📷</div>
+            </div>
+            <div class="card-content">
+              <div class="card-stats">18</div>
+              <p class="card-description">Captured moments to cherish</p>
+            </div>
+            <div class="card-footer">
+              <span>This month</span>
+              <div class="card-trend trend-up">↗ 4 new</div>
             </div>
           </div>
         </div>
-      </section>
-      
-      <!-- Support Section -->
-      <section class="support-section">
-        <div class="support-card">
-          <div class="support-icon">💜</div>
-          <h2 class="support-title">We're Here For You</h2>
-          <p class="support-text">Remember, you're never alone in your journey. Whenever you're feeling down, our Saanjh AI companion is here to listen, support, and guide you through difficult times.</p>
-          <button class="support-btn" id="chat-saanjh-btn" onclick="window.location.href='templates/therapist.html'">
-            Chat with Saanjh
-          </button>
-        </div>
-      </section>
-    </main>
-  </div>
-  
-  <!-- Modals -->
-  <!-- Edit Profile Modal -->
-  <div class="modal" id="profile-modal">
-    <div class="modal-content">
-      <button class="close-modal" id="close-profile-modal">×</button>
-      <h2 class="modal-title">Edit Profile</h2>
-      <form id="profile-form">
-        <div class="form-group">
-          <label class="form-label">Profile Picture</label>
-          <input type="file" id="avatar-upload" class="form-file" accept="image/*">
-          <label for="avatar-upload" class="file-upload-btn">
-            <span class="upload-icon">📷</span>
-            <span>Choose a photo</span>
-          </label>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="name">Name</label>
-          <input type="text" id="name" class="form-input" placeholder="Enter your name" >
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="phone">Phone</label>
-          <input type="tel" id="phone" class="form-input" placeholder="Enter your phone number">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="cancel-btn" id="cancel-profile">Cancel</button>
-          <button type="submit" class="save-btn">Save Changes</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
-  <!-- Add Memory Modal -->
-  <div class="modal" id="memory-modal">
-    <div class="modal-content">
-      <button class="close-modal" id="close-memory-modal">×</button>
-      <h2 class="modal-title">Add New Memory</h2>
-      <form id="memory-form">
-        <div class="form-group">
-          <label class="form-label">Upload Photo</label>
-          <input type="file" id="memory-upload" class="form-file" accept="image/*">
-          <label for="memory-upload" class="file-upload-btn">
-            <span class="upload-icon">📷</span>
-            <span>Choose photo</span>
-          </label>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="memory-title">Title</label>
-          <input type="text" id="memory-title" class="form-input" placeholder="Enter a title for this memory">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="memory-date">Date</label>
-          <input type="date" id="memory-date" class="form-input">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="memory-description">Description</label>
-          <textarea id="memory-description" class="form-textarea" placeholder="Share the story behind this memory..."></textarea>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="cancel-btn" id="cancel-memory">Cancel</button>
-          <button type="submit" class="save-btn">Save Memory</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
-  <!-- Add Video Diary Modal -->
-  <div class="modal" id="video-modal">
-    <div class="modal-content">
-      <button class="close-modal" id="close-video-modal">×</button>
-      <h2 class="modal-title">Record Video Diary</h2>
-      <div class="camera-preview">
-        <div class="camera-placeholder">
-          <p>Camera preview will appear here</p>
-          <p>Click "Start Recording" to begin</p>
-        </div>
-      </div>
-      <div class="camera-controls">
-        <button class="camera-btn record-btn" id="record-btn">⏺</button>
-        <button class="camera-btn pause-btn" id="pause-btn">⏸</button>
-      </div>
-      <form id="video-form">
-        <div class="form-group">
-          <label class="form-label" for="video-title">Title</label>
-          <input type="text" id="video-title" class="form-input" placeholder="Give your diary entry a title">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="video-notes">Notes</label>
-          <textarea id="video-notes" class="form-textarea" placeholder="Add any additional notes about this diary entry..."></textarea>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="cancel-btn" id="cancel-video">Cancel</button>
-          <button type="submit" class="save-btn">Save Entry</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
-  
-  
-  <!-- Notification Area -->
-  <div class="notification-area" id="notification-area"></div>
-  
-  <!-- Firebase & Dashboard Script -->
-  
-  <script>
-    // Replace your existing Firebase script section with this:
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAzbzw54O_JRDNOfHyteIMvq999R3Aj624",
-  authDomain: "ehsaas-f4c7e.firebaseapp.com",
-  projectId: "ehsaas-f4c7e",
-  storageBucket: "ehsaas-f4c7e.appspot.com",
-  messagingSenderId: "618055369757",
-  appId: "1:618055369757:web:3592bd6978c85df0f432f4",
-  measurementId: "G-JTTDNV43GD"
-};
-
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-const auth = firebase.auth();
-const db=firebase.db;
-const storage = firebase.storage();
-
-// Global variables for mood tracking
-let user={};
-let moodData = [];
-let moodPercentages = {
-  happy: 0,
-  neutral: 0,
-  sad: 0
-};
-
-// Listen for authentication state changes
-auth.onAuthStateChanged(async user => {
-  if (user) {
-    // Load user profile
-    loadUserProfile(user);
-    
-    // Load memories
-    loadMemories(user.uid);
-    
-    // Load video diaries
-    loadVideoDiaries(user.uid);
-    
-    // Load journal entries for mood tracking
-    loadJournalEntries(user.uid);
-    
-  } else {
-    window.location.href = "login.html";
-  }
-});
-
-//load user profile
-      async function loadUserProfile(user) {
-        const defaultPhoto = "profilePic.jpg"; // path to your fallback image
-        const userDoc = await db.collection("users").doc(user.uid).get();
-
-        if (userDoc.exists) {
-          const data = userDoc.data();
-          document.getElementById("usernameEl").textContent =
-            data.username || user.displayName || "User";
-          document.getElementById("emailEl").textContent =
-            data.email || user.email;
-
-          const profilePhotoURL = data.profilePhotoURL || defaultPhoto;
-          document.getElementById("profilePhoto").src = profilePhotoURL;
-        } else {
-          document.getElementById("usernameEl").textContent =
-            user.displayName || "User";
-          document.getElementById("emailEl").textContent = user.email;
-          document.getElementById("profilePhoto").src = defaultPhoto;
-        }
-      }
-
-// Load memories with realtime updates
-function loadMemories(userId) {
-  db.collection('users').doc(userId).collection('memories').orderBy('date', 'desc')
-    .onSnapshot(snapshot => {
-      let memoriesHTML = "";
-      snapshot.forEach(doc => {
-        const memory = doc.data();
-        memoriesHTML += `
-          <div class="memory-card">
-            <img src="${memory.photoURL || '/api/placeholder/400/400'}" alt="${memory.title || 'Memory'}" class="memory-img">
-            <div class="memory-overlay">
-              <h4 class="memory-title">${memory.title || "Untitled Memory"}</h4>
-              <p class="memory-date">${memory.date ? new Date(memory.date.seconds * 1000).toLocaleDateString() : ""}</p>
-            </div>
+        <!-- Gallery Section (Realtime Memories) -->
+        <div class="diary-section">
+          <div class="section-title">Audio Diary</div>
+          <div class="media-preview" id="audioPreview">Audio Preview</div>
+          <div class="record-controls">
+            <button id="startAudioBtn" class="record-btn">Record Audio</button>
+            <button id="stopAudioBtn" class="stop-btn" disabled>
+              Stop Recording
+            </button>
           </div>
-        `;
-      });
-      document.getElementById("memoriesGrid").innerHTML = memoriesHTML;
-    });
-}
+          <div class="entries-grid" id="audioEntries"></div>
+        </div>
 
-// Load video diaries with realtime updates
-function loadVideoDiaries(userId) {
-  db.collection('users').doc(userId).collection('videoDiaries').orderBy('timestamp', 'desc')
-    .onSnapshot(snapshot => {
-      let diaryHTML = "";
-      snapshot.forEach(doc => {
-        const entry = doc.data();
-        diaryHTML += `
-          <div class="diary-card">
-            <div class="diary-thumbnail">
-              <video class="diary-video" controls>
-                <source src="${entry.videoURL}" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-            </div>
-            <div class="diary-content">
-              <h3 class="diary-title">${entry.title || "Video Diary"}</h3>
-              <div class="diary-meta">
-                <span>${entry.timestamp ? new Date(entry.timestamp.seconds * 1000).toLocaleDateString() : ""}</span>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-      document.getElementById("diaryGrid").innerHTML = diaryHTML;
-    });
-}
+        <script>
+          const audioPreview = document.getElementById("audioPreview");
+          const startAudioBtn = document.getElementById("startAudioBtn");
+          const stopAudioBtn = document.getElementById("stopAudioBtn");
+          const audioEntries = document.getElementById("audioEntries");
+          let audioStream, audioRecorder;
+          let audioChunks = [];
 
-// Load journal entries and calculate mood statistics
-function loadJournalEntries(userId) {
-  db.collection('users').doc(userId).collection('journalEntries')
-    .orderBy('date', 'desc')
-    .onSnapshot(snapshot => {
-      moodData = [];
-      let moodCounts = { happy: 0, neutral: 0, sad: 0 };
-      let totalEntries = 0;
-      
-      snapshot.forEach(doc => {
-        const entry = doc.data();
-        if (entry.mood) {
-          moodData.push({
-            date: entry.date.toDate(),
-            mood: entry.mood
+          startAudioBtn.addEventListener("click", async () => {
+            try {
+              audioStream = await navigator.mediaDevices.getUserMedia({
+                audio: true,
+              });
+              audioPreview.innerText = "Recording Audio...";
+
+              audioRecorder = new MediaRecorder(audioStream);
+              audioChunks = [];
+
+              audioRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) audioChunks.push(e.data);
+              };
+
+              audioRecorder.onstop = () => {
+                const blob = new Blob(audioChunks, { type: "audio/webm" });
+                const audioURL = URL.createObjectURL(blob);
+                const now = new Date();
+                const dateString = now.toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+
+                const entry = document.createElement("div");
+                entry.className = "entry-card";
+                entry.innerHTML = `
+            <div class="entry-title">Audio Diary Entry</div>
+            <div class="entry-date">${dateString}</div>
+            <audio controls src="${audioURL}" style="width:100%;"></audio>
+            <a href="${audioURL}" download="audio_note_${now.getTime()}.webm" class="action-btn">Download Audio</a>
+          `;
+                audioEntries.prepend(entry);
+                audioPreview.innerText = "Audio Preview";
+                audioStream.getTracks().forEach((track) => track.stop());
+              };
+
+              audioRecorder.start();
+              startAudioBtn.disabled = true;
+              stopAudioBtn.disabled = false;
+            } catch (err) {
+              console.error("Error recording audio:", err);
+              alert("Could not start recording.");
+            }
           });
-          
-          moodCounts[entry.mood]++;
-          totalEntries++;
-        }
-      });
-      
-      // Calculate percentages
-      if (totalEntries > 0) {
-        moodPercentages.happy = Math.round((moodCounts.happy / totalEntries) * 100);
-        moodPercentages.neutral = Math.round((moodCounts.neutral / totalEntries) * 100);
-        moodPercentages.sad = Math.round((moodCounts.sad / totalEntries) * 100);
+
+          stopAudioBtn.addEventListener("click", () => {
+            if (audioRecorder && audioRecorder.state !== "inactive") {
+              audioRecorder.stop();
+              startAudioBtn.disabled = false;
+              stopAudioBtn.disabled = true;
+            }
+          });
+        </script>
+        <!-- Video Diary Section -->
+        <section class="diary-section">
+          <div class="section-header">
+            <h2 class="section-title">Video Diary</h2>
+          </div>
+
+          <div id="videoPreview" class="video-preview">
+            <p class="preview-text">Click on start recording</p>
+            <video autoplay muted></video>
+            <div class="video-controls">
+              <button id="startVideoBtn" class="video-btn">
+                Start Recording
+              </button>
+              <button id="stopVideoBtn" class="video-btn" disabled>
+                Stop Recording
+              </button>
+            </div>
+          </div>
+
+          <div id="videoEntries" class="entries-container">
+            <!-- Video entries will appear here -->
+          </div>
+
+          <script>
+            const videoPreviewContainer =
+              document.getElementById("videoPreview");
+            const videoElement = videoPreviewContainer.querySelector("video");
+            const startVideoBtn = document.getElementById("startVideoBtn");
+            const stopVideoBtn = document.getElementById("stopVideoBtn");
+            const videoEntriesContainer =
+              document.getElementById("videoEntries");
+            const addVideoBtn = document.getElementById("add-video-btn");
+            let videoStream, videoRecorder;
+            let videoChunks = [];
+            startVideoBtn.addEventListener("click", async () => {
+              try {
+                videoStream = await navigator.mediaDevices.getUserMedia({
+                  video: true,
+                  audio: true,
+                });
+
+                videoPreviewContainer.querySelector(
+                  ".preview-text"
+                ).style.display = "none";
+                videoElement.style.display = "block";
+                videoElement.srcObject = videoStream;
+
+                videoRecorder = new MediaRecorder(videoStream);
+
+                videoRecorder.ondataavailable = (event) => {
+                  if (event.data.size > 0) videoChunks.push(event.data);
+                };
+
+                videoRecorder.onstop = () => {
+                  const blob = new Blob(videoChunks, { type: "video/webm" });
+                  videoChunks = [];
+
+                  const videoURL = URL.createObjectURL(blob);
+                  const now = new Date();
+                  const dateString = now.toLocaleString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  });
+
+                  const entryCard = document.createElement("div");
+                  entryCard.className = "entry-card";
+                  entryCard.innerHTML = `
+        <div class="entry-header">
+          <div class="entry-date">${dateString}</div>
+        </div>
+        <div class="entry-title">Video Diary Entry</div>
+        <video controls src="${videoURL}" style="width:100%; max-width:500px; margin-top: 10px;"></video>
+        <div class="entry-actions">
+          <a href="${videoURL}" download="video_diary_${now.getTime()}.webm" class="action-btn">Download Video</a>
+        </div>
+      `;
+
+                  videoEntriesContainer.prepend(entryCard);
+
+                  videoElement.srcObject = null;
+                  videoElement.style.display = "none";
+                  videoPreviewContainer.querySelector(
+                    ".preview-text"
+                  ).style.display = "block";
+
+                  videoStream.getTracks().forEach((track) => track.stop());
+
+                  startVideoBtn.disabled = false;
+                  stopVideoBtn.disabled = true;
+                };
+
+                videoRecorder.start();
+                startVideoBtn.disabled = true;
+                stopVideoBtn.disabled = false;
+              } catch (error) {
+                console.error("Error accessing camera/microphone:", error);
+                alert("Unable to access camera/mic. Please check permissions.");
+              }
+            });
+
+            stopVideoBtn.addEventListener("click", () => {
+              if (videoRecorder && videoRecorder.state !== "inactive") {
+                videoRecorder.stop();
+              }
+            });
+          </script>
+        </section>
+      </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="profile-modal">
+      <div class="modal-content">
+        <button class="close-modal" id="close-profile-modal">×</button>
+        <h2 class="modal-title">Edit Profile</h2>
+        <form id="profile-form">
+          <div class="form-group">
+            <label class="form-label">Profile Picture</label>
+            <input
+              type="file"
+              id="avatar-upload"
+              class="form-file"
+              accept="image/*"
+            />
+            
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              class="form-input"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone</label>
+            <input
+              type="tel"
+              id="phone"
+              class="form-input"
+              placeholder="Enter your phone number"
+            />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="cancel-btn" id="cancel-profile">
+              Cancel
+            </button>
+            <button type="submit" class="save-btn">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+   
+    
+
+    <!-- Notification Area -->
+    <div class="notification-area" id="notification-area"></div>
+
+    <!-- Firebase & Dashboard Script -->
+
+    <script>
+      // Replace your existing Firebase script section with this:
+
+      // Load memories with realtime updates
+
+      // Load journal entries and calculate mood statistics
+      function loadJournalEntries(userId) {
+        db.collection("users")
+          .doc(userId)
+          .collection("journalEntries")
+          .orderBy("date", "desc")
+          .onSnapshot((snapshot) => {
+            moodData = [];
+            let moodCounts = { happy: 0, neutral: 0, sad: 0 };
+            let totalEntries = 0;
+
+            snapshot.forEach((doc) => {
+              const entry = doc.data();
+              if (entry.mood) {
+                moodData.push({
+                  date: entry.date.toDate(),
+                  mood: entry.mood,
+                });
+
+                moodCounts[entry.mood]++;
+                totalEntries++;
+              }
+            });
+
+            // Calculate percentages
+            if (totalEntries > 0) {
+              moodPercentages.happy = Math.round(
+                (moodCounts.happy / totalEntries) * 100
+              );
+              moodPercentages.neutral = Math.round(
+                (moodCounts.neutral / totalEntries) * 100
+              );
+              moodPercentages.sad = Math.round(
+                (moodCounts.sad / totalEntries) * 100
+              );
+            }
+
+            // Update mood tracker card
+            updateMoodTracker();
+          });
       }
-      
-      // Update mood tracker card
-      updateMoodTracker();
-    });
-}
 
-// Update mood tracker card with latest data
-function updateMoodTracker() {
-  const overallMood = calculateOverallMood();
-  document.querySelector('.card-stats').textContent = `${overallMood}%`;
-  document.querySelector('.card-description').textContent = getMoodDescription(overallMood);
-}
+      // Update mood tracker card with latest data
+      function updateMoodTracker() {
+        const overallMood = calculateOverallMood();
+        document.querySelector(".card-stats").textContent = `${overallMood}%`;
+        document.querySelector(".card-description").textContent =
+          getMoodDescription(overallMood);
+      }
 
-function calculateOverallMood() {
-  if (moodData.length === 0) return 0;
-  
-  // Weight recent entries more heavily
-  const recentWeight = 1.5;
-  const oldWeight = 1;
-  const cutoffDate = new Date();
-  cutoffDate.setDate(cutoffDate.getDate() - 7); // Last 7 days
-  
-  let happyScore = 0;
-  let totalScore = 0;
-  
-  moodData.forEach(entry => {
-    const weight = entry.date > cutoffDate ? recentWeight : oldWeight;
-    if (entry.mood === 'happy') happyScore += weight;
-    totalScore += weight;
-  });
-  
-  return Math.round((happyScore / totalScore) * 100);
-}
+      function calculateOverallMood() {
+        if (moodData.length === 0) return 0;
 
-function getMoodDescription(percentage) {
-  if (percentage >= 80) return "You're feeling great most of the time!";
-  if (percentage >= 60) return "Overall positive mood this month";
-  if (percentage >= 40) return "Mixed feelings this month";
-  return "You've been feeling down recently";
-}
+        // Weight recent entries more heavily
+        const recentWeight = 1.5;
+        const oldWeight = 1;
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - 7); // Last 7 days
 
-// Upload functions with error handling
-// Fix the uploadFile function
-async function uploadFile(path, file) {
-  try {
-    // Create a proper reference to the storage location
-    const storageRef = storage.ref().child(path);
-    
-    // Upload the file
-    const uploadTask = await storageRef.put(file);
-    
-    // Get and return the download URL
-    return await uploadTask.ref.getDownloadURL();
-  } catch (error) {
-    console.error("Upload error:", error);
-    showNotification("Upload failed. Please try again.");
-    throw error;
-  }
-}
+        let happyScore = 0;
+        let totalScore = 0;
 
-
-// Profile form submission
-document.getElementById('profile-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const user = auth.currentUser;
-  if (!user) return;
-  
-  try {
-    const fileInput = document.getElementById('avatar-upload');
-    const file = fileInput.files[0];
-    let photoURL = null;
-    
-    if (file) {
-      photoURL = await uploadFile(`profilePhotos/${user.uid}`, file);
-    }
-    
-    const updateData = {
-      username: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-    
-    if (photoURL) updateData.profilePhotoURL = photoURL;
-    
-    await db.collection('users').doc(user.uid).update(updateData);
-    
-    // Update auth profile if needed
-    if (updateData.username) {
-      await user.updateProfile({ displayName: updateData.username });
-    }
-    
-    showNotification('Profile updated successfully!');
-    document.getElementById('profile-modal').style.display = 'none';
-  } catch (error) {
-    console.error("Profile update error:", error);
-    showNotification('Error updating profile: ' + error.message);
-  }
-});
-
-// Memory form submission
-document.getElementById('memory-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const user = auth.currentUser;
-  if (!user) {
-    showNotification('User not authenticated');
-    return;
-  }
-  
-  try {
-    const fileInput = document.getElementById('memory-upload');
-    const file = fileInput.files[0];
-    let photoURL = null;
-    
-    if (!file) {
-      showNotification('Please select a photo to upload');
-      return;
-    }
-    showNotification('Uploading photo...');
-    const photoPath = `memories/${user.uid}/${Date.now()}_${file.name}`;
-    photoURL = await uploadFile(photoPath, file);
-    
-    if (!photoURL) {
-      showNotification('Failed to upload photo');
-      return;
-    }
-    
-    const title = document.getElementById('memory-title').value || 'Untitled Memory';
-    const dateInput = document.getElementById('memory-date').value;
-    const date = dateInput ? new Date(dateInput) : new Date();
-    const description = document.getElementById('memory-description').value || '';
-    
-    // Add memory to Firestore
-    await db.collection('users').doc(user.uid).collection('memories').add({
-      photoURL,
-      title,
-      date: firebase.firestore.Timestamp.fromDate(date),
-      description,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    
-    showNotification('Memory added successfully!');
-    document.getElementById('memory-modal').style.display = 'none';
-    this.reset();
-  } catch (error) {
-    console.error("Memory save error:", error);
-    showNotification('Error saving memory: ' + error.message);
-  }
-});
-
-// Video recording functionality
-let mediaRecorder;
-let recordedChunks = [];
-let stream;
-
-document.getElementById('record-btn').addEventListener('click', async function() {
-  if (this.textContent === '⏺') {
-    // Start recording
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      const videoPreview = document.querySelector('.camera-preview');
-      videoPreview.innerHTML = '';
-      
-      const videoElement = document.createElement('video');
-      videoElement.srcObject = stream;
-      videoElement.autoplay = true;
-      videoPreview.appendChild(videoElement);
-      
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = e => recordedChunks.push(e.data);
-      mediaRecorder.start();
-      
-      this.textContent = '⏹';
-      showNotification('Recording started');
-    } catch (error) {
-      console.error("Camera error:", error);
-      showNotification('Could not access camera: ' + error.message);
-    }
-  } else {
-    // Stop recording
-    mediaRecorder.stop();
-    stream.getTracks().forEach(track => track.stop());
-    this.textContent = '⏺';
-    
-    // Wait for data to be available
-    mediaRecorder.onstop = async () => {
-      const blob = new Blob(recordedChunks, { type: 'video/mp4' });
-      recordedChunks = [];
-      
-      try {
-        const user = auth.currentUser;
-        const videoURL = await uploadFile(`videos/${user.uid}/${Date.now()}.mp4`, blob);
-        
-        await db.collection('users').doc(user.uid).collection('videoDiaries').add({
-          videoURL,
-          title: document.getElementById('video-title').value,
-          notes: document.getElementById('video-notes').value,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        moodData.forEach((entry) => {
+          const weight = entry.date > cutoffDate ? recentWeight : oldWeight;
+          if (entry.mood === "happy") happyScore += weight;
+          totalScore += weight;
         });
-        
-        showNotification('Video diary saved!');
-        document.getElementById('video-modal').style.display = 'none';
-        document.getElementById('video-form').reset();
-      } catch (error) {
-        console.error("Video save error:", error);
-        showNotification('Error saving video: ' + error.message);
+
+        return Math.round((happyScore / totalScore) * 100);
       }
-    };
-  }
-});
 
-// Pause recording
-document.getElementById('pause-btn').addEventListener('click', function() {
-  if (!mediaRecorder) return;
-  
-  if (this.textContent === '⏸') {
-    mediaRecorder.pause();
-    this.textContent = '▶';
-    showNotification('Recording paused');
-  } else {
-    mediaRecorder.resume();
-    this.textContent = '⏸';
-    showNotification('Recording resumed');
-  }
-});
-
-// Notification function
-function showNotification(message) {
-  const notification = document.createElement('div');
-  notification.className = 'notification';
-  notification.textContent = message;
-  document.getElementById('notification-area').appendChild(notification);
-  
-  setTimeout(() => {
-    notification.style.opacity = '0';
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
-
-// Logout function
-function handleLogout() {
-  auth.signOut().then(() => {
-    let appID = "273007af6b1dd710";
-    let region = "in";
-    let appSetting = new CometChat.AppSettingsBuilder()
-      .subscribePresenceForAllUsers()
-      .setRegion(region)
-      .autoEstablishSocketConnection(true)
-      .build();
-    CometChat.init(appID, appSetting).then(
-      () => {
-        console.log("Initialization completed successfully");
-        CometChat.logout().then(
-      () => {
-        console.log("Logout completed successfully");
-      },
-      (error) => {
-        console.log("Logout failed with exception:", { error });
+      function getMoodDescription(percentage) {
+        if (percentage >= 80) return "You're feeling great most of the time!";
+        if (percentage >= 60) return "Overall positive mood this month";
+        if (percentage >= 40) return "Mixed feelings this month";
+        return "You've been feeling down recently";
       }
-    );
-      },
-      (error) => {
-        console.log("Initialization failed with error:", error);
+
+      // Profile form submission
+      document
+        .getElementById("profile-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const user = auth.currentUser;
+          if (!user) return;
+
+          try {
+            const fileInput = document.getElementById("avatar-upload");
+            const file = fileInput.files[0];
+            let photoURL = null;
+
+            if (file) {
+              photoURL = await uploadFile(`profilePhotos/${user.uid}`, file);
+            }
+
+            const updateData = {
+              username: document.getElementById("name").value,
+              email: document.getElementById("email").value,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+
+            if (photoURL) updateData.profilePhotoURL = photoURL;
+
+            await db.collection("users").doc(user.uid).update(updateData);
+
+            // Update auth profile if needed
+            if (updateData.username) {
+              await user.updateProfile({ displayName: updateData.username });
+            }
+
+            showNotification("Profile updated successfully!");
+            document.getElementById("profile-modal").style.display = "none";
+          } catch (error) {
+            console.error("Profile update error:", error);
+            showNotification("Error updating profile: " + error.message);
+          }
+        });
+
+      // Notification function
+      function showNotification(message) {
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.textContent = message;
+        document.getElementById("notification-area").appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.opacity = "0";
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
       }
-    );
-    window.location.href = "login.html";
-  }).catch(error => {
-    console.error("Logout error:", error);
-    showNotification('Error signing out: ' + error.message);
-  });
-}
 
-// Modal toggle functions
-document.querySelector('.menu-toggle').addEventListener('click', () => {
-  document.querySelector('.sidebar').classList.toggle('expanded');
-});
+      // Logout function
+      function handleLogout() {
+        auth
+          .signOut()
+          .then(() => {
+            let appID = "273007af6b1dd710";
+            let region = "in";
+            let appSetting = new CometChat.AppSettingsBuilder()
+              .subscribePresenceForAllUsers()
+              .setRegion(region)
+              .autoEstablishSocketConnection(true)
+              .build();
+            CometChat.init(appID, appSetting).then(
+              () => {
+                console.log("Initialization completed successfully");
+                CometChat.logout().then(
+                  () => {
+                    console.log("Logout completed successfully");
+                  },
+                  (error) => {
+                    console.log("Logout failed with exception:", { error });
+                  }
+                );
+              },
+              (error) => {
+                console.log("Initialization failed with error:", error);
+              }
+            );
+            window.location.href = "login.html";
+          })
+          .catch((error) => {
+            console.error("Logout error:", error);
+            showNotification("Error signing out: " + error.message);
+          });
+      }
 
-// Profile modal
-document.getElementById('edit-profile-btn').addEventListener('click', () => {
-  document.getElementById('profile-modal').style.display = 'flex';
-});
-document.getElementById('close-profile-modal').addEventListener('click', () => {
-  document.getElementById('profile-modal').style.display = 'none';
-});
-document.getElementById('cancel-profile').addEventListener('click', () => {
-  document.getElementById('profile-modal').style.display = 'none';
-});
+      // Modal toggle functions
+      document.querySelector(".menu-toggle").addEventListener("click", () => {
+        document.querySelector(".sidebar").classList.toggle("expanded");
+      });
 
-// Memory modal
-document.getElementById('add-memory-btn').addEventListener('click', () => {
-  document.getElementById('memory-modal').style.display = 'flex';
-});
-document.getElementById('close-memory-modal').addEventListener('click', () => {
-  document.getElementById('memory-modal').style.display = 'none';
-});
-document.getElementById('cancel-memory').addEventListener('click', () => {
-  document.getElementById('memory-modal').style.display = 'none';
-});
+      // Profile modal
+      document
+        .getElementById("edit-profile-btn")
+        .addEventListener("click", () => {
+          document.getElementById("profile-modal").style.display = "flex";
+        });
+      document
+        .getElementById("close-profile-modal")
+        .addEventListener("click", () => {
+          document.getElementById("profile-modal").style.display = "none";
+        });
+      document
+        .getElementById("cancel-profile")
+        .addEventListener("click", () => {
+          document.getElementById("profile-modal").style.display = "none";
+        });
 
-// Video modal
-document.getElementById('add-video-btn').addEventListener('click', () => {
-  document.getElementById('video-modal').style.display = 'flex';
-});
-document.getElementById('close-video-modal').addEventListener('click', () => {
-  document.getElementById('video-modal').style.display = 'none';
-});
-document.getElementById('cancel-video').addEventListener('click', () => {
-  document.getElementById('video-modal').style.display = 'none';
-});
+      // Memory modal
+      document
+        .getElementById("add-memory-btn")
+        .addEventListener("click", () => {
+          document.getElementById("memory-modal").style.display = "flex";
+        });
+      document
+        .getElementById("close-memory-modal")
+        .addEventListener("click", () => {
+          document.getElementById("memory-modal").style.display = "none";
+        });
+      document.getElementById("cancel-memory").addEventListener("click", () => {
+        document.getElementById("memory-modal").style.display = "none";
+      });
 
-// Saanjh modal
-document.getElementById('chat-saanjh-btn').addEventListener('click', () => {
-  document.getElementById('saanjh-modal').style.display = 'flex';
-});
-document.getElementById('close-saanjh-modal').addEventListener('click', () => {
-  document.getElementById('saanjh-modal').style.display = 'none';
-});
+      // Video modal
+      document.getElementById("add-video-btn").addEventListener("click", () => {
+        document.getElementById("video-modal").style.display = "flex";
+      });
+      document
+        .getElementById("close-video-modal")
+        .addEventListener("click", () => {
+          document.getElementById("video-modal").style.display = "none";
+        });
+      document.getElementById("cancel-video").addEventListener("click", () => {
+        document.getElementById("video-modal").style.display = "none";
+      });
 
-// Profile modal
-document.getElementById("edit-profile-btn").addEventListener("click", () => {
-  document.getElementById("profile-modal").style.display = "flex";
-});
-document.getElementById("close-profile-modal").addEventListener("click", () => {
-  document.getElementById("profile-modal").style.display = "none";
-});
-document.getElementById("cancel-profile").addEventListener("click", () => {
-  document.getElementById("profile-modal").style.display = "none";
-});
+      // Saanjh modal
+      document
+        .getElementById("chat-saanjh-btn")
+        .addEventListener("click", () => {
+          document.getElementById("saanjh-modal").style.display = "flex";
+        });
+      document
+        .getElementById("close-saanjh-modal")
+        .addEventListener("click", () => {
+          document.getElementById("saanjh-modal").style.display = "none";
+        });
 
-</script>
-
-</body>
+      // Profile modal
+      document
+        .getElementById("edit-profile-btn")
+        .addEventListener("click", () => {
+          document.getElementById("profile-modal").style.display = "flex";
+        });
+      document
+        .getElementById("close-profile-modal")
+        .addEventListener("click", () => {
+          document.getElementById("profile-modal").style.display = "none";
+        });
+      document
+        .getElementById("cancel-profile")
+        .addEventListener("click", () => {
+          document.getElementById("profile-modal").style.display = "none";
+        });
+    </script>
+  </body>
 </html>

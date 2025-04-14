@@ -16,7 +16,7 @@
     <script>
         // Firebase init will occur before this
         // Session tracking helper
-        let currentSession = { uid: null, loginTime: null, sessionRef: null };
+       
   
         async function startSession(uid) {
           const loginTime = new Date();
@@ -564,102 +564,123 @@ background-position: right; /* Optional: center it */
         }
         createParticles();
 
-        // Firebase Initialization and Login Handler (same as before)
-        const firebaseConfig = {
-            apiKey: "AIzaSyAzbzw54O_JRDNOfHyteIMvq999R3Aj624",
-            authDomain: "ehsaas-f4c7e.firebaseapp.com",
-            projectId: "ehsaas-f4c7e",
-            storageBucket: "ehsaas-f4c7e.firebasestorage.app",
-            messagingSenderId: "618055369757",
-            appId: "1:618055369757:web:3592bd6978c85df0f432f4",
-            measurementId: "G-JTTDNV43GD"
-        };
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        async function handleLogin() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            const errorElement = document.getElementById('loginError');
-
-            try {
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                sessionStorage.setItem("isLoggedIn", "true");
-                localStorage.setItem(
-                  "userCredential",
-                  JSON.stringify(userCredential)
-                );
-                //LOGGING in to cometchat
-          localStorage.setItem("userEmail", email);
-          let appID = "273007af6b1dd710";
-let region = "in";
-let appSetting = new CometChat.AppSettingsBuilder()
-  .subscribePresenceForAllUsers()
-  .setRegion(region)
-  .autoEstablishSocketConnection(true)
-  .build();
-CometChat.init(appID, appSetting).then(
-  () => {
-    console.log("Initialization completed successfully");
-
-    var UID =email.replace(/[@.]/g, "_").toLowerCase() + "_ehsaas_user";
-
-        const name = email.split("@")[0];
-
-        var user = new CometChat.User(UID);
-
-        user.setName(name);
-var authKey = "4f60e0dbc829182a47dd9a35fbd1310899c11b60";
-
-CometChat.getLoggedinUser().then(
-  (user) => {
-    if (!user) {
-      CometChat.login(UID, authKey).then(
-        (user) => {
-          console.log("Login Successful:", { user });
-          
-        },
-        (error) => {
-          console.log("Login failed with exception:", { error });
-        }
-      );
+    // Firebase configuration (replace with your own project credentials if necessary)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzbzw54O_JRDNOfHyteIMvq999R3Aj624",
+      authDomain: "ehsaas-f4c7e.firebaseapp.com",
+      projectId: "ehsaas-f4c7e",
+      storageBucket: "ehsaas-f4c7e.appspot.com",
+      messagingSenderId: "618055369757",
+      appId: "1:618055369757:web:3592bd6978c85df0f432f4",
+      measurementId: "G-JTTDNV43GD"
+    };
+    // Initialize Firebase if not already initialized
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
     }
-  },
-  (error) => {
-    console.log("Some Error Occured", { error });
-  }
-);
-  },
-  (error) => {
-    console.log("Initialization failed with error:", error);
-  }
-);
-          //LOGGED IN COMETCHAT
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
+    // Session tracking helper
+    let currentSession = { uid: null, loginTime: null, sessionRef: null };
 
-                await db.collection('users').doc(userCredential.user.uid).set({
-                    lastLogin: new Date(),
-                    emotionalState: 'calm',
-                    streak: firebase.firestore.FieldValue.increment(1)
-                }, { merge: true });
-                
-                window.location.href = './dashboard.html';
-            } catch (error) {
-                errorElement.textContent = "Emotional Connection Failed: " + error.message;
-                errorElement.style.display = 'block';
-                // Guardian reacts to error
-                document.getElementById('guardianMouth').style.borderRadius = "50%";
-                document.getElementById('guardianMouth').style.border = "3px solid #5a3921";
-                document.getElementById('guardianMouth').style.height = "20px";
-                setTimeout(() => {
-                    document.getElementById('guardianMouth').style.borderRadius = "0 0 50% 50%";
-                    document.getElementById('guardianMouth').style.borderBottom = "3px solid #5a3921";
-                    document.getElementById('guardianMouth').style.border = "none";
-                    document.getElementById('guardianMouth').style.height = "15px";
-                }, 1000);
+    async function startSession(uid) {
+      const loginTime = new Date();
+      const sessionsCol = db.collection('users').doc(uid).collection('sessions');
+      const sessionDoc = await sessionsCol.add({ loginTime });
+      currentSession = { uid, loginTime, sessionRef: sessionDoc };
+    }
+
+    async function endSession() {
+      if (!currentSession.uid) return;
+      const logoutTime = new Date();
+      const durationMs = logoutTime - currentSession.loginTime;
+      await currentSession.sessionRef.update({ logoutTime, durationMs });
+      const userDoc = db.collection('users').doc(currentSession.uid);
+      await userDoc.update({ totalTimeMs: firebase.firestore.FieldValue.increment(durationMs) });
+      currentSession = { uid: null, loginTime: null, sessionRef: null };
+    }
+    
+    // Listen for auth changes to track session
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        startSession(user.uid);
+      } else {
+        endSession();
+      }
+    });
+
+    // End session on tab close or reload
+    window.addEventListener('beforeunload', () => {
+      endSession();
+    });
+
+    async function handleLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorElement = document.getElementById('loginError');
+
+      try {
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        sessionStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userCredential", JSON.stringify(userCredential));
+        localStorage.setItem("userEmail", email);
+
+        // Initialize CometChat
+        let appID = "273007af6b1dd710";
+        let region = "in";
+        let appSetting = new CometChat.AppSettingsBuilder()
+          .subscribePresenceForAllUsers()
+          .setRegion(region)
+          .autoEstablishSocketConnection(true)
+          .build();
+        CometChat.init(appID, appSetting).then(() => {
+          console.log("CometChat Initialization Successful");
+          // Create a unique user ID based on the email
+          var UID = email.replace(/[@.]/g, "_").toLowerCase() + "_ehsaas_user";
+          const name = email.split("@")[0];
+          var user = new CometChat.User(UID);
+          user.setName(name);
+          var authKey = "4f60e0dbc829182a47dd9a35fbd1310899c11b60";
+          
+          // If not already logged in, log into CometChat
+          CometChat.getLoggedinUser().then(
+            (cometUser) => {
+              if (!cometUser) {
+                CometChat.login(UID, authKey).then(
+                  (user) => {
+                    console.log("CometChat Login Successful", { user });
+                  },
+                  (error) => {
+                    console.error("CometChat Login failed", error);
+                  }
+                );
+              }
+            },
+            (error) => {
+              console.error("Error checking CometChat login", error);
             }
-        }
+          );
+        }, error => {
+          console.error("CometChat Initialization failed", error);
+        });
+
+        // Update user record on successful login
+        await db.collection('users').doc(userCredential.user.uid).set({
+          lastLogin: new Date(),
+          emotionalState: 'calm',
+          streak: firebase.firestore.FieldValue.increment(1)
+        }, { merge: true });
+                
+        // Redirect to dashboard
+        window.location.href = './dashboard.html';
+      } catch (error) {
+        errorElement.textContent = "Emotional Connection Failed: " + error.message;
+        errorElement.style.display = 'block';
+        console.error("Login error:", error);
+      }
+    }
+
 
         // Ripple Effect (same as before)
         document.querySelectorAll('.auth-button').forEach(button => {

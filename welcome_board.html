@@ -93,12 +93,13 @@
 
         <!-- Logout Button -->
         <div class="logout">
-          <button class="logout-btn" onclick="handleLogout()">
+          <button class="logout-btn" id="logout-btn" onclick="handleLogout()">
             <span class="logout-icon">🚪</span>
             <span class="logout-text">Sign Out</span>
           </button>
         </div>
       </aside>
+      
 
       <!-- Main Content Area -->
       <main class="main-content">
@@ -565,7 +566,14 @@
                 console.log("Initialization failed with error:", error);
               }
             );
-            window.location.href = "login.html";
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            const storedEmail = sessionStorage.getItem('userEmail');
+            var logoutBtn = document.getElementById('logout-btn');
+            logoutBtn.addEventListener('click', function () {
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('userEmail');
+            window.location.reload();
+          });
           })
           .catch((error) => {
             console.error("Logout error:", error);
@@ -595,46 +603,7 @@
           document.getElementById("profile-modal").style.display = "none";
         });
 
-      // Memory modal
-      document
-        .getElementById("add-memory-btn")
-        .addEventListener("click", () => {
-          document.getElementById("memory-modal").style.display = "flex";
-        });
-      document
-        .getElementById("close-memory-modal")
-        .addEventListener("click", () => {
-          document.getElementById("memory-modal").style.display = "none";
-        });
-      document.getElementById("cancel-memory").addEventListener("click", () => {
-        document.getElementById("memory-modal").style.display = "none";
-      });
-
-      // Video modal
-      document.getElementById("add-video-btn").addEventListener("click", () => {
-        document.getElementById("video-modal").style.display = "flex";
-      });
-      document
-        .getElementById("close-video-modal")
-        .addEventListener("click", () => {
-          document.getElementById("video-modal").style.display = "none";
-        });
-      document.getElementById("cancel-video").addEventListener("click", () => {
-        document.getElementById("video-modal").style.display = "none";
-      });
-
-      // Saanjh modal
-      document
-        .getElementById("chat-saanjh-btn")
-        .addEventListener("click", () => {
-          document.getElementById("saanjh-modal").style.display = "flex";
-        });
-      document
-        .getElementById("close-saanjh-modal")
-        .addEventListener("click", () => {
-          document.getElementById("saanjh-modal").style.display = "none";
-        });
-
+      
       // Profile modal
       document
         .getElementById("edit-profile-btn")

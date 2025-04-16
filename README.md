@@ -145,4 +145,4 @@ This project is not licensed. Feel free to use or modify the code as needed.
 ## Acknowledgements
 
 - Firebase, CometChat, HuggingFace, and Google Maps APIs for powering key functionalities.
-- Special thanks to everyone who tested and provided feedback.
+- Gratitude to everyone who tested and provided feedback.
